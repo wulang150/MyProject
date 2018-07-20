@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9323DBB31F25E4670028C732 /* LAFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9323DBB21F25E4670028C732 /* LAFileManager.m */; };
+		930F98682101E99D00240D6F /* NetWorkBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F98672101E99D00240D6F /* NetWorkBase.m */; };
+		930F986B2101E9D300240D6F /* UIApplication+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F98692101E9D300240D6F /* UIApplication+Extension.m */; };
+		930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F986D2101EA3500240D6F /* NSObject+performSelector.m */; };
+		930F98712101EA8300240D6F /* LAFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F986F2101EA8000240D6F /* LAFileManager.m */; };
 		9331E8521F145EC300A7C6E4 /* BottomSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9331E8511F145EC300A7C6E4 /* BottomSelectView.m */; };
 		9345ED2B1F3959A800FFF536 /* PublicFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345ED2A1F3959A800FFF536 /* PublicFunction.m */; };
 		935022221FB1579500923E5B /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935022211FB1579500923E5B /* InputView.m */; };
-		9398C5501F95AB3C00213A56 /* NetWorkBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9398C54F1F95AB3C00213A56 /* NetWorkBase.m */; };
 		9398C56E1F95B18F00213A56 /* BleCommonFun.m in Sources */ = {isa = PBXBuildFile; fileRef = 9398C5641F95B18F00213A56 /* BleCommonFun.m */; };
 		9398C56F1F95B18F00213A56 /* BleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9398C5671F95B18F00213A56 /* BleManager.m */; };
 		939F43C91F049B0C009F9A9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 939F43C81F049B0C009F9A9A /* main.m */; };
@@ -46,11 +48,11 @@
 		939F446E1F05167E009F9A9A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 939F446D1F05167E009F9A9A /* libsqlite3.0.tbd */; };
 		93A0131C1F1CC14C0098CFB2 /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A0131B1F1CC14C0098CFB2 /* RightViewController.m */; };
 		93AA44DE1F0C7237007C01A6 /* PageSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA44DD1F0C7237007C01A6 /* PageSelectView.m */; };
+		93C2AD0320F5B80800D00092 /* XZLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C2AD0120F5B80800D00092 /* XZLog.m */; };
 		93C763B41F05E30B0017152C /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763B11F05E30B0017152C /* DBManager.m */; };
 		93C763B51F05E30B0017152C /* DBOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763B31F05E30B0017152C /* DBOperator.m */; };
 		93C763C91F062D8C0017152C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763C71F062D8C0017152C /* Reachability.m */; };
 		93C763D81F062F2A0017152C /* XlabTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763D51F062F2A0017152C /* XlabTools.m */; };
-		93C763DC1F0632F20017152C /* XZLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763DB1F0632F20017152C /* XZLog.m */; };
 		93C763E41F0633B70017152C /* TKAlertCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763DF1F0633B70017152C /* TKAlertCenter.m */; };
 		93C763E51F0633B70017152C /* TKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763E11F0633B70017152C /* TKAlertView.m */; };
 		93C763E61F0633B70017152C /* UIView+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763E31F0633B70017152C /* UIView+TKCategory.m */; };
@@ -82,16 +84,20 @@
 /* Begin PBXFileReference section */
 		06E589A85C36B027887EF02F /* libPods-MyProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377C613D9FECB012BABAA118 /* Pods-MyProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyProject/Pods-MyProject.debug.xcconfig"; sourceTree = "<group>"; };
-		9323DBB11F25E4670028C732 /* LAFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFileManager.h; sourceTree = "<group>"; };
-		9323DBB21F25E4670028C732 /* LAFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFileManager.m; sourceTree = "<group>"; };
+		930F98662101E99C00240D6F /* NetWorkBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkBase.h; sourceTree = "<group>"; };
+		930F98672101E99D00240D6F /* NetWorkBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkBase.m; sourceTree = "<group>"; };
+		930F98692101E9D300240D6F /* UIApplication+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Extension.m"; sourceTree = "<group>"; };
+		930F986A2101E9D300240D6F /* UIApplication+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Extension.h"; sourceTree = "<group>"; };
+		930F986C2101EA3400240D6F /* NSObject+performSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+performSelector.h"; sourceTree = "<group>"; };
+		930F986D2101EA3500240D6F /* NSObject+performSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+performSelector.m"; sourceTree = "<group>"; };
+		930F986F2101EA8000240D6F /* LAFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFileManager.m; sourceTree = "<group>"; };
+		930F98702101EA8000240D6F /* LAFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFileManager.h; sourceTree = "<group>"; };
 		9331E8501F145EC300A7C6E4 /* BottomSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomSelectView.h; sourceTree = "<group>"; };
 		9331E8511F145EC300A7C6E4 /* BottomSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomSelectView.m; sourceTree = "<group>"; };
 		9345ED291F3959A800FFF536 /* PublicFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicFunction.h; sourceTree = "<group>"; };
 		9345ED2A1F3959A800FFF536 /* PublicFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicFunction.m; sourceTree = "<group>"; };
 		935022201FB1579500923E5B /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
 		935022211FB1579500923E5B /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
-		9398C54E1F95AB3C00213A56 /* NetWorkBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkBase.h; sourceTree = "<group>"; };
-		9398C54F1F95AB3C00213A56 /* NetWorkBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkBase.m; sourceTree = "<group>"; };
 		9398C5631F95B18F00213A56 /* BleCommonFun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleCommonFun.h; sourceTree = "<group>"; };
 		9398C5641F95B18F00213A56 /* BleCommonFun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BleCommonFun.m; sourceTree = "<group>"; };
 		9398C5661F95B18F00213A56 /* BleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleManager.h; sourceTree = "<group>"; };
@@ -163,6 +169,8 @@
 		93A0131B1F1CC14C0098CFB2 /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
 		93AA44DC1F0C7237007C01A6 /* PageSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSelectView.h; sourceTree = "<group>"; };
 		93AA44DD1F0C7237007C01A6 /* PageSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSelectView.m; sourceTree = "<group>"; };
+		93C2AD0120F5B80800D00092 /* XZLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZLog.m; sourceTree = "<group>"; };
+		93C2AD0220F5B80800D00092 /* XZLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZLog.h; sourceTree = "<group>"; };
 		93C763B01F05E30B0017152C /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		93C763B11F05E30B0017152C /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		93C763B21F05E30B0017152C /* DBOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBOperator.h; sourceTree = "<group>"; };
@@ -171,8 +179,6 @@
 		93C763C71F062D8C0017152C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		93C763D41F062F2A0017152C /* XlabTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XlabTools.h; sourceTree = "<group>"; };
 		93C763D51F062F2A0017152C /* XlabTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XlabTools.m; sourceTree = "<group>"; };
-		93C763DA1F0632F20017152C /* XZLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZLog.h; sourceTree = "<group>"; };
-		93C763DB1F0632F20017152C /* XZLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZLog.m; sourceTree = "<group>"; };
 		93C763DE1F0633B70017152C /* TKAlertCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKAlertCenter.h; sourceTree = "<group>"; };
 		93C763DF1F0633B70017152C /* TKAlertCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKAlertCenter.m; sourceTree = "<group>"; };
 		93C763E01F0633B70017152C /* TKAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKAlertView.h; sourceTree = "<group>"; };
@@ -417,6 +423,10 @@
 		939F44001F04B05B009F9A9A /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				930F986C2101EA3400240D6F /* NSObject+performSelector.h */,
+				930F986D2101EA3500240D6F /* NSObject+performSelector.m */,
+				930F986A2101E9D300240D6F /* UIApplication+Extension.h */,
+				930F98692101E9D300240D6F /* UIApplication+Extension.m */,
 				93C763E71F0636360017152C /* NSMutableData+Extension.h */,
 				93C763E81F0636360017152C /* NSMutableData+Extension.m */,
 				939F44311F04E141009F9A9A /* NSDate+DaboExtension.h */,
@@ -452,8 +462,8 @@
 		939F441B1F04B104009F9A9A /* FileManage */ = {
 			isa = PBXGroup;
 			children = (
-				9323DBB11F25E4670028C732 /* LAFileManager.h */,
-				9323DBB21F25E4670028C732 /* LAFileManager.m */,
+				930F98702101EA8000240D6F /* LAFileManager.h */,
+				930F986F2101EA8000240D6F /* LAFileManager.m */,
 			);
 			path = FileManage;
 			sourceTree = "<group>";
@@ -582,8 +592,8 @@
 		93C763B61F062C7D0017152C /* NetWork */ = {
 			isa = PBXGroup;
 			children = (
-				9398C54E1F95AB3C00213A56 /* NetWorkBase.h */,
-				9398C54F1F95AB3C00213A56 /* NetWorkBase.m */,
+				930F98662101E99C00240D6F /* NetWorkBase.h */,
+				930F98672101E99D00240D6F /* NetWorkBase.m */,
 				93C763C61F062D8C0017152C /* Reachability.h */,
 				93C763C71F062D8C0017152C /* Reachability.m */,
 			);
@@ -602,8 +612,8 @@
 		93C763D91F0632F20017152C /* CATLog */ = {
 			isa = PBXGroup;
 			children = (
-				93C763DA1F0632F20017152C /* XZLog.h */,
-				93C763DB1F0632F20017152C /* XZLog.m */,
+				93C2AD0220F5B80800D00092 /* XZLog.h */,
+				93C2AD0120F5B80800D00092 /* XZLog.m */,
 			);
 			path = CATLog;
 			sourceTree = "<group>";
@@ -846,6 +856,7 @@
 				939F441A1F04B0A2009F9A9A /* NSString+EMOEmoji.m in Sources */,
 				939F43CF1F049B0C009F9A9A /* ViewController.m in Sources */,
 				935022221FB1579500923E5B /* InputView.m in Sources */,
+				930F98712101EA8300240D6F /* LAFileManager.m in Sources */,
 				93D2ECB420B66576007426C8 /* BleOperatorManager.m in Sources */,
 				939F44691F051649009F9A9A /* FMDatabaseAdditions.m in Sources */,
 				939F43CC1F049B0C009F9A9A /* AppDelegate.m in Sources */,
@@ -857,19 +868,20 @@
 				939F44441F04E6DE009F9A9A /* BaseController.m in Sources */,
 				93FD9EB51F09E8200085EA56 /* DateHandle.m in Sources */,
 				93C763E61F0633B70017152C /* UIView+TKCategory.m in Sources */,
+				930F986B2101E9D300240D6F /* UIApplication+Extension.m in Sources */,
 				939F44401F04E2D5009F9A9A /* PhotoSelect.m in Sources */,
 				9398C56F1F95B18F00213A56 /* BleManager.m in Sources */,
-				9323DBB31F25E4670028C732 /* LAFileManager.m in Sources */,
 				9345ED2B1F3959A800FFF536 /* PublicFunction.m in Sources */,
 				939F43C91F049B0C009F9A9A /* main.m in Sources */,
+				930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */,
+				930F98682101E99D00240D6F /* NetWorkBase.m in Sources */,
 				9331E8521F145EC300A7C6E4 /* BottomSelectView.m in Sources */,
 				93AA44DE1F0C7237007C01A6 /* PageSelectView.m in Sources */,
-				9398C5501F95AB3C00213A56 /* NetWorkBase.m in Sources */,
 				939F446B1F051649009F9A9A /* FMDatabaseQueue.m in Sources */,
 				939F44141F04B05B009F9A9A /* UIImage+QRCode.m in Sources */,
 				939F446C1F051649009F9A9A /* FMResultSet.m in Sources */,
-				93C763DC1F0632F20017152C /* XZLog.m in Sources */,
 				939F44121F04B05B009F9A9A /* NSTimer+Extension.m in Sources */,
+				93C2AD0320F5B80800D00092 /* XZLog.m in Sources */,
 				939F44101F04B05B009F9A9A /* NSObject+Extension.m in Sources */,
 				93C763C91F062D8C0017152C /* Reachability.m in Sources */,
 				939F44331F04E141009F9A9A /* NSDate+DaboExtension.m in Sources */,

@@ -280,4 +280,67 @@
     NSPredicate *rexTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", STR_WEB_REGEX];
     return [rexTest evaluateWithObject:self];
 }
+
+//+ (NSString *)mergeStr:(NSString *)rex,...
+//{
+//    va_list args;
+//    va_start(args, rex);
+//
+//}
+
+//+ (NSString *)mergeStr:(int)num,...
+//{
+//    NSMutableString *mulStr = [[NSMutableString alloc] init];
+//    for(int i=0;i<num;i++)
+//    {
+//        [mulStr appendString:@"%@"];
+//    }
+//    va_list args;
+//    va_start(args, num);
+//
+//    NSString *contentStr = [[NSString alloc] initWithFormat:mulStr arguments:args];
+//
+//    return contentStr;
+//}
+
+//获取字体的计算高度
+- (CGFloat)heightWithStringAttributes:(NSDictionary *)attributes fixedWidth:(CGFloat)fixedWidth
+{
+    if(self.length<=0||fixedWidth<=0)
+        return 0;
+    
+    //计算出rect
+    CGRect rect = [self boundingRectWithSize:CGSizeMake(fixedWidth, MAXFLOAT)
+                                     options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                  attributes:attributes context:nil];
+    
+    return rect.size.height;
+}
+- (CGFloat)heightWithFont:(UIFont *)font fixedWidth:(CGFloat)fixedWidth
+{
+    if(!font)
+        return 0;
+    
+    return [self heightWithStringAttributes:@{NSFontAttributeName:font} fixedWidth:fixedWidth];
+}
+//获取字体的计算宽度
+- (CGFloat)widthWithStringAttributes:(NSDictionary *)attributes
+{
+    if(self.length<=0)
+        return 0;
+    
+    //计算出rect
+    CGRect rect = [self boundingRectWithSize:CGSizeMake(MAXFLOAT, 0)
+                                     options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                  attributes:attributes context:nil];
+    
+    return rect.size.width;
+}
+- (CGFloat)widthWithFont:(UIFont *)font
+{
+    if(!font)
+        return 0;
+    
+    return [self widthWithStringAttributes:@{NSFontAttributeName:font}];
+}
 @end

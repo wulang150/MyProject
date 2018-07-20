@@ -11,16 +11,25 @@
 #include <sys/socket.h>
 #include <net/if.h>
 
+@interface NetWorkBase()
+<NSURLSessionDownloadDelegate>
+@end
+
 @implementation NetWorkBase
 
-
++ (NetWorkBase *)netModel
+{
+    NetWorkBase *obj = [NetWorkBase new];
+    
+    return obj;
+}
 /**********************************************AF封装好的直接使用的借口*******************************************************/
 #pragma mark 发起GET请求
 /**
  *  发送GET请求
  *
  *  @param url       请求url
- *  @param params    请求参数
+ *  @param parameters    请求参数
  */
 - (void)startGet:(NSString *)url parameters:(NSDictionary *)parameters withBlock:(receiveResponseBlock)block
 {
@@ -36,7 +45,7 @@
  *  发送POST请求
  *
  *  @param url       请求url
- *  @param params    请求参数
+ *  @param parameters    请求参数
  */
 - (void)startPOST:(NSString *)url parameters:(NSDictionary *)parameters withBlock:(receiveResponseBlock)block
 {
@@ -65,12 +74,11 @@
     NSMutableDictionary *resultDic = [NSMutableDictionary new];
     __block BOOL ret = NO;
     
-    __block NSInteger num = 0;
     for(NSString *filename in files)
     {
         NSURL *filePath = [NSURL fileURLWithPath:filename];
         [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            NSLog(@"%@",filePath.path);
+            WLlog(@"%@",filePath.path);
             NSError *error;
             
             BOOL formDataBool = YES;
@@ -102,9 +110,6 @@
                     break;
                 case File_Xml:
                 {
-//                    NSString *filestr = parameters[[NSString stringWithFormat:@"file%zi",num++]];
-//                    if(filestr.length<=0)
-//                        filestr = [filePath lastPathComponent];
                     formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"text/xml" error:&error];
                     break;
                 }
@@ -115,7 +120,7 @@
             
             if (formData == NO)
             {
-                NSLog(@"Append part failed with error: %@", error);
+                WLlog(@"Append part failed with error: %@", error);
             }
             
         } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -140,7 +145,7 @@
             {
                 block(resultDic,ret);
             }
-            NSLog(@"Error: %@", error);
+            WLlog(@"Error: %@", error);
             
         }];
     }
@@ -153,9 +158,6 @@
     
     [self setGeneralPropertyForManager:manager];
     
-    __block NSInteger count = 0;
-    NSMutableDictionary *resultDic = [NSMutableDictionary new];
-    __block BOOL ret = NO;
     
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
@@ -205,18 +207,18 @@
             
             if (formData == NO)
             {
-                NSLog(@"Append part failed with error: %@", error);
+                WLlog(@"Append part failed with error: %@", error);
             }
         }
         
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-    
+
         NSString *value = [self dealSuccResult:responseObject];
         
         block(value,YES);
         
-        NSLog(@"result：%@",value);
+        WLlog(@"result：%@",value);
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -226,7 +228,7 @@
 
         block(value,NO);
         
-        NSLog(@"Error: %@", value);
+        WLlog(@"Error: %@", value);
         
     }];
 }
@@ -237,144 +239,32 @@
     
     [self uploadFiless:url parameters:parameters fileArray:arr withType:uploadType withBlock:^(id result, BOOL succ) {
         
-//        NSDictionary *dic = RDic(result);
+        //        NSDictionary *dic = RDic(result);
         
         if(block)
             block(result,succ);
         
     }];
 }
-#pragma mark 上传图片到服务器
-/**
- *  开始调用POST方法上传图片
- *
- *  @param url    URL
- *  @param params 参数描述
- *  @param files  image文件
- *  @param key    Key值
- */
-- (void)startUpLoadImage:(NSString *)url parameters:(NSDictionary *)parameters files:(NSArray *)files withBlock:(receiveResponseBlock)block
-{
-    
-    //图片处理
-    NSMutableArray *fileArray;
-    if (files && files.count>0)
-    {
-        fileArray = [NSMutableArray array];
-        for (int i = 0; i<files.count; i++)
-        {
-            NSDictionary *dic = files[i];
-            //上传的图片命名为image
-            UIImage *image = dic[@"image"];
-            
-            NSData *data;
-            if (UIImagePNGRepresentation(image) == nil)
-            {
-                //0.6为压缩系数
-                data = UIImageJPEGRepresentation(image, 0.6);
-            }
-            else
-            {
-                data = UIImagePNGRepresentation(image);
-            }
-            
-            //图片重命名
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            NSString *cachePath = [paths objectAtIndex:0];
-            NSString *filePath = [cachePath stringByAppendingFormat:@"/showImage-%d.png",i];
-            
-            //图片保存路径
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            [fileManager createFileAtPath:filePath contents:data attributes:nil];
-            
-            NSMutableDictionary *newDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-            [newDic setObject:filePath forKey:@"path"];
-            [fileArray addObject:newDic];
-            
-        }
-    }
-    [self uploadFiles:url parameters:parameters fileArray:files withType:Image_Png withBlock:^(id result, BOOL succ) {
-        block(result,succ);
-    }];
-}
-
 
 #pragma mark 下载文件
-/**
- *  去服务器下载文件
- *
- *  @param downloadUrl 下载的请求地址
- *  @param block (文件路径，成功与否)
- */
-- (void)downloadFilewithURL:(NSString *)downloadUrl withBlock:(receiveResponseBlock)block
-{
-    
-    [self reachNetWorkWithBlock:^(BOOL blean) {
-        if (blean)
-        {//有网络
-            
-            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            NSString *urlString = [downloadUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
-            
-            NSURL *url = [NSURL URLWithString:urlString];
-            
-            //请求时间为5秒，超过5秒为超时
-            NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:12.0f];
-            
-            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-                // 指定下载文件保存的路径
-                NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-                NSString *path = [cacheDir stringByAppendingPathComponent:response.suggestedFilename];
-                
-                return [NSURL fileURLWithPath:path];
-                
-            } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nonnull filePath, NSError * _Nonnull error) {
-                
-                NSLog(@"下载成功，文件保存在%@",[filePath path]);
-                
-                block([filePath path],YES);
-                
-            }];
-            
-            [downloadTask resume];//启动下载任务
-            
-            //下载写入进度，test
-            [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-                // 设置进度条的百分比
-                CGFloat precent = (CGFloat)totalBytesWritten / totalBytesExpectedToWrite;
-                
-                if (precent == 1.0)
-                {
-                    
-                }
-                NSLog(@"----precent-->>>>>>>>%f", precent);
-            }];
-            
-        }
-        else
-        {
-            block(@"网络不佳",NO);
-            
-        }
-    }];
-}
 
-- (void)downloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)_filePath withResult:(void(^)(BOOL succ,NSData *data,CGFloat percent))isSuccess
+- (void)downloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)_filePath withResult:(void(^)(BOOL succ,NSData *data,CGFloat percent,NSURLResponse * response))isSuccess
 {
     
     AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
     
     //请求时间为5秒，超过5秒为超时
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0f];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:50.0f];
     
     NSURLSessionDownloadTask *_task=[session downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         
         //下载进度
-        //NSLog(@"%f",downloadProgress.fractionCompleted);
+        WLlog(@"%f",downloadProgress.fractionCompleted);
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if(isSuccess)
-                isSuccess(YES,nil,downloadProgress.fractionCompleted);
+                isSuccess(YES,nil,downloadProgress.fractionCompleted,nil);
         });
         
         
@@ -393,14 +283,14 @@
         if(!error)
         {
             //下载完成了
-            NSLog(@"下载完成 %@",filePath);
+            WLlog(@"下载完成 %@",filePath);
             NSData *data = [NSData dataWithContentsOfURL:filePath];
             if(isSuccess)
-                isSuccess(YES,data,1.0);
+                isSuccess(YES,data,1.0,response);
         }
         else
             if(isSuccess)
-                isSuccess(NO,nil,1.0);
+                isSuccess(NO,nil,1.0,response);
         
     }];
     
@@ -427,23 +317,66 @@
     if ([method isEqualToString:@"GET"])
     {
         [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            block([self dealSuccResult:responseObject],YES);
+            if(block)
+                block([self dealSuccResult:responseObject],YES);
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            block(error.description,NO);
+            
+            if(block)
+                block(error.description,NO);
         }];
     }
     else if ([method isEqualToString:@"POST"])
     {
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            block([self dealSuccResult:responseObject],YES);
-            
+
+            if(block)
+                block([self dealSuccResult:responseObject],YES);
+
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            block(error.description,NO);
-            
+            if(block)
+                block(error.description,NO);
+
         }];
+        
+//        [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+//            NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>%d/%d %f",downloadProgress.completedUnitCount,downloadProgress.totalUnitCount,downloadProgress.fractionCompleted);
+//            
+//        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//            block([self dealSuccResult:responseObject],YES);
+//        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//            block(error.description,NO);
+//        }];
+        
+
+        
+//        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:50.0f];
+//        NSError *serializationError = nil;
+//        NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:url relativeToURL:manager.baseURL] absoluteString] parameters:parameters error:&serializationError];
+//
+//        NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
+//
+//
+//        } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+//
+//            NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>%d/%d %f",downloadProgress.completedUnitCount,downloadProgress.totalUnitCount,downloadProgress.fractionCompleted);
+//
+//        } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+//            if (error) {
+//                if (block) {
+//                    block(error.description,NO);
+//                }
+//            } else {
+////                if (success) {
+////                    success(dataTask, responseObject);
+////                }
+//
+//                if(block)
+//                    block([self dealSuccResult:responseObject],YES);
+//            }
+//        }];
+//
+//        [dataTask resume];
     }
     
 }
@@ -461,7 +394,7 @@
         if ([responseObject isKindOfClass:[NSData class]])
         {
             NSString *str = [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-            NSLog(@"非JsonObject:%@",str);
+            WLlog(@"非JsonObject:%@",str);
         }
         
         return responseObject;
@@ -476,11 +409,12 @@
     
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 20;
     
     if (self.needAppendRequestHeader && self.httpHeaderFields)
     {
         //该属性设置会把你传的字典转化成JSON字符串，这个有待查看是否得设置
-//        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        //        manager.requestSerializer = [AFJSONRequestSerializer serializer];
         
         
         for (NSString *key in [self.httpHeaderFields allKeys])
@@ -496,44 +430,7 @@
     manager.securityPolicy = policy;
     
     
-    //网络状态检查
-    
-    NSOperationQueue *operationQueue = manager.operationQueue;
-    [netStateManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        
-        switch (status)
-        {
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                [operationQueue setSuspended:NO];
-                break;
-            case AFNetworkReachabilityStatusNotReachable:
-            default:
-                [operationQueue setSuspended:YES];
-                break;
-        }
-        
-    }];
-    
 }
-
-#pragma mark - 使用AFN检测网络连接
-- (void)reachNetWorkWithBlock:(void (^)(BOOL blean))block;
-{
-    // 如果要检测网络状态的变化,必须用检测管理器的单例的startMonitoring
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    // 检测网络连接的单例,网络变化时的回调方法
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
-     {
-         BOOL isconnect = NO;
-         if ( status > 0 )
-         {
-             isconnect = YES;
-         }
-         block(isconnect);
-     }];
-}
-
 
 
 
@@ -549,7 +446,6 @@
  */
 -(NSMutableURLRequest *)getPostRequest:(NSString *)urlString paras:(NSString *)paras
 {
-    
     NSString *post =[paras stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
@@ -576,7 +472,7 @@
 {
     url=[NSString stringWithFormat:@"%@",url];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"get url=%@",url);
+    WLlog(@"get url=%@",url);
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:12];
     [request setHTTPMethod:@"GET"];
     
@@ -595,7 +491,7 @@
  */
 -(NSMutableURLRequest *)getRequestPostImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName
 {
-    NSLog(@"postToUrl:%@ Form:%@ imageKey:%@",urlString,ParaDic,imageName);
+    WLlog(@"postToUrl:%@ Form:%@ imageKey:%@",urlString,ParaDic,imageName);
     NSString *boundary = @"iOS_fenda_zhuzhuxian_STRING";
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     
@@ -603,18 +499,23 @@
     [request setHTTPMethod:@"POST"];
     [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
     
+    NSData *imagedata = UIImageJPEGRepresentation(img, 0.6);
+    if (imagedata == nil) {
+        imagedata = UIImagePNGRepresentation(img);
+    }
+    
     NSMutableData *body = [NSMutableData data];
     
     [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", imageName,imageName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[NSData dataWithData:UIImagePNGRepresentation(img)]];
+    [body appendData:[NSData dataWithData:imagedata]];
     
     
     
     for (NSString*key in [ParaDic allKeys])
     {
-        NSLog(@"%@ - %@",key,[ParaDic objectForKey:key]);
+        WLlog(@"%@ - %@",key,[ParaDic objectForKey:key]);
         NSString *value = [ParaDic objectForKey:key];
         [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@",key, value] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -666,18 +567,18 @@
     
     NSMutableURLRequest *request=[self getPostRequest:Path paras:ParaString];
     
-    NSLog(@"url=%@",Path);
-    NSLog(@"paras=%@",ParaString);
+    WLlog(@"url=%@",Path);
+    WLlog(@"paras=%@",ParaString);
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
-        NSLog(@"responseCode=%ld",(long)responseCode);
+        WLlog(@"responseCode=%ld",(long)responseCode);
         if (!error && responseCode == 200)
         {
             
             NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
             
-            NSLog(@"responseData: %@",responseString);
+            WLlog(@"responseData: %@",responseString);
             
             if (self.receiveResponseBlock)
             {
@@ -686,7 +587,7 @@
         }
         else
         {
-            NSLog(@"error=%@",error.description);
+            WLlog(@"error=%@",error.description);
             
             if (self.receiveResponseBlock)
             {
@@ -729,7 +630,7 @@
         {
             
             //NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
-            //NSLog(@"responseData: %@",responseString);
+            //WLlog(@"responseData: %@",responseString);
             if (self.receiveResponseBlock)
             {
                 self.receiveResponseBlock(data,YES);
@@ -762,10 +663,10 @@
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
-        NSLog(@"responseCode = %ld",(long)responseCode);
+        WLlog(@"responseCode = %ld",(long)responseCode);
         if (!error && responseCode == 200)
         {
-            NSLog(@"responseData: %@",[NSString stringWithUTF8String:[data bytes]]);
+            WLlog(@"responseData: %@",[NSString stringWithUTF8String:[data bytes]]);
             
             if (self.receiveResponseBlock)
             {
@@ -774,7 +675,7 @@
         }
         else
         {
-            NSLog(@"error=%@",error.description);
+            WLlog(@"error=%@",error.description);
             
             if (self.receiveResponseBlock)
             {
@@ -793,9 +694,118 @@
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
-- (BOOL)isReachable {
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
++ (BOOL)isReachable {
     return  [[AFNetworkReachabilityManager sharedManager] isReachable];
 }
 
+
+#pragma mark - 使用AFN检测网络连接
++ (void)reachNetWorkWithBlock:(void (^)(BOOL blean))block;
+{
+    // 如果要检测网络状态的变化,必须用检测管理器的单例的startMonitoring
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    // 检测网络连接的单例,网络变化时的回调方法
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+     {
+         BOOL isconnect = NO;
+         if ( status > 0 )
+         {
+             isconnect = YES;
+         }
+         if(block)
+             block(isconnect);
+     }];
+}
+
+- (void)SysDownloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSString *saveFilePath))isSuccess
+{
+    // 1. 创建url
+    NSURL *Url = [NSURL URLWithString:downloadUrl];
+    
+    // 创建请求
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:Url];
+    request.timeoutInterval = 60;
+    
+    // 创建会话
+    //这个要创建NSURLSessionConfiguration对象
+    NSURLSessionConfiguration *scf = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    //创建session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    //4.发起并且继续任务，想要下载进度，使用下面的方法，使用downloadTaskWithRequest会导致delegate无法调用
+    //    [[session downloadTaskWithURL:Url] resume];
+    
+    NSURLSessionDownloadTask *downLoadTask = [session downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        BOOL isSucc = NO;
+        NSString *tmpfile;
+        if (!error)
+        {
+            // 下载成功
+            // 注意 location是下载后的临时保存路径, 需要将它移动到需要保存的位置
+            NSError *saveError;
+            // 创建一个自定义存储路径
+            NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            NSString *savePath = [cachePath stringByAppendingPathComponent:response.suggestedFilename];
+            if(filePath.length>0)
+            {
+                savePath = filePath;
+                
+            }
+            NSURL *saveURL = [NSURL fileURLWithPath:savePath];
+            [[NSFileManager defaultManager] removeItemAtURL:saveURL error:nil];
+            // 文件复制到cache路径中
+            [[NSFileManager defaultManager] copyItemAtURL:location toURL:saveURL error:&saveError];
+            
+            if (!saveError) {
+                NSLog(@"保存成功>>>%@",savePath);
+                tmpfile = savePath;
+                //删除保存的临时文件
+                [[NSFileManager defaultManager] removeItemAtURL:location error:nil];
+            } else {
+                tmpfile = [location absoluteString];
+                NSLog(@"error is %@", saveError.localizedDescription);
+            }
+            
+            isSucc = YES;
+        }
+        else
+        {
+            NSLog(@"error is : %@", error.localizedDescription);
+        }
+        
+        if(tmpfile.length<=0)
+            isSucc = NO;
+        
+        if(isSuccess)
+            isSuccess(isSucc,tmpfile);
+    }];
+    // 恢复线程, 启动任务
+    [downLoadTask resume];
+}
+
+
+#pragma -mark NSURLSessionDelegate
+// 下载过程中 会多次调用, 记录下载进度
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    // 记录下载进度
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>%0.1f",(float)totalBytesWritten / totalBytesExpectedToWrite);
+}
+
+// 下载完成
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>>下载文件成功");
+//    NSError *error;
+//    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+//    NSString *savePath = [cachePath stringByAppendingPathComponent:@"savename"];
+//
+//    NSURL *saveUrl = [NSURL fileURLWithPath:savePath];
+//    // 通过文件管理 复制文件
+//    [[NSFileManager defaultManager] copyItemAtURL:location toURL:saveUrl error:&error];
+//    if (error) {
+//        NSLog(@"Error is %@", error.localizedDescription);
+//    }
+}
 @end

@@ -1,6 +1,6 @@
 //
 //  LAFileManager.h
-//  MyProject
+//  DIKA
 //
 //  Created by  Tmac on 2017/7/24.
 //  Copyright © 2017年 Tmac. All rights reserved.
@@ -98,7 +98,8 @@
 + (BOOL)writeImageToPath:(NSString *)filePath image:(UIImage *)image;
 + (BOOL)writeDataToPath:(NSString *)filePath data:(NSData *)data;
 
-//////////查询
+//////////查询 offLen == -1 查询所有
++ (NSData *)getDataFromPath:(NSString *)filePath start:(NSInteger)start offLen:(NSInteger)offLen;
 + (NSString *)getTextFromPath:(NSString *)filePath;
 + (UIImage *)getImageFromPath:(NSString *)filePath;
 + (NSData *)getDataFromPath:(NSString *)filePath;
@@ -112,7 +113,7 @@
  */
 + (NSData *)getDataFromRootPath:(NSString *)rootPath fileName:(NSString *)fileName;
 
-//返回某个目录下的所有文件和文件夹
+//返回某个目录下的所有文件（字典key：fileName fileType）和文件夹
 //rootPath需遍历的根目录  isIn是否深度遍历 hasDirectory是否包含文件夹
 //containOrFilter 包含(YES)或过滤(NO) mstr:名称，包含(YES)或过滤(NO)的内容
 + (NSDictionary *)getAllFileFromRootPath:(NSString *)rootPath isIn:(BOOL)isIn hasDirectory:(BOOL)hasDirectory containOrFilter:(BOOL)containOrFilter mstr:(NSString *)mstr;

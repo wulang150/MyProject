@@ -27,7 +27,7 @@ static NSString *logDic      = nil;
 static NSString *crashDic    = nil;
 
 // 设置默认保留文件天数为5天
-static NSInteger numberOfDaysToDelete = 5;
+static NSInteger numberOfDaysToDelete = 3;
 
 // logQueue
 static dispatch_once_t logQueueCreatOnce;
@@ -35,6 +35,9 @@ static dispatch_queue_t logOperationQueue;
 
 //默认颜色
 static NSString *logColor = nil;
+
+//关闭所有输出
+static BOOL isCloseOut = NO;
 
 void uncaughtExceptionHandler(NSException *exception){
     [XZLog logCrash:exception];
@@ -104,39 +107,57 @@ void uncaughtExceptionHandler(NSException *exception){
 
 +(void)_initFile
 {
-    if (!logFilePath)
+    // 大文件的命名，例如2016-06-24，生成文件夹
+    NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
+    [dateFormatter1 setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date1 = [NSDate date];
+    NSString *dateString1 = [dateFormatter1 stringFromDate:date1];
+    
+    // documentDirectory目录string
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *logDirectory = [documentsDirectory stringByAppendingFormat:@"/log/%@/",dateString1];
+    NSString *crashDirectory = [documentsDirectory stringByAppendingFormat:@"/log/%@/",dateString1];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logDirectory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:nil];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:crashDirectory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:crashDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:nil];
+    }
+
+    logDic = logDirectory;
+    crashDic = crashDirectory;
+    
+    //生成文件
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT+0800"];
+    NSString *fileNamePrefix = [dateFormatter stringFromDate:[NSDate date]];
+    NSString *fileName = [NSString stringWithFormat:@"XZ_log_%@_logtraces.txt", fileNamePrefix];
+    NSString *filePath = [logDirectory stringByAppendingPathComponent:fileName];
+    logFilePath = filePath;
+
+    // 文件如果不存在就创建
+    if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
-        // 大文件的命名，例如2016-06-24
-        NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
-        [dateFormatter1 setDateFormat:@"yyyy-MM-dd"];
-        NSDate *date1 = [NSDate date];
-        NSString *dateString1 = [dateFormatter1 stringFromDate:date1];
-        
-        // documentDirectory目录string
-        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *logDirectory = [documentsDirectory stringByAppendingFormat:@"/log/%@/",dateString1];
-        NSString *crashDirectory = [documentsDirectory stringByAppendingFormat:@"/log/%@/",dateString1];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:logDirectory]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory
-                                      withIntermediateDirectories:YES
-                                                       attributes:nil
-                                                            error:nil];
-        }
-        if (![[NSFileManager defaultManager] fileExistsAtPath:crashDirectory]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:crashDirectory
-                                      withIntermediateDirectories:YES
-                                                       attributes:nil
-                                                            error:nil];
-        }
-        
-        // 弄log文件路径里面的数组
-        NSError *error = nil;
-        NSMutableArray *fileArrays = [NSMutableArray array];
-        fileArrays = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:[documentsDirectory stringByAppendingString:@"/log/"] error:&error]];
-        
-        // 移除根目录
-        [fileArrays removeObject:@".DS_Store"];
+        [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+    }
+    
+    // 弄log文件路径里面的数组，删除文件
+    NSError *error = nil;
+    NSMutableArray *fileArrays = [NSMutableArray array];
+    fileArrays = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:[documentsDirectory stringByAppendingString:@"/log/"] error:&error]];
+    
+    // 移除根目录，删除多余的文件夹
+    [fileArrays removeObject:@".DS_Store"];
+    if(fileArrays.count>0)
+    {
         NSString *minStr = [fileArrays objectAtIndex:0];
         
         // 移除最小那天的文件夹
@@ -147,28 +168,39 @@ void uncaughtExceptionHandler(NSException *exception){
         if (fileArrays.count > numberOfDaysToDelete) {
             [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingFormat:@"/log/%@",minStr] error:&error];
         }
-        
-        logDic = logDirectory;
-        crashDic = crashDirectory;
-        
-        // 小文件的命名
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT+0800"];
-        NSString *fileNamePrefix = [dateFormatter stringFromDate:[NSDate date]];
-        NSString *fileName = [NSString stringWithFormat:@"XZ_log_%@.logtraces.txt", fileNamePrefix];
-        NSString *filePath = [logDirectory stringByAppendingPathComponent:fileName];
-        logFilePath = filePath;
-#if DEBUG
-        NSLog(@"【XZ】LogPath: %@", logFilePath);
-#endif
-        // 文件如果不存在就创建
-        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    }
+    
+}
+
++ (NSString *)gainDateStr:(NSDate *)date
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT+0800"];
+    NSString *fileNamePrefix = [dateFormatter stringFromDate:date];
+    
+    return fileNamePrefix;
+}
+
++ (void)checkForNewFile
+{
+    static NSDate *lastDate = nil;
+    NSDate *nowDate = [NSDate date];
+    
+    if(lastDate)
+    {
+        NSString *lastStr = [self gainDateStr:lastDate];
+        NSString *nowStr = [self gainDateStr:nowDate];
+        if(![lastStr isEqualToString:nowStr])        //不是同一天，创建新的文件
         {
-            [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+            [self _initFile];
         }
     }
+    lastDate = nowDate;
+    
 }
+
+//
 
 /**
  *  输入一个名称string和简单描述string、详细描述string
@@ -215,6 +247,22 @@ void uncaughtExceptionHandler(NSException *exception){
     va_end(args);
 }
 
++ (void)logWToShow:(NSString *)format, ...NS_FORMAT_FUNCTION(1,2)
+{
+    va_list args;
+    va_start(args, format);
+    
+    NSString *contentStr = [[NSString alloc] initWithFormat:format arguments:args];
+    
+    NSLog(@"%@",contentStr);
+    
+    [[self class] writeDataToFileByString:contentStr];
+    va_end(args);
+    
+    //调用显示的通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:XZLogShowMessage object:contentStr];
+}
+
 + (void)logWithColor:(NSString *)color format:(NSString *)format, ...
 {
     va_list args;
@@ -244,6 +292,10 @@ void uncaughtExceptionHandler(NSException *exception){
  */
 + (void)writeDataToFileByString:(NSString *)string
 {
+    if(isCloseOut)      //不写入文件
+        return;
+    
+    [self checkForNewFile];
     NSString *contentN = [string stringByAppendingString:@"\n"];
     NSString *content = [NSString stringWithFormat:@"%@ %@",[self _getCurrentTime], contentN];
     

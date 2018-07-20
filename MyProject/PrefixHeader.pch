@@ -24,6 +24,7 @@
 #import "UIView+LayoutMethods.h"
 
 #import "Masonry.h"
+#import "XZLog.h"
 //MJRefresh
 
 #endif

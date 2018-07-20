@@ -36,4 +36,13 @@
 -(BOOL) isValidWeiBo;
 -(BOOL) isValidQQ;
 -(BOOL) isValidWeb;
+
+//+ (NSString *)mergeStr:(NSString *)rex,...;
+
+//获取字体的计算高度 @{NSFontAttributeName:[UIFont boldSystemFontOfSize:23]}
+- (CGFloat)heightWithStringAttributes:(NSDictionary *)attributes fixedWidth:(CGFloat)fixedWidth;
+- (CGFloat)heightWithFont:(UIFont *)font fixedWidth:(CGFloat)fixedWidth;
+//获取字体的计算宽度
+- (CGFloat)widthWithStringAttributes:(NSDictionary *)attributes;
+- (CGFloat)widthWithFont:(UIFont *)font;
 @end

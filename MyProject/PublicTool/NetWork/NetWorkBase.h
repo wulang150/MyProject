@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger,UploadType)
 
 @interface NetWorkBase : NSObject
 
+
++ (NetWorkBase *)netModel;
+
 @property (nonatomic,copy) void (^receiveResponseBlock) (id result,BOOL succ);
 
 //标识请求是否需要追加请求头
@@ -42,7 +45,6 @@ typedef NS_ENUM(NSInteger,UploadType)
  *  发送GET请求
  *
  *  @param url       请求url
- *  @param params    请求参数
  */
 - (void)startGet:(NSString *)url parameters:(NSDictionary *)parameters withBlock:(receiveResponseBlock)block;
 
@@ -52,7 +54,6 @@ typedef NS_ENUM(NSInteger,UploadType)
  *  发送POST请求
  *
  *  @param url       请求url
- *  @param params    请求参数
  */
 - (void)startPOST:(NSString *)url parameters:(NSDictionary *)parameters withBlock:(receiveResponseBlock)block;
 
@@ -73,16 +74,6 @@ typedef NS_ENUM(NSInteger,UploadType)
 
 - (void)uploadFile:(NSString *)url parameters:(NSDictionary *)parameters filePath:(NSString *)filePath withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
 
-#pragma mark 上传图片到服务器
-/**
- *  开始调用POST方法上传图片
- *
- *  @param url    URL
- *  @param params 参数描述
- *  @param files  image文件
- *  @param key    Key值
- */
-- (void)startUpLoadImage:(NSString *)url parameters:(NSDictionary *)parameters files:(NSArray *)files withBlock:(receiveResponseBlock)block;
 
 
 #pragma mark 下载文件
@@ -99,15 +90,7 @@ typedef NS_ENUM(NSInteger,UploadType)
  succ==true&&data==nil  下载进度的回调
  succ==false    下载失败
  */
-- (void)downloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSData *data,CGFloat percent))isSuccess;
-
-/**
- *  监测网络状态
- *
- *  @param block 网络状态的回调
- */
-- (void)reachNetWorkWithBlock:(void (^)(BOOL blean))block;
-
+- (void)downloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSData *data,CGFloat percent,NSURLResponse * response))isSuccess;
 
 
 /**********************************************系统封装接口***********************************************/
@@ -129,8 +112,19 @@ typedef NS_ENUM(NSInteger,UploadType)
 
 -(void)getWithPath:(NSString *)Path  ParaDic:(NSDictionary *)ParaDic;
 
+
+//上传图片
+-(void)uploadImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName;
+
+
+- (void)SysDownloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSString *saveFilePath))isSuccess;
+
++ (BOOL)isReachable;
 /**
- *  手动检测网络是否可用
+ *  监测网络状态
+ *
+ *  @param block 网络状态的回调
  */
-- (BOOL)isReachable;
++ (void)reachNetWorkWithBlock:(void (^)(BOOL blean))block;
+
 @end

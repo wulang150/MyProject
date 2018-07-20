@@ -5,10 +5,12 @@
 
 #import <Foundation/Foundation.h>
 
+#define XZLogShowMessage @"XZLogShowMessage"        //显示的通知
 //使用列子
-//define WLlog(simple,detail) FDColorLog(@"wulang", simple, detail, FDColor(105,176,245)) 这种不能通过格式输入
-//#define WLlog(simple,fmt,...) CLog(@"wulang", simple, fmt,##__VA_ARGS__,@"")      这种可以通过格式输入
-//#define WLlog(fmt,...) CLog(@"wulang", @"msg", fmt,##__VA_ARGS__,@"")
+#define WLlog(fmt,...) CLog(@"wulang", @"msg", fmt,##__VA_ARGS__,@"")
+#define WLSlog(fmt,...) [XZLog logW:[NSString stringWithFormat:@"%@",fmt],##__VA_ARGS__,@""]     //简单的输出，没有具体的路径
+
+#define WLSlogAS(fmt,...) [XZLog logWToShow:[NSString stringWithFormat:@"%@",fmt],##__VA_ARGS__,@""]     //简单的输出，没有具体的路径，并且通知展示在界面
 
 /**
  *  传入名字，简单描述和详细描述，输出log，用宏定义打印当前log
@@ -34,9 +36,9 @@
  */
 #define FDColorLog(name,simple,detail,color) [XZLog logFromWhom:name andSimpleLogDescription:simple andDetailLogDescription:detail andFileString:[NSString stringWithFormat:@"[%@:%d] %s",[NSString stringWithFormat:@"%s",__FILE__].lastPathComponent,__LINE__,__func__] andColorString:color]
 //没有颜色的
-#define CLog(name,simple,fmt, ...) [XZLog logW:[NSString stringWithFormat:@"%@ [%@:%d] %s %@:%@",name,[NSString stringWithFormat:@"%s",__FILE__].lastPathComponent,__LINE__,__func__,simple,fmt],##__VA_ARGS__,@""];
+#define CLog(name,simple,fmt, ...) [XZLog logW:[NSString stringWithFormat:@"%@ [%@:%d] %s %@:%@",name,[NSString stringWithFormat:@"%s",__FILE__].lastPathComponent,__LINE__,__func__,simple,fmt],##__VA_ARGS__,@""]
 //有颜色的
-#define CLogColor(color,name,simple,fmt, ...) [XZLog logWithColor:color format:[NSString stringWithFormat:@"%@ [%@:%d] %s %@:%@",name,[NSString stringWithFormat:@"%s",__FILE__].lastPathComponent,__LINE__,__func__,simple,fmt],##__VA_ARGS__,@""];
+#define CLogColor(color,name,simple,fmt, ...) [XZLog logWithColor:color format:[NSString stringWithFormat:@"%@ [%@:%d] %s %@:%@",name,[NSString stringWithFormat:@"%s",__FILE__].lastPathComponent,__LINE__,__func__,simple,fmt],##__VA_ARGS__,@""]
 
 #define FDColor(r,g,b) [NSString stringWithFormat:@"%ld,%ld,%ld",(long)r,(long)g,(long)b]
 
@@ -90,6 +92,8 @@
  *  @param format   : format log message
  */
 + (void)logW:(NSString *)format, ...NS_FORMAT_FUNCTION(1,2);
+
++ (void)logWToShow:(NSString *)format, ...NS_FORMAT_FUNCTION(1,2);
 
 /**
  *  log error

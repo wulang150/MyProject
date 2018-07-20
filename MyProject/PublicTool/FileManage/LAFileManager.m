@@ -1,6 +1,6 @@
 //
 //  LAFileManager.m
-//  MyProject
+//  DIKA
 //
 //  Created by  Tmac on 2017/7/24.
 //  Copyright © 2017年 Tmac. All rights reserved.
@@ -65,7 +65,7 @@
         documentsDirectory = [documentsDirectory substringFromIndex:1];
     }
     
-    if(defaultPath.length==0)
+    if(defaultPath.length<=0)
         return documentsDirectory;
     
     return [NSString stringWithFormat:@"%@/%@",documentsDirectory,[self filterStr:defaultPath]];
@@ -251,13 +251,36 @@
 }
 
 //////////查询
++ (NSData *)getDataFromPath:(NSString *)filePath start:(NSInteger)start offLen:(NSInteger)offLen
+{
+    if(filePath.length<=0)
+        return nil;
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:filePath];
+    NSInteger length = [fileHandle availableData].length;//字符长度
+    if(start+offLen>length)
+        return nil;
+    [fileHandle seekToFileOffset:0];
+    if(start>0)
+        [fileHandle seekToFileOffset:start];
+    
+    NSData *fileData;
+    if(offLen<0)        //读取到文件尾部
+        fileData = [fileHandle readDataToEndOfFile];
+    else
+        fileData = [fileHandle readDataOfLength:offLen];
+    
+    [fileHandle closeFile];
+    return fileData;
+}
+
 + (NSString *)getTextFromPath:(NSString *)filePath
 {
-    if(filePath==nil||filePath.length==0)
-        return nil;
-    NSData *myData = [[NSData alloc] initWithContentsOfFile:filePath];
-    if(myData==nil)
-        return nil;
+//    if(filePath==nil||filePath.length==0)
+//        return nil;
+//    NSData *myData = [[NSData alloc] initWithContentsOfFile:filePath];
+//    if(myData==nil)
+//        return nil;
+    NSData *myData = [self getDataFromPath:filePath start:0 offLen:-1];
     NSString *myString = [[NSString alloc]
                           initWithBytes:[myData bytes]
                           length:[myData length]
@@ -265,21 +288,27 @@
     
     return myString;
 }
+
 + (UIImage *)getImageFromPath:(NSString *)filePath
 {
-    UIImage* image = nil;
-    if([[self class] fileIsExist:filePath])
-    {
-        image = [[UIImage alloc] initWithContentsOfFile:filePath];
-    }
+    NSData *myData = [self getDataFromPath:filePath start:0 offLen:-1];
+    UIImage* image = [UIImage imageWithData:myData];
+    
+//    if([[self class] fileIsExist:filePath])
+//    {
+//        image = [[UIImage alloc] initWithContentsOfFile:filePath];
+//    }
+    
     return image;
 }
 + (NSData *)getDataFromPath:(NSString *)filePath
 {
-    if(filePath==nil||filePath.length==0)
-        return nil;
-    
-    return [[NSData alloc] initWithContentsOfFile:filePath];
+//    if(filePath==nil||filePath.length==0)
+//        return nil;
+//
+//    return [[NSData alloc] initWithContentsOfFile:filePath];
+    NSData *myData = [self getDataFromPath:filePath start:0 offLen:-1];
+    return myData;
 }
 + (NSString *)findFile:(NSString *)rootPath fileName:(NSString *)fileName
 {
@@ -347,7 +376,6 @@
         while ((filename = [dirEnum nextObject]) != nil)
         {
             [mulArr addObject:filename];
-            
         }
     }
     else
@@ -358,17 +386,16 @@
     
     for(NSString *filename in mulArr)
     {
-        BOOL flag;
+        BOOL flag;      //是否为文件夹
         
         NSString *key = [NSString stringWithFormat:@"%@/%@",rootPath,filename];
-        if(hasDirectory) //过滤掉文件夹
+        [fm fileExistsAtPath:key isDirectory:&flag];
+        if(!hasDirectory&&flag) //过滤掉文件夹
         {
-            [fm fileExistsAtPath:key isDirectory:&flag];
-            if(flag)
-                continue;
+            continue;
         }
         
-        if(mstr.length>0)
+        if(mstr.length>0&&!flag)
         {
             //过滤文件
             BOOL ret = containOrFilter?![filename containsString:mstr]:[filename containsString:mstr];
@@ -378,9 +405,14 @@
         
         NSArray *nameArr = [filename componentsSeparatedByString:@"/"];
         NSString *value = [nameArr lastObject];
-        if(value)
+        if(value.length>0)
         {
-            [fileDic setObject:value forKey:key];
+
+            NSDictionary *unitDic = @{
+                                      @"fileName":value,
+                                      @"fileType":@(flag)
+                                      };
+            [fileDic setObject:unitDic forKey:key];
         }
         
     }
