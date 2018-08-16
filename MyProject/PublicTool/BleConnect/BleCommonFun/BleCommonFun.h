@@ -51,4 +51,13 @@
 
 //把uuid字符串改为统一的格式
 + (NSString *)UUIDString:(NSString *)str;
+
+//取一个字节特定的位
++ (uint8_t)getBit:(uint8_t)num from:(uint8_t)from to:(uint8_t)to;
+//设置某位的值
++ (uint8_t)setBit:(uint8_t)num from:(uint8_t)from to:(uint8_t)to val:(uint8_t)val;
+//获取两字节的时区
++ (uint16_t)getCurrentTimeZoom;
+//显示Data的内容，clip：拼接的字符串
++ (NSString *)showHexData:(NSData *)data clip:(NSString *)clip;
 @end

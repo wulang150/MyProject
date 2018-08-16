@@ -13,11 +13,13 @@
 
 @interface PublicFunction : NSObject
 
-+ (void ) hiddenHUD;
-+ (MBProgressHUD *) showLoading:(NSString *)title;
-+ (MBProgressHUD *) showTouchLoading:(NSString *)title;
-+ (MBProgressHUD *) showLoading:(NSString *)message hiddenAfterDelay:(int)second;
-+ (MBProgressHUD *) showNoHiddenLoading:(NSString *)title;
++ (void) hiddenHUD;
++ (void) showLoading:(NSString *)title;
++ (void) showTouchLoading:(NSString *)title;
++ (void) showLoading:(NSString *)message hiddenAfterDelay:(int)second;
++ (void) showNoHiddenLoading:(NSString *)title;
++ (void) showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title;
++ (void) showNoHiddenLoading:(NSString *)title hiddenAfterDelay:(int)second;
 
 //UI视图快捷创建
 +(UIImageView *) getImageView:(CGRect)frame imageName:(NSString *)imageName;
@@ -54,11 +56,17 @@
 //UI控件操作
 //图像操作
 + (UIImage *) getThumbnailImage:(UIImage *)image width:(int)width height:(int)height;
-+ (UIImage *) getImage:(UIImage *)image width:(int)width height:(int)height;
-+ (UIImage *) getImage:(NSString *)imageName;
++ (UIImage *) getImage:(UIImage *)image width:(int)width height:(int)height;    //直接压缩操作
++ (UIImage *) getImage:(NSString *)imageName;           //通过文件的方式获取
 + (UIImage *) creatTwoCodeImageWithURL:(NSString *)url;  //通过字符串生成二维码图像
 + (UIImage *) getImageFromView: (UIView *)theView;       //获取当前视图截图
 + (UIImage *)imagesMergeWith:(NSArray *)images andSize:(CGSize)size; //将四张以内图片合并为一张
+// 等比例压缩高清 kBit 压缩后的数据大小
++ (NSData *)zipImageWithImage:(UIImage *)image withMaxSize:(NSInteger)kBit;
+//图片等比压缩处理500*500
++ (UIImage *)scaleImage:(UIImage *)image tosize:(CGSize)size;
+//根据图片大小，适当进行图片压缩
++ (NSData *)imageData:(UIImage *)myimage;
 
 //颜色操作
 + (UIColor *) colorFromHexString:(NSString *)hexString;

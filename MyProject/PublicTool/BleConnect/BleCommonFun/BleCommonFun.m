@@ -197,4 +197,70 @@
     
     return suid.UUIDString;
 }
+
+//取一个字节特定的位
++ (uint8_t)getBit:(uint8_t)num from:(uint8_t)from to:(uint8_t)to
+{
+    if(to<from)
+        return 0;
+    uint8_t t = 0;
+    uint8_t len = to - from + 1;
+    for(int i=len-1;i>=0;i--)
+    {
+        t |= 0x01<<i;
+    }
+    
+    num = num>>from;
+    num = num&t;
+    return num;
+}
+
+//设置某位的值
++ (uint8_t)setBit:(uint8_t)num from:(uint8_t)from to:(uint8_t)to val:(uint8_t)val
+{
+    if(to<from)
+        return 0;
+    uint8_t len = to - from + 1;
+    uint8_t t = 0xff;
+    //截取正确的值
+    val = [self getBit:val from:0 to:len-1];
+    t = [self getBit:t from:0 to:len-1];
+    t = ~(t<<from);     //取反  11110011
+    num = num & t;      //要替换的的位先置0
+    val = val<<from;
+    
+    num = num | val;
+    
+    return num;
+}
+
+//获取两字节的时区
++ (uint16_t)getCurrentTimeZoom
+{
+    NSTimeZone *systemTimeZone = [NSTimeZone systemTimeZone];
+    uint16_t zoom = 0x8000;
+    if([systemTimeZone.abbreviation containsString:@"+"])
+        zoom = 0x00;
+    uint8_t h = systemTimeZone.secondsFromGMT/3600;
+    uint8_t m = systemTimeZone.secondsFromGMT%3600;
+    
+    zoom |= h<<8;
+    zoom |= m;
+    
+    return zoom;
+}
+//显示Data的内容
++ (NSString *)showHexData:(NSData *)data clip:(NSString *)clip
+{
+    NSString *tmpStr = @"";
+    uint8_t *buf = (uint8_t *)data.bytes;
+    for(int i=0;i<data.length;i++)
+    {
+        tmpStr = [NSString stringWithFormat:@"%@%02X%@",tmpStr,buf[i],clip];
+    }
+    if(tmpStr.length>1)
+        tmpStr = [tmpStr substringToIndex:tmpStr.length-2];
+    
+    return tmpStr;
+}
 @end

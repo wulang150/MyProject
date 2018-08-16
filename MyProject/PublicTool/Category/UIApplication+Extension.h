@@ -13,6 +13,11 @@
 //获取最上层的controller
 - (UIViewController *)topViewController;
 
+//获取rootVC
+- (UIViewController *)rootVC;
+//获取root控制器是导航栏的
+- (UINavigationController *)rootNavVC;
+
 //把某controller作为navigation的rootController，可以是name或者controller实例
 - (void)popToRootWithContrl:(id)controller;
 //pop或者push到某个controller，如果导航里已经有，就pop，没有就push，可以是name或者controller实例

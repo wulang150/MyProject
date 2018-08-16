@@ -15,6 +15,10 @@
 #import "PublicFunction.h"
 #import "BottomSelectView.h"
 #import "RightViewController.h"
+#import "MyTestViewController.h"
+#import "SocialViewController.h"
+#import "LifeViewController.h"
+#import "UserViewController.h"
 
 @implementation testModel
 
@@ -22,13 +26,16 @@
 @end
 
 @interface ViewController ()
-<UICollectionViewDelegate,UICollectionViewDataSource,PanGestureDelegate,BottomSelectViewDelegate>
+<UICollectionViewDelegate,UICollectionViewDataSource,PanGestureDelegate,BottomSelectViewDelegate,UIScrollViewDelegate>
 {
     NSInteger curPage;
     
     PageSelectView *pageView;
+    BottomSelectView *bottomView;
+    NSArray *_ctlViewArr;
 }
 @property(nonatomic,strong) UICollectionView *collectionView;
+@property(nonatomic,strong) UIScrollView *scrollView;
 @end
 
 @implementation ViewController
@@ -48,69 +55,55 @@
 - (void)createView
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setNavWithTitle:@"更大幅度" leftImage:@"arrow" leftTitle:nil leftAction:nil rightImage:nil rightTitle:@"右边有很多人" rightAction:@selector(rightAction)];
+    [self setNavWithTitle:@"更大幅度" leftImage:nil leftTitle:nil leftAction:nil rightImage:nil rightTitle:@"右边" rightAction:@selector(rightAction)];
     
-    [self.view addSubview:self.collectionView];
+    NSArray *imageArr = @[[UIImage imageNamed:@"icon_bracelet"],[UIImage imageNamed:@"icon_life"],[UIImage imageNamed:@"icon_i"]];
+    NSArray *imageSelectArr = @[[UIImage imageNamed:@"icon_bracelet_sel"],[UIImage imageNamed:@"icon_life_sel"],[UIImage imageNamed:@"icon_i_sel"]];
+    NSArray *titleArr = @[@"社交",@"生活",@"我"];
+    //下面的选择
+    bottomView = [[BottomSelectView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50) images:imageArr selectedImages:imageSelectArr titles:titleArr titleColor:[UIColor whiteColor] titleSelectedColor:[UIColor whiteColor]];
+    bottomView.delegate = self;
+    bottomView.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:bottomView];
+    [bottomView updateView];
     
-    pageView = [[PageSelectView alloc] initWithCenter:300 pageCount:3];
+    [self.view addSubview:self.scrollView];
+    //子controllView
+    _ctlViewArr = @[[SocialViewController new],[LifeViewController new],[UserViewController new]];
+    for(NSInteger i=0;i<_ctlViewArr.count;i++)
+    {
+        UIViewController *vc = _ctlViewArr[i];
+        vc.view.frame = CGRectMake(SCREEN_WIDTH*i, 0, SCREEN_WIDTH, SCREEN_CTM_HEIGHT-bottomView.height);
+        [self addChildViewController:vc];
+        [_scrollView addSubview:vc.view];
+        
+    }
+    
+    pageView = [[PageSelectView alloc] initWithCenter:bottomView.top-40 pageCount:_ctlViewArr.count];
     pageView.spaceLeg = 20;
-    pageView.imgSize = CGSizeMake(32, pageView.radius*4);
+    pageView.imgSize = CGSizeMake(32, pageView.radius*2);
     pageView.selectImg = [UIImage imageNamed:@"home_focus"];
-    [pageView updateView];
     [self.view addSubview:pageView];
     
-    NSArray *imageArr = @[[UIImage imageNamed:@"home_focus"],[UIImage imageNamed:@"home_focus"],[UIImage imageNamed:@"home_focus"]];
-    NSArray *titleArr = @[@"社交",@"社交",@"社交"];
-    //下面的选择
-    BottomSelectView *bottomView = [[BottomSelectView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-52, SCREEN_WIDTH, 52) images:imageArr selectedImages:nil titles:titleArr titleColor:[UIColor lightGrayColor] titleSelectedColor:[UIColor grayColor]];
-    bottomView.delegate = self;
-    [self.view addSubview:bottomView];
-    
-    
-    //测试右边距
-//    UILabel *lab = [PublicFunction getlabel:CGRectMake(10, 100, 0, 0) text:@"我的右边图标" size:14];
-//    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 0, 80, 80)];
-//    imageView.backgroundColor = [UIColor redColor];
-//    
-//    [CommonFun fitToRight:self.view childs:@[lab,imageView] align:1 isHor:YES];
-//    
-//    [XlabTools setStringValue:@"ddd" defaultKey:@"mykey"];
-//    
-//    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-//    
-//    NSLog(@"%@",appDomain);
-//    
-//    [XlabTools showAllUserDefaultsData];
-    
-//    char a1 = -10;
-//    unsigned short a2 = 16567;
-////    unsigned int a3 = 32;
-//    float a3 = 34.5;
-//
-//    NSArray *arr = @[@"1",@"1",@"0",@"1",@"0",@"1"];   //对于位的操作，使用数组
-//
-//    NSArray *valueArr = @[arr,
-//                          @(a2),
-//                          @(a3),
-//                          @"abcdef",
-//                          @(a1)];
-//    NSMutableData *data = [[NSMutableData alloc] initWithCapacity:20];
-//
-//    [data appendStructWithSizes:@[@"1",@"2",@(sizeof(a3)),@"7",@"1"] values:valueArr];
-//
-//    NSLog(@"data = %@",data);
-//    
-////    NSData *fddd = data subdataWithRange:NSMakeRange(3, sizeof(a3));
-//    float tt = 0;
-//    [data getBytes:&tt range:NSMakeRange(3,sizeof(a3))];
-//    
-//    NSLog(@"float = %f",tt);
-//    
-//    char pt = 0;
-//    [data getBytes:&pt range:NSMakeRange(14, 1)];
-//    
-//    NSLog(@"int = %d",pt);
+    //设置默认选中状态
+    [self didSelecedIndex:1];
+}
+
+- (UIScrollView *)scrollView
+{
+    if(!_scrollView)
+    {
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, NavigationBar_HEIGHT, SCREEN_WIDTH, SCREEN_CTM_HEIGHT-bottomView.height)];
+        _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH*_ctlViewArr.count, _scrollView.height);
+        _scrollView.pagingEnabled = YES;
+        _scrollView.scrollEnabled = NO;
+        _scrollView.delegate = self;
+        _scrollView.bounces = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        
+    }
+    return _scrollView;
 }
 
 - (UICollectionView *)collectionView
@@ -126,7 +119,7 @@
         //设置每个item的大小为100*100
         
         //创建collectionView 通过一个布局策略layout来创建
-        UICollectionView * collect = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NavigationBar_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-NavigationBar_HEIGHT) collectionViewLayout:layout];
+        UICollectionView * collect = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NavigationBar_HEIGHT, SCREEN_WIDTH, SCREEN_CTM_HEIGHT-bottomView.height) collectionViewLayout:layout];
         
         layout.itemSize = CGSizeMake(collect.bounds.size.width, collect.bounds.size.height);
         
@@ -137,15 +130,16 @@
         collect.showsVerticalScrollIndicator = NO;
         collect.showsHorizontalScrollIndicator = NO;
         collect.bounces = NO;       //取消边际出滑动出现空白的情况
+        collect.scrollEnabled = NO;
 //        collect.canCancelContentTouches = NO;       //默认是取消了touch事件，现在开启
         //注册item类型 这里使用系统的类型
         [collect registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellid"];
         _collectionView = collect;
         
         //加入手势
-        PanGesture *pan = [[PanGesture alloc] init];
-        pan.GesDelegate = self;
-        [_collectionView addGestureRecognizer:pan];
+//        PanGesture *pan = [[PanGesture alloc] init];
+//        pan.GesDelegate = self;
+//        [_collectionView addGestureRecognizer:pan];
         
     }
     
@@ -174,20 +168,32 @@
 {
     NSLog(@"rightAction");
     
-    RightViewController *rc = [RightViewController new];
+    MyTestViewController *rc = [MyTestViewController new];
     [self.navigationController pushViewController:rc animated:YES];
     
-//    CommonBgView *rightView = [self gainRightView];
-//    rightView.isDismissAnimate = YES;
-////    [rightView show];
-////    [rightView showAnimate:CommonBgView_fromRight];
-//    [rightView showAnimate:0.3 type:CommonBgView_fromRight];
+}
+
+- (void)didSelecedIndex:(NSInteger)index
+{
+    curPage = index;
+   
+//    [_scrollView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:curPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [_scrollView setContentOffset:CGPointMake(index*SCREEN_WIDTH, 0) animated:NO];
+    pageView.curPage = curPage;
+    [pageView updateView];
+    [bottomView setSelectedIndex:index];
 }
 
 #pragma -mark BottomSelectViewDelegate
-- (void)didSelectedBottomSelectView:(BottomSelectView *)selectView selectedImage:(UIImageView *)selectedImage selectedTitle:(UILabel *)selectedTitle
+- (void)didSelectedBottomSelectView:(BottomSelectView *)selectView index:(NSInteger)index selectedImage:(UIImageView *)selectedImage selectedTitle:(UILabel *)selectedTitle
 {
-    NSLog(@"didSelectedBottomSelectView");
+//    curPage = index;
+//    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:curPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+//    pageView.curPage = curPage;
+//    [pageView updateView];
+//    NSLog(@"didSelectedBottomSelectView");
+    
+    [self didSelecedIndex:index];
 }
 
 #pragma -mark PanGestureDelegate
@@ -219,24 +225,30 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 //    NSLog(@"scrollx = %f",scrollView.contentOffset.x);
+    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     if(scrollView.contentOffset.x<=0)
     {
         curPage = 0;
-        pageView.curPage = curPage;
-        [pageView updateView];
     }
     if(scrollView.contentOffset.x==SCREEN_WIDTH)
     {
         curPage = 1;
-        pageView.curPage = curPage;
-        [pageView updateView];
+        
     }
     if(scrollView.contentOffset.x>=SCREEN_WIDTH*2)
     {
         curPage = 2;
-        pageView.curPage = curPage;
-        [pageView updateView];
+        
     }
+    pageView.curPage = curPage;
+    [pageView updateView];
+    
+    //改变底部显示
+    [bottomView setSelectedIndex:curPage];
 }
 
 #pragma -mark UICollectionDelegate
@@ -250,12 +262,15 @@
 }
 //返回每个分区的item个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 3;
+    return _ctlViewArr.count;
 }
 //返回每个item
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
+//    cell.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
+    UIViewController *viewCtl = [_ctlViewArr objectAtIndex:indexPath.row];
+
+    [cell.contentView addSubview:viewCtl.view];
     return cell;
 }
 

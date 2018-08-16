@@ -23,7 +23,7 @@ static id shared = nil;\
 static dispatch_once_t onceToken;\
 dispatch_once(&onceToken,\
 ^{\
-shared = [[self alloc]init];\
+shared = [[self alloc] init];\
 });\
 return shared;\
 }
@@ -70,6 +70,7 @@ SINGLETON
 //按首字母排序并拼接成字符串
 + (NSString *)getStrFromDic:(NSDictionary *)dic;
 
+//scale相关
 +(BOOL)isRetinaDisplay;
 +(int)getSystemMainVersion;
 
@@ -87,16 +88,6 @@ SINGLETON
 +(NSData*)hexStringToNSData:(NSString *)command;
 +(NSData*)bytesFromHexString:(NSString *)aString;
 
-
-// 等比例压缩高清 kBit 压缩后的数据大小
-+ (NSData *)zipImageWithImage:(UIImage *)image withMaxSize:(NSInteger)kBit;
-//图片等比压缩处理500*500
-+ (UIImage *)scaleImage:(UIImage *)image tosize:(CGSize)size;
-//根据图片大小，适当进行图片压缩
-+(NSData *)imageData:(UIImage *)myimage;
-
-//获取字段长度
-+ (CGSize)getSizeFromString:(NSString *)string withFont:(CGFloat)floatNumber wid:(CGFloat)wid;
 
 //获取url链接字符串中的参数
 + (NSString *)jiexi:(NSString *)CS webaddress:(NSString *)webaddress;

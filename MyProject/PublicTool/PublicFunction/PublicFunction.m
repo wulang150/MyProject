@@ -17,93 +17,152 @@ static UIWindow *comShowView;
 
 @implementation PublicFunction
 
-
-+ (MBProgressHUD *)showLoading:(NSString *)title
++ (void)showLoading:(NSString *)title
 {
-    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.userInteractionEnabled = NO;
-    // Configure for text only and offset down
-    hud.mode = MBProgressHUDModeCustomView;
-    //    hud.labelText = title;
-    hud.detailsLabelText = title;
-    hud.detailsLabelFont = [UIFont systemFontOfSize:13];
-    hud.detailsLabelColor = [UIColor blackColor];
-    hud.margin = 10.f;
-    hud.removeFromSuperViewOnHide = YES;
-    hud.color = [UIColor whiteColor];
-    
-    [hud hide:YES afterDelay:2];
-    
-    return hud;
+    [self showLoading:title hiddenAfterDelay:2];
     
 }
 
 //static MBProgressHUD *hud;
-+ (MBProgressHUD *)showLoading:(NSString *)message hiddenAfterDelay:(int)second
++ (void)showLoading:(NSString *)message hiddenAfterDelay:(int)second
 {
-    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
-    [MBProgressHUD hideAllHUDsForView:window animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.removeFromSuperViewOnHide = YES;
-    hud.labelText = message;
-    hud.mode = MBProgressHUDModeCustomView;
-    [hud hide:YES afterDelay:second];
-    return hud;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        hud.userInteractionEnabled = NO;
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeCustomView;
+        //    hud.labelText = title;
+        hud.detailsLabelText = message;
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15];
+        hud.detailsLabelColor = [UIColor whiteColor];
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.color = [UIColor blackColor];
+        
+        [hud hide:YES afterDelay:second];
+    });
 }
 
 
-+ (MBProgressHUD *)showTouchLoading:(NSString *)title
++ (void)showTouchLoading:(NSString *)title
 {
-
-    if(comShowView)
-        [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
-    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
-    comShowView = window;
-    [MBProgressHUD hideAllHUDsForView:window animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.removeFromSuperViewOnHide = YES;
-    UITapGestureRecognizer *HUDSingleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTap:)];
-    [hud addGestureRecognizer:HUDSingleTap];
     
-    hud.labelText = title;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if(comShowView)
+            [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
+        //    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        comShowView = window;
+        [MBProgressHUD hideAllHUDsForView:window animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        hud.removeFromSuperViewOnHide = YES;
+        UITapGestureRecognizer *HUDSingleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTap:)];
+        [hud addGestureRecognizer:HUDSingleTap];
+        
+        hud.labelText = title;
+    });
     
-    return hud;
+    
+    
 }
 
-+ (MBProgressHUD *)showNoHiddenLoading:(NSString *)title
++ (void)showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title
+{
+    if(view)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            comShowView = (UIWindow *)view;
+            [MBProgressHUD hideAllHUDsForView:view animated:YES];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+            hud.removeFromSuperViewOnHide = YES;
+            hud.labelText = title;
+        });
+    }
+    else
+    {
+        [self showNoHiddenLoading:title];
+    }
+}
+
++ (void)showNoHiddenLoading:(NSString *)title
+{
+    [self showNoHiddenLoading:title hiddenAfterDelay:0];
+}
+
++ (void)showNoHiddenLoading:(NSString *)title hiddenAfterDelay:(int)second
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(comShowView)
+            [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
+        //    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        comShowView = window;
+        [MBProgressHUD hideAllHUDsForView:window animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        if(second>0)
+            [hud hide:YES afterDelay:second];
+        hud.removeFromSuperViewOnHide = YES;
+        hud.labelText = title;
+        
+        //自定义view
+        //        CGFloat radiu = 30;
+        //        hud.mode = MBProgressHUDModeCustomView;
+        //        FDPie *pie = [[FDPie alloc] initWithCenter:CGPointMake(radiu, radiu) radius:radiu];
+        //        pie.gradColorArr = @[[UIColor whiteColor],[UIColor blackColor]];
+        //        pie.centerView.backgroundColor = [UIColor clearColor];
+        //        pie.lineWidth = 4;
+        //        [pie reloadContent:NO];
+        //        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+        //        anima.toValue = @(M_PI*2);
+        //        anima.duration = 0.8f;
+        //        anima.repeatCount = 1000;
+        //        [pie.layer addAnimation:anima forKey:nil];
+        //
+        //        hud.customView = pie;
+        //        hud.opacity = 0.2;
+    });
+}
++ (MBProgressHUD *)showPressBar:(NSString *)title sel:(SEL)method onTarget:(id)target
 {
     if(comShowView)
         [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
-    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
     comShowView = window;
     [MBProgressHUD hideAllHUDsForView:window animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.removeFromSuperViewOnHide = YES;
-    
-    hud.labelText = title;
-    
-    return hud;
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    HUD.mode = MBProgressHUDModeAnnularDeterminate;//圆环作为进度条
+    HUD.opacity = 0.9;
+    //    HUD.size = CGSizeMake(150, 150);
+    HUD.animationType = MBProgressHUDAnimationZoom;
+    //设置任务，在hud上显示任务的进度
+    [HUD showWhileExecuting:method onTarget:target withObject:nil animated:YES];
+    return HUD;
 }
 
 + (void)hiddenHUD
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if(!comShowView)
+        {
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            comShowView = window;
+            
+        }
+        
+        [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
+        comShowView = nil;
+    });
     
-    if(!comShowView)
-    {
-        UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
-        comShowView = window;
-
-    }
-    
-    [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
-    comShowView = nil;
 }
-
 
 +(void)singleTap:(UITapGestureRecognizer*)sender
 {
-    NSLog(@"singleTap");
+    WLlog(@"singleTap");
     //do what you need.
     [self hiddenHUD];
 }
@@ -419,6 +478,117 @@ static UIWindow *comShowView;
     UIGraphicsEndImageContext();
     
     return mergeImage;
+}
+
+/**
+ 压图片质量 不能循环多张
+ 
+ @param image image
+ @return Data
+ */
++ (NSData *)zipImageWithImage:(UIImage *)image withMaxSize:(NSInteger)kBit
+{
+    if (!image) {
+        return nil;
+    }
+    CGFloat maxFileSize = kBit*1024;
+    CGFloat compression = 0.9f;
+    NSData *compressedData = UIImageJPEGRepresentation(image, compression);
+    int i = 0;
+    while ([compressedData length] > maxFileSize) {
+        compression *= 0.9;
+        compressedData = UIImageJPEGRepresentation([[self class] compressImage:image newWidth:image.size.width*compression], compression);
+        i++;
+    }
+    //NSLog(@"循环处理次数 === %d",i);
+    return compressedData;
+}
+
+/**
+ *  等比缩放本图片大小
+ *
+ *  @param newImageWidth 缩放后图片宽度，像素为单位
+ *
+ *  @return self-->(image)
+ */
++ (UIImage *)compressImage:(UIImage *)image newWidth:(CGFloat)newImageWidth
+{
+    @autoreleasepool {
+        if (!image) return nil;
+        float imageWidth = image.size.width;
+        float imageHeight = image.size.height;
+        float width = newImageWidth;
+        float height = image.size.height/(image.size.width/width);
+        
+        float widthScale = imageWidth /width;
+        float heightScale = imageHeight /height;
+        
+        // 创建一个bitmap的context
+        // 并把它设置成为当前正在使用的context
+        UIGraphicsBeginImageContext(CGSizeMake(width, height));
+        
+        if (widthScale > heightScale) {
+            [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+        }
+        else {
+            [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+        }
+        
+        // 从当前context中创建一个改变大小后的图片
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        // 使当前的context出堆栈
+        UIGraphicsEndImageContext();
+        
+        return newImage;
+    }
+}
+//图片压缩处理500*500
++(UIImage *)scaleImage:(UIImage *)image tosize:(CGSize)size{
+    UIImage *newImage;
+    int h = image.size.height;
+    int w = image.size.width;
+    if (h <= size.height && w <= size.width) {
+        newImage = image;
+    }else{//等比缩放
+        float newImageWidth = 0.0f;
+        float newImageHeight = 0.0f;
+        
+        float whcare = (float)w/h;
+        float hwcare = (float)h/w;
+        if (w > h) {
+            newImageWidth = (float)size.width;
+            newImageHeight = size.width * hwcare;
+        }else{
+            newImageWidth = size.height*whcare;
+            newImageHeight = (float)size.height;
+        }
+        CGSize newSize = CGSizeMake(newImageWidth, newImageHeight);
+        UIGraphicsBeginImageContext(newSize);
+        CGRect imageRect = CGRectMake(0.0, 0.0,newImageWidth,newImageHeight);
+        [image drawInRect:imageRect];
+        UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        newImage = newImg;
+        
+    }
+    
+    return newImage;
+}
+
++(NSData *)imageData:(UIImage *)myimage
+{
+    NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
+    if (data.length>100*1024) {
+        if (data.length>1024*1024) {//1M以及以上
+            data=UIImageJPEGRepresentation(myimage, 0.1);
+        }else if (data.length>512*1024) {//0.5M-1M
+            data=UIImageJPEGRepresentation(myimage, 0.3);
+        }else if (data.length>200*1024) {//0.25M-0.5M
+            data=UIImageJPEGRepresentation(myimage, 0.5);
+        }
+    }
+    return data;
 }
 
 

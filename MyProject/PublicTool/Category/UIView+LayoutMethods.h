@@ -20,9 +20,9 @@ static UIScreenType UIScreenType_iPhone6 = 375.0f;
 static UIScreenType UIScreenType_iPhone6P = 414.0f;
 
 typedef NS_ENUM(NSUInteger, FDLayoutAlign) {
-    Align_LeftOrTop = 0,
-    Align_center,
-    Align_RightOrBottom,
+    FDLayout_LeftOrTop = 0,
+    FDLayout_center,
+    FDLayout_RightOrBottom,
 };
 
 @interface UIView (LayoutMethods)

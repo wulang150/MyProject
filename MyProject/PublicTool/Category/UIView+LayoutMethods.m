@@ -393,7 +393,7 @@
     }
     
     mainview.frame = CGRectMake(viewX, viewY, maxW, CGRectGetMaxY(preView.frame));
-    if(align==Align_center)    //居中对齐
+    if(align==FDLayout_center)    //居中对齐
     {
         //横向每个字控件都居中
         for(int i=0;i<subView.count;i++)
@@ -402,7 +402,7 @@
             child.center = CGPointMake(maxW/2, child.center.y);
         }
     }
-    if(align==Align_RightOrBottom)    //右对齐
+    if(align==FDLayout_RightOrBottom)    //右对齐
     {
         for(int i=0;i<subView.count;i++)
         {
@@ -456,7 +456,7 @@
     }
     
     mainview.frame = CGRectMake(viewX, viewY, CGRectGetMaxX(preView.frame), maxH);
-    if(align==Align_center)    //居中对齐
+    if(align==FDLayout_center)    //居中对齐
     {
         for(int i=0;i<subView.count;i++)
         {
@@ -464,7 +464,7 @@
             child.center = CGPointMake(child.center.x, maxH/2);
         }
     }
-    if(align==Align_RightOrBottom)    //下部对齐
+    if(align==FDLayout_RightOrBottom)    //下部对齐
     {
         for(int i=0;i<subView.count;i++)
         {

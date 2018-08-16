@@ -48,11 +48,6 @@
  */
 @property (nonatomic, strong)CBPeripheral *m_peripheral;
 
-/*
- *  正常模式下传入以service为key-character数组为Value的字典
- */
-//@property (nonatomic, strong)NSDictionary *bleServiceAndCharater;
-
 
 /*
  是否需要自动重连，默认是开启自动连接的（非主动调用断连接口，都会自动重新连接）
@@ -72,6 +67,9 @@
 
 //对于地址的解析，每个蓝牙外设可能都不一样，让使用者解析返回给我们
 @property (nonatomic, strong) NSString *(^gainMacAddress)(NSDictionary *advertisementData);
+
+//实时返回的rssi值 要调用m_peripheral readRSSI，此block才会有返回
+@property (nonatomic, copy) void(^realRssiValueBlock)(NSNumber *RSSI);
 /*
  创建单例
  

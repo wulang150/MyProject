@@ -343,4 +343,106 @@
     
     return [self widthWithStringAttributes:@{NSFontAttributeName:font}];
 }
+
+//把数值字符串转换为数值
+- (NSNumber *)strToNum
+{
+    if (nil == self)
+    {
+        return nil;
+    }
+    NSScanner * scanner = [NSScanner scannerWithString:self];
+    
+    unsigned long long longlongValue;
+    [scanner scanHexLongLong:&longlongValue];
+    //将整数转换为NSNumber,存储到数组中,并返回.
+    
+    NSNumber * hexNumber = [NSNumber numberWithLongLong:longlongValue];
+    return hexNumber;
+}
+
+//汉字转拼音
+- (NSString *)stringToPinYin
+{
+    NSMutableString *pinyin = [self mutableCopy];
+    CFStringTransform((__bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformMandarinLatin, NO);
+    CFStringTransform((__bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformStripCombiningMarks, NO);
+    return [pinyin uppercaseString];
+}
+//字符转data : FFDF = <ffdf>
+- (NSData *)getDataFromString
+{
+    NSString *command = [self stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSMutableData *commandToSend= [[NSMutableData alloc] init];
+    unsigned char whole_byte;
+    char byte_chars[3] = {'\0','\0','\0'};
+    int i;
+    for (i=0; i < [command length]/2; i++) {
+        byte_chars[0] = [command characterAtIndex:i*2];
+        byte_chars[1] = [command characterAtIndex:i*2+1];
+        whole_byte = strtol(byte_chars, NULL, 16);
+        [commandToSend appendBytes:&whole_byte length:1];
+    }
+    NSLog(@"commandToSend=%@", commandToSend);
+    return commandToSend;
+}
+
+//转换为属性字符串
+- (NSAttributedString *)toAttributedStr:(UIFont *)font color:(UIColor *)color
+{
+    NSMutableDictionary *valDic = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if(color)
+        [valDic setObject:color forKey:NSForegroundColorAttributeName];
+    if(font)
+        [valDic setObject:font forKey:NSFontAttributeName];
+    
+    return [[NSAttributedString alloc] initWithString:self attributes:valDic];
+}
+/*
+ 转换并拼接属性字符串
+ attriArr 前一个字符的属性，用简单的方法，只支持[UIFont sy...]和[UIColor redColor]
+ addAttriStr 拼接的字符串
+ attriArr1 拼接的字符串的属性
+ gapStr 拼接的中间的字符串
+ */
+- (NSAttributedString *)toAttributedStr:(NSArray *)attriArr addAttriStr:(NSString *)addAttriStr attriArr1:(NSArray *)attriArr1 gapStr:(NSString *)gapStr
+{
+    if(gapStr.length>0)
+        addAttriStr = [NSString stringWithFormat:@"%@%@",gapStr,addAttriStr];
+    
+    NSMutableDictionary *valDic = [[NSMutableDictionary alloc] initWithCapacity:10];
+    NSMutableDictionary *unitDic = [[NSMutableDictionary alloc] initWithCapacity:10];
+    
+    for(id valsub in attriArr)
+    {
+        if([valsub isKindOfClass:[UIColor class]])
+            [valDic setObject:valsub forKey:NSForegroundColorAttributeName];
+        if([valsub isKindOfClass:[UIFont class]])
+            [valDic setObject:valsub forKey:NSFontAttributeName];
+    }
+    
+    for(id valsub in attriArr1)
+    {
+        if([valsub isKindOfClass:[UIColor class]])
+            [unitDic setObject:valsub forKey:NSForegroundColorAttributeName];
+        if([valsub isKindOfClass:[UIFont class]])
+            [unitDic setObject:valsub forKey:NSFontAttributeName];
+    }
+    
+    return [self gainAttrStr:self valAttr:valDic unit:addAttriStr unitAttr:unitDic];
+
+}
+
+- (NSAttributedString *)gainAttrStr:(NSString *)val valAttr:(NSDictionary *)valAttr unit:(NSString *)unit unitAttr:(NSDictionary *)unitAttr
+{
+    if(valAttr.count<=0||unitAttr.count<=0)
+        return nil;
+    NSMutableAttributedString *mulStr = [[NSMutableAttributedString alloc] initWithString:val attributes:valAttr];
+    
+    NSAttributedString *unitStr = [[NSAttributedString alloc] initWithString:unit attributes:unitAttr];
+    
+    [mulStr appendAttributedString:unitStr];
+    
+    return mulStr;
+}
 @end

@@ -9,7 +9,12 @@
 #import "BaseController.h"
 
 @interface BaseController ()
-
+{
+    CGFloat _startPos;
+    CGFloat _endPos;
+    BOOL _isShrink;
+}
+@property(nonatomic,weak) UIScrollView *navScrollView;          //保存操作的tableView
 @end
 
 @implementation BaseController
@@ -39,30 +44,85 @@
             rightAction:(SEL)rightAction
 {
     
-    UIView *view = [[self class] comNavWithTitle:title leftImage:leftImage leftTitle:leftTitle leftAction:leftAction rightImage:rightImage rightTitle:rightTitle rightAction:rightAction itemSelf:self];
-    
-    UIButton *leftBtn = [view viewWithTag:700];
-    UILabel *titleView = [view viewWithTag:701];
-    UIButton *rightBtn = [view viewWithTag:702];
-    
-    self.NavleftBtn = leftBtn;
-    self.NavrightBtn = rightBtn;
-    self.NavtitleLab = titleView;
-    
-    if(!leftAction)
+    return [self setNavWithTitle1:title leftImage:[UIImage imageNamed:leftImage] leftTitle:leftTitle leftAction:leftAction rightImage:[UIImage imageNamed:rightImage] rightTitle:rightTitle rightAction:rightAction];
+}
+
+//没有的就传nil
+- (UIView *)setNavWithTitle1:(NSString *)title
+                   leftImage:(UIImage *)leftImage
+                   leftTitle:(NSString *)leftTitle
+                  leftAction:(SEL)leftAction
+                  rightImage:(UIImage *)rightImage
+                  rightTitle:(NSString *)rightTitle
+                 rightAction:(SEL)rightAction
+{
+    if(self.navigationController.isNavigationBarHidden)
     {
-        [leftBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+        UIView *view = [[self class] comNavWithTitle:title leftImage:leftImage leftTitle:leftTitle leftAction:leftAction rightImage:rightImage rightTitle:rightTitle rightAction:rightAction itemSelf:self];
+        
+        UIButton *leftBtn = [view viewWithTag:700];
+        UILabel *titleView = [view viewWithTag:701];
+        UIButton *rightBtn = [view viewWithTag:702];
+        
+        self.NavleftBtn = leftBtn;
+        self.NavrightBtn = rightBtn;
+        self.NavtitleLab = titleView;
+        
+        if(!leftAction)
+        {
+            [leftBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+        }
+        _NavMainView = view;
+        [self.view addSubview:view];
+        
+        //加入点击事件
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(NavTapAction)];
+        singleTap.numberOfTapsRequired = 1;
+        singleTap.numberOfTouchesRequired = 1;
+        [_NavMainView addGestureRecognizer:singleTap];
+        return view;
     }
     
-    [self.view addSubview:view];
-    return view;
+    //下面是使用系统的导航条
+    self.navigationItem.title = title;
+    UIBarButtonItem *leftBtn,*rightBtn;
+    if(!leftAction)
+        leftAction = @selector(goBack);
+    if(leftImage)
+    {
+        
+        leftBtn = [[UIBarButtonItem alloc] initWithImage:leftImage style:UIBarButtonItemStyleDone target:self action:leftAction];
+    }
+    else if(leftTitle)
+    {
+        leftBtn = [[UIBarButtonItem alloc] initWithTitle:leftTitle style:UIBarButtonItemStylePlain target:self action:leftAction];
+    }
+    
+    if(rightImage)
+    {
+        rightBtn = [[UIBarButtonItem alloc] initWithImage:rightImage style:UIBarButtonItemStylePlain target:self action:rightAction];
+    }
+    else if(rightTitle)
+    {
+        rightBtn = [[UIBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStylePlain target:self action:rightAction];
+    }
+    if(leftBtn)
+        self.navigationItem.leftBarButtonItem = leftBtn;
+    if(rightBtn)
+        self.navigationItem.rightBarButtonItem = rightBtn;
+    return nil;
+}
+
+- (void)NavTapAction
+{
+    [self navShrinkOpt:YES];
 }
 
 + (UIView *)comNavWithTitle:(NSString *)title
-                  leftImage:(NSString *)leftImage
+                  leftImage:(UIImage *)leftImage
                   leftTitle:(NSString *)leftTitle
                  leftAction:(SEL)leftAction
-                 rightImage:(NSString *)rightImage
+                 rightImage:(UIImage *)rightImage
                  rightTitle:(NSString *)rightTitle
                 rightAction:(SEL)rightAction
                    itemSelf:(id)itemSelf
@@ -70,8 +130,8 @@
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NavigationBar_HEIGHT)];
     navView.backgroundColor = [UIColor grayColor];
-    
-    CGFloat wbtn = 40,lx = 8,lh = 20;
+    //lx距离左边的距离，lh状态栏的高度
+    CGFloat wbtn = 40,lx = 8,lh = StateBar_Height;
     
     //左按钮
     UIButton *leftBtn = [self gainBtn:CGRectMake(lx, lh+(NavigationBar_HEIGHT-wbtn-lh)/2, wbtn, wbtn) title:leftTitle image:leftImage];
@@ -106,7 +166,7 @@
     return navView;
 }
 
-+ (UIButton *)gainBtn:(CGRect)frame title:(NSString *)title image:(NSString *)image
++ (UIButton *)gainBtn:(CGRect)frame title:(NSString *)title image:(UIImage *)image
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -117,7 +177,7 @@
     
     if(image)
     {
-        [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+        [btn setImage:image forState:UIControlStateNormal];
     }
     else if(title)
     {
@@ -142,44 +202,126 @@
         
         [btn setTitle:title forState:UIControlStateNormal];
     }
+    else        //既没有图片，也没有标题的，就使用默认图片
+    {
+//        if(frame.origin.x<SCREEN_WIDTH/2)      //说明是左边的按钮
+//        {
+//            [btn setImage:[self gainArrowImage] forState:UIControlStateNormal];
+//        }
+        //那按钮就无效
+        btn.enabled = NO;
+    }
     
     btn.frame = frame;
     
     return btn;
 }
 
-
-- (void)GoBackToController:(NSString *)controllerName
+//向右的箭头
++ (UIImage *)gainArrowImage:(CGSize)size;
 {
-    id controll = nil;
-    NSArray * ctrlArray = self.navigationController.viewControllers;
-    for(UIViewController *vi in ctrlArray)
-    {
-        if([vi isKindOfClass:NSClassFromString(controllerName)])
-        {
-            controll = vi;
-            break;
-        }
-    }
-    if(controll!=nil)
-    {
-        [self.navigationController popToViewController:controll animated:YES];
-    }
-    else
-        [self.navigationController popViewControllerAnimated:YES];
+    CGRect rect=CGRectMake(0.0f, 0.0f, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+    CGContextFillRect(context, rect);
+    //画箭头
+    UIBezierPath *path = [UIBezierPath new];
+    [path moveToPoint:CGPointMake(rect.size.width/3, 0)];
+    [path addLineToPoint:CGPointMake(0, rect.size.height/2)];
+    [path addLineToPoint:CGPointMake(rect.size.width/3, rect.size.height)];
+    [[UIColor whiteColor] setFill];
+    [path fill];
+    
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
-- (void)putAndBackToFirst:(NSString *)controllerName
+- (void)navScrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    UIViewController *vc = [NSClassFromString(controllerName) new];
-    if(!vc)
+    _navScrollView = scrollView;
+    _startPos = scrollView.contentOffset.y;
+}
+- (void)navScrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    _endPos = scrollView.contentOffset.y;
+    if(_endPos>_startPos)       //向上滑动
+    {
+        [self navShrinkOpt:NO];
+    }
+    else if(_startPos-_endPos>180||_endPos<=0)
+    {
+        [self navShrinkOpt:YES];
+    }
+}
+- (void)navScrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    _endPos = scrollView.contentOffset.y;
+    if(_endPos<=0)
+    {
+        [self navShrinkOpt:YES];
+    }
+}
+
+- (void)navShrinkOpt:(BOOL)isUp
+{
+    if(!_navScrollView)
         return;
-    
-    NSMutableArray * ctrlArray = [self.navigationController.viewControllers mutableCopy];
-    
-    [ctrlArray insertObject:vc atIndex:0];
-    self.navigationController.viewControllers = ctrlArray;
-    [self.navigationController popToViewController:vc animated:YES];
+    if(isUp)
+    {
+        if(_isShrink==YES)      //收缩状态，准备展开
+        {
+            _NavleftBtn.hidden = YES;
+            _NavrightBtn.hidden = YES;
+            [_NavMainView.layer removeAllAnimations];
+            [_NavtitleLab.layer removeAllAnimations];
+            [UIView animateWithDuration:0.5 animations:^{
+                _NavMainView.height = NavigationBar_HEIGHT;
+                _NavtitleLab.centerY = StateBar_Height+(_NavMainView.height-StateBar_Height)/2;
+                _navScrollView.frame = CGRectMake(_navScrollView.frame.origin.x, _NavMainView.bottom, _navScrollView.width, SCREEN_HEIGHT-_NavMainView.bottom);
+            } completion:^(BOOL finished) {
+                _NavleftBtn.hidden = NO;
+                _NavrightBtn.hidden = NO;
+            }];
+            //标题的缩放
+            CABasicAnimation *aniScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            aniScale.fromValue = @0.6;
+            aniScale.toValue = @1.0;
+            aniScale.duration = 0.5;
+            aniScale.removedOnCompletion = NO;
+            aniScale.fillMode = kCAFillModeForwards;
+            [_NavtitleLab.layer addAnimation:aniScale forKey:@"babyCoin_scale"];
+            _isShrink = NO;
+        }
+    }
+    else
+    {
+        if(_isShrink==NO) //展开状态，准备收缩
+        {
+            _NavleftBtn.hidden = YES;
+            _NavrightBtn.hidden = YES;
+            [_NavMainView.layer removeAllAnimations];
+            [_NavtitleLab.layer removeAllAnimations];
+            [UIView animateWithDuration:0.5 animations:^{
+                _NavMainView.height = NavigationBar_HEIGHT-20;      //高度变短20
+                _NavtitleLab.centerY = StateBar_Height+(_NavMainView.height-StateBar_Height)/2;
+                _navScrollView.frame = CGRectMake(_navScrollView.frame.origin.x, _NavMainView.bottom, _navScrollView.width, SCREEN_HEIGHT-_NavMainView.bottom);
+            } completion:^(BOOL finished) {
+                
+            }];
+            //标题的收缩
+            CABasicAnimation *aniScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            aniScale.fromValue = @1.0;
+            aniScale.toValue = @0.6;
+            aniScale.duration = 0.5;
+            aniScale.removedOnCompletion = NO;
+            aniScale.fillMode = kCAFillModeForwards;
+            [_NavtitleLab.layer addAnimation:aniScale forKey:@"babyCoin_scale"];
+            
+            _isShrink = YES;
+        }
+    }
 }
 
 @end

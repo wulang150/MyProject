@@ -7,13 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930A35ED2112DD0E00DBC627 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930A35EC2112DD0E00DBC627 /* MainViewController.m */; };
+		930A35F02112DE9500DBC627 /* TabBarBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930A35EE2112DE9500DBC627 /* TabBarBaseViewController.m */; };
 		930F98682101E99D00240D6F /* NetWorkBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F98672101E99D00240D6F /* NetWorkBase.m */; };
 		930F986B2101E9D300240D6F /* UIApplication+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F98692101E9D300240D6F /* UIApplication+Extension.m */; };
 		930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F986D2101EA3500240D6F /* NSObject+performSelector.m */; };
 		930F98712101EA8300240D6F /* LAFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930F986F2101EA8000240D6F /* LAFileManager.m */; };
+		93168DEA211ADB5700662DF0 /* PicTextItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 93168DE9211ADB5700662DF0 /* PicTextItem.m */; };
+		932D644C2114500700F94098 /* SearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D644B2114500700F94098 /* SearchResultController.m */; };
 		9331E8521F145EC300A7C6E4 /* BottomSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9331E8511F145EC300A7C6E4 /* BottomSelectView.m */; };
 		9345ED2B1F3959A800FFF536 /* PublicFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345ED2A1F3959A800FFF536 /* PublicFunction.m */; };
 		935022221FB1579500923E5B /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935022211FB1579500923E5B /* InputView.m */; };
+		935ABE5F21129B5F00F4E66A /* SocialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935ABE5E21129B5F00F4E66A /* SocialViewController.m */; };
+		935ABE6221129B7200F4E66A /* LifeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935ABE6121129B7200F4E66A /* LifeViewController.m */; };
+		935ABE6521129B8A00F4E66A /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935ABE6421129B8A00F4E66A /* UserViewController.m */; };
+		935BC7D3211978200081E621 /* NSAttributedString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 935BC7D2211978200081E621 /* NSAttributedString+Extension.m */; };
+		9371D42521183EFF002842DA /* BarSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9371D42421183EFF002842DA /* BarSelectView.m */; };
+		9371D42821183F1B002842DA /* BarSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9371D42721183F1B002842DA /* BarSelectItem.m */; };
 		9398C56E1F95B18F00213A56 /* BleCommonFun.m in Sources */ = {isa = PBXBuildFile; fileRef = 9398C5641F95B18F00213A56 /* BleCommonFun.m */; };
 		9398C56F1F95B18F00213A56 /* BleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9398C5671F95B18F00213A56 /* BleManager.m */; };
 		939F43C91F049B0C009F9A9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 939F43C81F049B0C009F9A9A /* main.m */; };
@@ -59,6 +69,8 @@
 		93C763E91F0636360017152C /* NSMutableData+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763E81F0636360017152C /* NSMutableData+Extension.m */; };
 		93C763EC1F0640C00017152C /* CommonBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C763EB1F0640C00017152C /* CommonBgView.m */; };
 		93D2ECB420B66576007426C8 /* BleOperatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D2ECB320B66576007426C8 /* BleOperatorManager.m */; };
+		93D6B3EB210F005F00C451CA /* UIScrollView+PullUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D6B3EA210F005F00C451CA /* UIScrollView+PullUp.m */; };
+		93D6B3EE210F02CB00C451CA /* MyTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D6B3ED210F02CB00C451CA /* MyTestViewController.m */; };
 		93FD9EAE1F09DAE30085EA56 /* PanGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FD9EAD1F09DAE30085EA56 /* PanGesture.m */; };
 		93FD9EB51F09E8200085EA56 /* DateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FD9EB41F09E8200085EA56 /* DateHandle.m */; };
 		FE68AB38F7C16160C7A4E1B5 /* libPods-MyProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E589A85C36B027887EF02F /* libPods-MyProject.a */; };
@@ -84,6 +96,10 @@
 /* Begin PBXFileReference section */
 		06E589A85C36B027887EF02F /* libPods-MyProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377C613D9FECB012BABAA118 /* Pods-MyProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyProject/Pods-MyProject.debug.xcconfig"; sourceTree = "<group>"; };
+		930A35EB2112DD0E00DBC627 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		930A35EC2112DD0E00DBC627 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		930A35EE2112DE9500DBC627 /* TabBarBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarBaseViewController.m; sourceTree = "<group>"; };
+		930A35EF2112DE9500DBC627 /* TabBarBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarBaseViewController.h; sourceTree = "<group>"; };
 		930F98662101E99C00240D6F /* NetWorkBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkBase.h; sourceTree = "<group>"; };
 		930F98672101E99D00240D6F /* NetWorkBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkBase.m; sourceTree = "<group>"; };
 		930F98692101E9D300240D6F /* UIApplication+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Extension.m"; sourceTree = "<group>"; };
@@ -92,12 +108,28 @@
 		930F986D2101EA3500240D6F /* NSObject+performSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+performSelector.m"; sourceTree = "<group>"; };
 		930F986F2101EA8000240D6F /* LAFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFileManager.m; sourceTree = "<group>"; };
 		930F98702101EA8000240D6F /* LAFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFileManager.h; sourceTree = "<group>"; };
+		93168DE8211ADB5700662DF0 /* PicTextItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PicTextItem.h; sourceTree = "<group>"; };
+		93168DE9211ADB5700662DF0 /* PicTextItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PicTextItem.m; sourceTree = "<group>"; };
+		932D644A2114500700F94098 /* SearchResultController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultController.h; sourceTree = "<group>"; };
+		932D644B2114500700F94098 /* SearchResultController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultController.m; sourceTree = "<group>"; };
 		9331E8501F145EC300A7C6E4 /* BottomSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomSelectView.h; sourceTree = "<group>"; };
 		9331E8511F145EC300A7C6E4 /* BottomSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomSelectView.m; sourceTree = "<group>"; };
 		9345ED291F3959A800FFF536 /* PublicFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicFunction.h; sourceTree = "<group>"; };
 		9345ED2A1F3959A800FFF536 /* PublicFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicFunction.m; sourceTree = "<group>"; };
 		935022201FB1579500923E5B /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
 		935022211FB1579500923E5B /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
+		935ABE5D21129B5F00F4E66A /* SocialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialViewController.h; sourceTree = "<group>"; };
+		935ABE5E21129B5F00F4E66A /* SocialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialViewController.m; sourceTree = "<group>"; };
+		935ABE6021129B7200F4E66A /* LifeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifeViewController.h; sourceTree = "<group>"; };
+		935ABE6121129B7200F4E66A /* LifeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LifeViewController.m; sourceTree = "<group>"; };
+		935ABE6321129B8A00F4E66A /* UserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		935ABE6421129B8A00F4E66A /* UserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		935BC7D1211978200081E621 /* NSAttributedString+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Extension.h"; sourceTree = "<group>"; };
+		935BC7D2211978200081E621 /* NSAttributedString+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Extension.m"; sourceTree = "<group>"; };
+		9371D42321183EFF002842DA /* BarSelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BarSelectView.h; sourceTree = "<group>"; };
+		9371D42421183EFF002842DA /* BarSelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BarSelectView.m; sourceTree = "<group>"; };
+		9371D42621183F1B002842DA /* BarSelectItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BarSelectItem.h; sourceTree = "<group>"; };
+		9371D42721183F1B002842DA /* BarSelectItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BarSelectItem.m; sourceTree = "<group>"; };
 		9398C5631F95B18F00213A56 /* BleCommonFun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleCommonFun.h; sourceTree = "<group>"; };
 		9398C5641F95B18F00213A56 /* BleCommonFun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BleCommonFun.m; sourceTree = "<group>"; };
 		9398C5661F95B18F00213A56 /* BleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleManager.h; sourceTree = "<group>"; };
@@ -191,6 +223,10 @@
 		93C763EB1F0640C00017152C /* CommonBgView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonBgView.m; sourceTree = "<group>"; };
 		93D2ECB220B66576007426C8 /* BleOperatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleOperatorManager.h; sourceTree = "<group>"; };
 		93D2ECB320B66576007426C8 /* BleOperatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BleOperatorManager.m; sourceTree = "<group>"; };
+		93D6B3E9210F005F00C451CA /* UIScrollView+PullUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+PullUp.h"; sourceTree = "<group>"; };
+		93D6B3EA210F005F00C451CA /* UIScrollView+PullUp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+PullUp.m"; sourceTree = "<group>"; };
+		93D6B3EC210F02CB00C451CA /* MyTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestViewController.h; sourceTree = "<group>"; };
+		93D6B3ED210F02CB00C451CA /* MyTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyTestViewController.m; sourceTree = "<group>"; };
 		93FD9EAC1F09DAE30085EA56 /* PanGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanGesture.h; sourceTree = "<group>"; };
 		93FD9EAD1F09DAE30085EA56 /* PanGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanGesture.m; sourceTree = "<group>"; };
 		93FD9EB31F09E8200085EA56 /* DateHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateHandle.h; sourceTree = "<group>"; };
@@ -248,6 +284,8 @@
 			children = (
 				9331E8501F145EC300A7C6E4 /* BottomSelectView.h */,
 				9331E8511F145EC300A7C6E4 /* BottomSelectView.m */,
+				93168DE8211ADB5700662DF0 /* PicTextItem.h */,
+				93168DE9211ADB5700662DF0 /* PicTextItem.m */,
 			);
 			path = BottomSelectView;
 			sourceTree = "<group>";
@@ -259,6 +297,34 @@
 				935022211FB1579500923E5B /* InputView.m */,
 			);
 			path = InputView;
+			sourceTree = "<group>";
+		};
+		935ABE5C21129B0F00F4E66A /* MainController */ = {
+			isa = PBXGroup;
+			children = (
+				935ABE5D21129B5F00F4E66A /* SocialViewController.h */,
+				935ABE5E21129B5F00F4E66A /* SocialViewController.m */,
+				935ABE6021129B7200F4E66A /* LifeViewController.h */,
+				935ABE6121129B7200F4E66A /* LifeViewController.m */,
+				935ABE6321129B8A00F4E66A /* UserViewController.h */,
+				935ABE6421129B8A00F4E66A /* UserViewController.m */,
+				930A35EB2112DD0E00DBC627 /* MainViewController.h */,
+				930A35EC2112DD0E00DBC627 /* MainViewController.m */,
+			);
+			name = MainController;
+			path = MainController/MainController;
+			sourceTree = "<group>";
+		};
+		9371D42221183ED6002842DA /* BarSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				9371D42321183EFF002842DA /* BarSelectView.h */,
+				9371D42421183EFF002842DA /* BarSelectView.m */,
+				9371D42621183F1B002842DA /* BarSelectItem.h */,
+				9371D42721183F1B002842DA /* BarSelectItem.m */,
+			);
+			name = BarSelectView;
+			path = BarSelectView/BarSelectView;
 			sourceTree = "<group>";
 		};
 		9398C5611F95B18F00213A56 /* BleConnect */ = {
@@ -387,6 +453,7 @@
 		939F43FC1F04AB9C009F9A9A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				935ABE5C21129B0F00F4E66A /* MainController */,
 				93A013191F1CC1270098CFB2 /* RightController */,
 				939F44411F04E6A6009F9A9A /* BaseController */,
 				939F43CD1F049B0C009F9A9A /* ViewController.h */,
@@ -444,6 +511,10 @@
 				939F440D1F04B05B009F9A9A /* UIImageView+HeadImage.m */,
 				939F440E1F04B05B009F9A9A /* UIViewController+HUD.h */,
 				939F440F1F04B05B009F9A9A /* UIViewController+HUD.m */,
+				93D6B3E9210F005F00C451CA /* UIScrollView+PullUp.h */,
+				93D6B3EA210F005F00C451CA /* UIScrollView+PullUp.m */,
+				935BC7D1211978200081E621 /* NSAttributedString+Extension.h */,
+				935BC7D2211978200081E621 /* NSAttributedString+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -519,6 +590,8 @@
 		939F44411F04E6A6009F9A9A /* BaseController */ = {
 			isa = PBXGroup;
 			children = (
+				930A35EF2112DE9500DBC627 /* TabBarBaseViewController.h */,
+				930A35EE2112DE9500DBC627 /* TabBarBaseViewController.m */,
 				939F44421F04E6DE009F9A9A /* BaseController.h */,
 				939F44431F04E6DE009F9A9A /* BaseController.m */,
 			);
@@ -557,6 +630,10 @@
 			children = (
 				93A0131A1F1CC14C0098CFB2 /* RightViewController.h */,
 				93A0131B1F1CC14C0098CFB2 /* RightViewController.m */,
+				93D6B3EC210F02CB00C451CA /* MyTestViewController.h */,
+				93D6B3ED210F02CB00C451CA /* MyTestViewController.m */,
+				932D644A2114500700F94098 /* SearchResultController.h */,
+				932D644B2114500700F94098 /* SearchResultController.m */,
 			);
 			path = RightController;
 			sourceTree = "<group>";
@@ -564,6 +641,7 @@
 		93AA44DB1F0C720D007C01A6 /* PageSelectView */ = {
 			isa = PBXGroup;
 			children = (
+				9371D42221183ED6002842DA /* BarSelectView */,
 				93AA44DC1F0C7237007C01A6 /* PageSelectView.h */,
 				93AA44DD1F0C7237007C01A6 /* PageSelectView.m */,
 			);
@@ -845,6 +923,8 @@
 			files = (
 				9398C56E1F95B18F00213A56 /* BleCommonFun.m in Sources */,
 				93C763B51F05E30B0017152C /* DBOperator.m in Sources */,
+				9371D42521183EFF002842DA /* BarSelectView.m in Sources */,
+				9371D42821183F1B002842DA /* BarSelectItem.m in Sources */,
 				939F44161F04B05B009F9A9A /* UIViewController+HUD.m in Sources */,
 				939F44251F04B15F009F9A9A /* FDTextView.m in Sources */,
 				939F446A1F051649009F9A9A /* FMDatabasePool.m in Sources */,
@@ -854,6 +934,7 @@
 				939F44111F04B05B009F9A9A /* NSString+Extension.m in Sources */,
 				93C763E41F0633B70017152C /* TKAlertCenter.m in Sources */,
 				939F441A1F04B0A2009F9A9A /* NSString+EMOEmoji.m in Sources */,
+				93168DEA211ADB5700662DF0 /* PicTextItem.m in Sources */,
 				939F43CF1F049B0C009F9A9A /* ViewController.m in Sources */,
 				935022221FB1579500923E5B /* InputView.m in Sources */,
 				930F98712101EA8300240D6F /* LAFileManager.m in Sources */,
@@ -868,27 +949,36 @@
 				939F44441F04E6DE009F9A9A /* BaseController.m in Sources */,
 				93FD9EB51F09E8200085EA56 /* DateHandle.m in Sources */,
 				93C763E61F0633B70017152C /* UIView+TKCategory.m in Sources */,
+				935BC7D3211978200081E621 /* NSAttributedString+Extension.m in Sources */,
+				930A35F02112DE9500DBC627 /* TabBarBaseViewController.m in Sources */,
 				930F986B2101E9D300240D6F /* UIApplication+Extension.m in Sources */,
 				939F44401F04E2D5009F9A9A /* PhotoSelect.m in Sources */,
 				9398C56F1F95B18F00213A56 /* BleManager.m in Sources */,
+				932D644C2114500700F94098 /* SearchResultController.m in Sources */,
 				9345ED2B1F3959A800FFF536 /* PublicFunction.m in Sources */,
 				939F43C91F049B0C009F9A9A /* main.m in Sources */,
 				930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */,
 				930F98682101E99D00240D6F /* NetWorkBase.m in Sources */,
 				9331E8521F145EC300A7C6E4 /* BottomSelectView.m in Sources */,
 				93AA44DE1F0C7237007C01A6 /* PageSelectView.m in Sources */,
+				93D6B3EE210F02CB00C451CA /* MyTestViewController.m in Sources */,
 				939F446B1F051649009F9A9A /* FMDatabaseQueue.m in Sources */,
 				939F44141F04B05B009F9A9A /* UIImage+QRCode.m in Sources */,
+				935ABE6521129B8A00F4E66A /* UserViewController.m in Sources */,
+				935ABE5F21129B5F00F4E66A /* SocialViewController.m in Sources */,
 				939F446C1F051649009F9A9A /* FMResultSet.m in Sources */,
+				93D6B3EB210F005F00C451CA /* UIScrollView+PullUp.m in Sources */,
 				939F44121F04B05B009F9A9A /* NSTimer+Extension.m in Sources */,
 				93C2AD0320F5B80800D00092 /* XZLog.m in Sources */,
 				939F44101F04B05B009F9A9A /* NSObject+Extension.m in Sources */,
 				93C763C91F062D8C0017152C /* Reachability.m in Sources */,
 				939F44331F04E141009F9A9A /* NSDate+DaboExtension.m in Sources */,
 				939F44291F04B299009F9A9A /* SimpleAlertView.m in Sources */,
+				930A35ED2112DD0E00DBC627 /* MainViewController.m in Sources */,
 				93C763B41F05E30B0017152C /* DBManager.m in Sources */,
 				93C763E51F0633B70017152C /* TKAlertView.m in Sources */,
 				93C763EC1F0640C00017152C /* CommonBgView.m in Sources */,
+				935ABE6221129B7200F4E66A /* LifeViewController.m in Sources */,
 				93FD9EAE1F09DAE30085EA56 /* PanGesture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

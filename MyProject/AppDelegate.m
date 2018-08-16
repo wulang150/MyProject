@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "TabBarBaseViewController.h"
 
 @interface AppDelegate ()
 
@@ -23,13 +24,20 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
+    self.window.backgroundColor = [UIColor whiteColor];
 
-    //首页
+//    //首页
     ViewController *vc = [ViewController new];
+//    TabBarBaseViewController *vc = [TabBarBaseViewController new];
+//    [self.window setRootViewController:vc];
     //导航
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
-    navi.navigationBarHidden = YES;
+//    navi.navigationBarHidden = YES;
+    
     [self.window setRootViewController:navi];
+    
+    
+    
     
     return YES;
 }

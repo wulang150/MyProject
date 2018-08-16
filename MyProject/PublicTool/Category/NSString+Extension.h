@@ -45,4 +45,22 @@
 //获取字体的计算宽度
 - (CGFloat)widthWithStringAttributes:(NSDictionary *)attributes;
 - (CGFloat)widthWithFont:(UIFont *)font;
+
+//把数值字符串转换为数值
+- (NSNumber *)strToNum;
+
+//汉字转拼音
+- (NSString *)stringToPinYin;
+//字符转data : FFDF = <ffdf>
+- (NSData *)getDataFromString;
+//转换为属性字符串
+- (NSAttributedString *)toAttributedStr:(UIFont *)font color:(UIColor *)color;
+/*
+ 转换并拼接属性字符串
+ attriArr 前一个字符的属性，用简单的方法，只支持[UIFont sy...]和[UIColor redColor]
+ addAttriStr 拼接的字符串
+ attriArr1 拼接的字符串的属性
+ gapStr 拼接的中间的字符串
+ */
+- (NSAttributedString *)toAttributedStr:(NSArray *)attriArr addAttriStr:(NSString *)addAttriStr attriArr1:(NSArray *)attriArr1 gapStr:(NSString *)gapStr;
 @end

@@ -117,4 +117,21 @@
         [navigationVC pushViewController:vc animated:YES];
     }
 }
+
+//获取rootVC
+- (UIViewController *)rootVC
+{
+    UIWindow *window = self.keyWindow;
+    return window.rootViewController;
+    
+}
+
+//获取root控制器是导航栏的
+- (UINavigationController *)rootNavVC
+{
+    UINavigationController *navVc = (UINavigationController *)[self rootVC];
+    if(![navVc isKindOfClass:[UINavigationController class]])
+        return nil;
+    return navVc;
+}
 @end

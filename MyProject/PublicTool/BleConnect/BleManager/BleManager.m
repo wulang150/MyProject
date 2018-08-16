@@ -52,7 +52,6 @@
                     [safeSelf.delegate didRecvSearchList:listArray rssiDic:rssiDic macDic:macDic];
                 }
             });
-            
         };
         
     }
