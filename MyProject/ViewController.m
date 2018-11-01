@@ -19,10 +19,31 @@
 #import "SocialViewController.h"
 #import "LifeViewController.h"
 #import "UserViewController.h"
+#import "SystemStoreManager.h"
 
-@implementation testModel
+@implementation Student
+
+MJExtensionCodingImplementation
+@end
+
+@implementation TestModel
 
 
+MJExtensionCodingImplementation
+//- (void)encodeWithCoder:(NSCoder *)aCoder
+//{
+//    [self mj_encode:aCoder];
+//}
+//
+//- (id)initWithCoder:(NSCoder *)aDecoder
+//{
+//    if(self = [super init])
+//    {
+//        [self mj_decode:aDecoder];
+//    }
+//
+//    return self;
+//}
 @end
 
 @interface ViewController ()
@@ -87,6 +108,23 @@
     
     //设置默认选中状态
     [self didSelecedIndex:1];
+    
+    [self testMode];
+}
+
+- (void)testMode
+{
+    Student *stu = [[Student alloc] init];
+    stu.score = @"100";
+    Student *stu1 = [[Student alloc] init];
+    stu1.score = @"200";
+    
+    TestModel *mode = [[TestModel alloc] init];
+    mode.name = @"xiaoming";
+    mode.uid = @"11010";
+    mode.ScoreArr = @[stu,stu1];
+    
+    [SystemStoreManager insertOrUpdate:mode mainKeys:@[@"uid"] StoreName:@"Student"];
 }
 
 - (UIScrollView *)scrollView
@@ -168,8 +206,15 @@
 {
     NSLog(@"rightAction");
     
-    MyTestViewController *rc = [MyTestViewController new];
-    [self.navigationController pushViewController:rc animated:YES];
+//    MyTestViewController *rc = [MyTestViewController new];
+//    [self.navigationController pushViewController:rc animated:YES];
+    
+    TestModel *mode = [SystemStoreManager getModel:@"Student" keys:@[@"uid"] vals:@[@"11010"]];
+    NSLog(@">>>>%@ %@",mode.uid,mode.name);
+    for(Student *stu in mode.ScoreArr)
+    {
+        NSLog(@">>>>%@",stu.score);
+    }
     
 }
 

@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface testModel : NSObject
+@interface Student : NSObject<NSCoding>
+
+@property(nonatomic) NSString *score;
+@end
+
+@interface TestModel : NSObject<NSCoding>
 
 @property(nonatomic) NSString *name;
 @property(nonatomic) NSString *uid;
+
+@property(nonatomic) NSArray *ScoreArr;
 @end
+
+
 
 @interface ViewController : BaseController
 

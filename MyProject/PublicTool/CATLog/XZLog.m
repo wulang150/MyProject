@@ -6,6 +6,8 @@
 
 #import "XZLog.h"
 #import <UIKit/UIKit.h>
+#import <mach/mach_host.h>
+#import <mach-o/ldsyms.h>
 
 //log color
 #define XCODE_COLORS_ESCAPE_MAC @"\033["
@@ -82,7 +84,7 @@ void uncaughtExceptionHandler(NSException *exception){
     NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
     NSString *phoneLanguage = [languages objectAtIndex:0];
     
-    NSString *content1 = [content stringByAppendingString:[NSString stringWithFormat:@"iOS Version:%@ Language:%@", [[UIDevice currentDevice] systemVersion],phoneLanguage]];
+    NSString *content1 = [content stringByAppendingString:[NSString stringWithFormat:@"iOS Version:%@ Language:%@\ncpuType:%@\nUUID:%@", [[UIDevice currentDevice] systemVersion],phoneLanguage,[self gainCpuType],[self gainExecutableUUID]]];
     
     NSError *error = nil;
     [content1 writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
@@ -94,6 +96,62 @@ void uncaughtExceptionHandler(NSException *exception){
     NSLog(@".......................3");
     //保存要上传的的数据
 //    [NetWorkFriend setErrorLogWithSystem:[[UIDevice currentDevice] systemVersion] language:phoneLanguage error:content];
+}
+
+//获取cpu类型
++ (NSString *)gainCpuType
+{
+    host_basic_info_data_t hostInfo;
+    mach_msg_type_number_t infoCount;
+    
+    infoCount = HOST_BASIC_INFO_COUNT;
+    host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)&hostInfo, &infoCount);
+    
+    NSString *type = @"other";
+    switch (hostInfo.cpu_type) {
+        case CPU_TYPE_ARM:
+//            NSLog(@"CPU_TYPE_ARM");
+            type = @"ARM";
+            break;
+            
+        case CPU_TYPE_ARM64:
+//            NSLog(@"CPU_TYPE_ARM64");
+            type = @"ARM64";
+            break;
+            
+        case CPU_TYPE_X86:
+//            NSLog(@"CPU_TYPE_X86");
+            type = @"X86";
+            break;
+            
+        case CPU_TYPE_X86_64:
+//            NSLog(@"CPU_TYPE_X86_64");
+            type = @"X86_64";
+            break;
+            
+        default:
+            break;
+    }
+    return type;
+}
+//获取运行文件的UUID
++ (NSString *)gainExecutableUUID
+{
+    const uint8_t *command = (const uint8_t *)(&_mh_execute_header + 1);
+    for (uint32_t idx = 0; idx < _mh_execute_header.ncmds; ++idx) {
+        if (((const struct load_command *)command)->cmd == LC_UUID) {
+            command += sizeof(struct load_command);
+            return [NSString stringWithFormat:@"%02X%02X%02X%02X-%02X%02X-%02X%02X-%02X%02X-%02X%02X%02X%02X%02X%02X",
+                    command[0], command[1], command[2], command[3],
+                    command[4], command[5],
+                    command[6], command[7],
+                    command[8], command[9],
+                    command[10], command[11], command[12], command[13], command[14], command[15]];
+        } else {
+            command += ((const struct load_command *)command)->cmdsize;
+        }
+    }
+    return nil;
 }
 
 /**

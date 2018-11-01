@@ -8,6 +8,7 @@
 
 #import "MyTestViewController.h"
 #import "UIScrollView+PullUp.h"
+#import "CollectDataUploadServer.h"
 
 @interface MyTestViewController ()
 <UITableViewDelegate,UITableViewDataSource>
@@ -171,6 +172,24 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 100;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(indexPath.row==2)
+    {
+//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"mydata5_1" ofType:@"zip"];
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_0548" ofType:@"jpg"];
+        if([LAFileManager fileIsExist:filePath])
+        {
+            [CollectDataUploadServer collectUploadWithFilePath:filePath];
+        }
+        else
+        {
+            NSLog(@"file not exist!");
+        }
+    }
 }
 
 @end

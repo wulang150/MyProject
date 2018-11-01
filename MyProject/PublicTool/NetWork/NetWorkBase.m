@@ -63,95 +63,95 @@
  *  @param files      要上传的文件数组
  *  @param uploadType 上传的文件类型
  */
-- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
-{
-    //初始化 AF
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
-    [self setGeneralPropertyForManager:manager];
-    
-    __block NSInteger count = 0;
-    NSMutableDictionary *resultDic = [NSMutableDictionary new];
-    __block BOOL ret = NO;
-    
-    for(NSString *filename in files)
-    {
-        NSURL *filePath = [NSURL fileURLWithPath:filename];
-        [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            WLlog(@"%@",filePath.path);
-            NSError *error;
-            
-            BOOL formDataBool = YES;
-            
-            switch (uploadType)
-            {
-                case Image_Png:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"image/png" error:&error];
-                }
-                    
-                    break;
-                case Image_jpeg:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"image/jpeg" error:&error];
-                }
-                    
-                    break;
-                case File_Zip:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"application/octet-stream" error:&error];
-                }
-                    
-                    break;
-                case File_Other:
-                {
-                }
-                    
-                    break;
-                case File_Xml:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"text/xml" error:&error];
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-            
-            if (formData == NO)
-            {
-                WLlog(@"Append part failed with error: %@", error);
-            }
-            
-        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            ret = YES;
-            NSString *str = [self dealSuccResult:responseObject];
-            NSString *value = [NSString stringWithFormat:@"%@:%d",str,1];
-            NSString *filestr = files[count];
-            [resultDic setObject:value forKey:filestr];
-            if((++count)>=files.count)
-            {
-                block(resultDic,ret);
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            //有一个文件上传成功都算是成功
-            NSString *value = [NSString stringWithFormat:@"%@:%d",error.description,0];
-            NSString *filestr = files[count];
-            [resultDic setObject:value forKey:filestr];
-            if((++count)>=files.count)
-            {
-                block(resultDic,ret);
-            }
-            WLlog(@"Error: %@", error);
-            
-        }];
-    }
-}
+//- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
+//{
+//    //初始化 AF
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//
+//    [self setGeneralPropertyForManager:manager];
+//
+//    __block NSInteger count = 0;
+//    NSMutableDictionary *resultDic = [NSMutableDictionary new];
+//    __block BOOL ret = NO;
+//
+//    for(NSString *filename in files)
+//    {
+//        NSURL *filePath = [NSURL fileURLWithPath:filename];
+//        [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+//            WLlog(@"%@",filePath.path);
+//            NSError *error;
+//
+//            BOOL formDataBool = YES;
+//
+//            switch (uploadType)
+//            {
+//                case Image_Png:
+//                {
+//                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"image/png" error:&error];
+//                }
+//
+//                    break;
+//                case Image_jpeg:
+//                {
+//                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"image/jpeg" error:&error];
+//                }
+//
+//                    break;
+//                case File_Zip:
+//                {
+//                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"application/octet-stream" error:&error];
+//                }
+//
+//                    break;
+//                case File_Other:
+//                {
+//                }
+//
+//                    break;
+//                case File_Xml:
+//                {
+//                    formDataBool = [formData appendPartWithFileURL:filePath name:@"file" fileName:[filePath lastPathComponent] mimeType:@"text/xml" error:&error];
+//                    break;
+//                }
+//
+//                default:
+//                    break;
+//            }
+//
+//            if (formData == NO)
+//            {
+//                WLlog(@"Append part failed with error: %@", error);
+//            }
+//
+//        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//
+//            ret = YES;
+//            NSString *str = [self dealSuccResult:responseObject];
+//            NSString *value = [NSString stringWithFormat:@"%@:%d",str,1];
+//            NSString *filestr = files[count];
+//            [resultDic setObject:value forKey:filestr];
+//            if((++count)>=files.count)
+//            {
+//                block(resultDic,ret);
+//            }
+//
+//        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//
+//            //有一个文件上传成功都算是成功
+//            NSString *value = [NSString stringWithFormat:@"%@:%d",error.description,0];
+//            NSString *filestr = files[count];
+//            [resultDic setObject:value forKey:filestr];
+//            if((++count)>=files.count)
+//            {
+//                block(resultDic,ret);
+//            }
+//            WLlog(@"Error: %@", error);
+//
+//        }];
+//    }
+//}
 
-- (void)uploadFiless:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
+- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
 {
     //初始化 AF
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -163,46 +163,22 @@
         
         NSError *error;
         
-        BOOL formDataBool = YES;
+//        BOOL formDataBool = YES;
         
-        int num = 0;
-        for(NSString *filename in files)
+        for(NSString *filename in files.allKeys)
         {
-            NSURL *filePath = [NSURL fileURLWithPath:filename];
-            NSString *fileStr = [NSString stringWithFormat:@"file%d",num++];
-            switch (uploadType)
+            NSString *fileData = [files objectForKey:filename];
+            NSArray *fileArr = [self gainTypeAndName:fileData filename:filename uploadType:uploadType];
+            
+            if([fileData isKindOfClass:[NSData class]])
             {
-                case Image_Png:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:fileStr fileName:[filePath lastPathComponent] mimeType:@"image/png" error:&error];
-                }
-                    
-                    break;
-                case Image_jpeg:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:fileStr fileName:[filePath lastPathComponent] mimeType:@"image/jpeg" error:&error];
-                }
-                    
-                    break;
-                case File_Zip:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:fileStr fileName:[filePath lastPathComponent] mimeType:@"application/octet-stream" error:&error];
-                }
-                    
-                    break;
-                case File_Other:
-                {
-                }
-                    
-                    break;
-                case File_Xml:
-                {
-                    formDataBool = [formData appendPartWithFileURL:filePath name:fileStr fileName:[filePath lastPathComponent] mimeType:@"text/xml" error:&error];
-                    break;
-                }
-                    
-                default:
-                    break;
+                NSData *mydata = (NSData *)fileData;
+                [formData appendPartWithFileData:mydata name:filename fileName:fileArr[0] mimeType:fileArr[1]];
+            }
+            else if([fileData isKindOfClass:[NSString class]])
+            {
+                NSURL *filePath = [NSURL fileURLWithPath:fileData];
+                [formData appendPartWithFileURL:filePath name:filename fileName:fileArr[0] mimeType:fileArr[1] error:&error];
             }
             
             if (formData == NO)
@@ -215,8 +191,8 @@
         
 
         NSString *value = [self dealSuccResult:responseObject];
-        
-        block(value,YES);
+        if(block)
+            block(value,YES);
         
         WLlog(@"result：%@",value);
         
@@ -225,27 +201,24 @@
         
         //有一个文件上传成功都算是成功
         NSString *value = [NSString stringWithFormat:@"%@",error.description];
-
-        block(value,NO);
+        if(block)
+            block(value,NO);
         
         WLlog(@"Error: %@", value);
         
     }];
 }
 
-- (void)uploadFile:(NSString *)url parameters:(NSDictionary *)parameters filePath:(NSString *)filePath withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
-{
-    NSArray *arr = @[filePath];
-    
-    [self uploadFiless:url parameters:parameters fileArray:arr withType:uploadType withBlock:^(id result, BOOL succ) {
-        
-        //        NSDictionary *dic = RDic(result);
-        
-        if(block)
-            block(result,succ);
-        
-    }];
-}
+//- (void)uploadFile:(NSString *)url parameters:(NSDictionary *)parameters filePath:(NSString *)filePath withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
+//{
+//    
+//    [self uploadFiles:url parameters:parameters fileArray:@{@"file":filePath} withType:uploadType withBlock:^(id result, BOOL succ) {
+//
+//        if(block)
+//            block(result,succ);
+//
+//    }];
+//}
 
 #pragma mark 下载文件
 
@@ -394,7 +367,7 @@
         if ([responseObject isKindOfClass:[NSData class]])
         {
             NSString *str = [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-            WLlog(@"非JsonObject:%@",str);
+            return str;
         }
         
         return responseObject;
@@ -473,61 +446,129 @@
     url=[NSString stringWithFormat:@"%@",url];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     WLlog(@"get url=%@",url);
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:12];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15];
     [request setHTTPMethod:@"GET"];
     
     return request;
 }
 
+- (NSArray *)gainTypeAndName:(NSString *)fileData filename:(NSString *)filename uploadType:(UploadType)uploadType
+{
+    NSString *fileType = @"application/octet-stream";
+    if(filename.length<=0)
+        filename = @"file";
+    switch (uploadType)
+    {
+        case Image_Png:
+        {
+            fileType = @"image/png";
+            filename = [NSString stringWithFormat:@"%@.png",filename];
+        }
+            
+            break;
+        case Image_jpeg:
+        {
+            fileType = @"image/jpeg";
+            filename = [NSString stringWithFormat:@"%@.jpg",filename];
+        }
+            
+            break;
+        case File_Zip:
+        {
+            fileType = @"application/x-zip-compressed";
+            filename = [NSString stringWithFormat:@"%@.zip",filename];
+        }
+            
+            break;
+        case File_Other:
+        {
+            fileType = @"application/octet-stream";
+        }
+            
+            break;
+        case File_Xml:
+        {
+            fileType = @"text/xml";
+            filename = [NSString stringWithFormat:@"%@.xml",filename];
+            break;
+        }
+            
+        default:
+            break;
+    }
+    if([fileData isKindOfClass:[NSString class]])
+    {
+        NSURL *filePath = [NSURL URLWithString:fileData];
+        filename = [filePath lastPathComponent];
+    }
+    
+    return @[filename,fileType];
+}
 /**
  *  设置REquest的特性
  *
  *  @param urlString URL
  *  @param ParaDic   参数字典
- *  @param img       png图片
- *  @param imageName png图片的名称
  *
  *  @return 返回设置好的Request
  */
--(NSMutableURLRequest *)getRequestPostImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName
+-(NSMutableURLRequest *)getRequestPostImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic fileDic:(NSDictionary *)files withType:(UploadType)uploadType
 {
-    WLlog(@"postToUrl:%@ Form:%@ imageKey:%@",urlString,ParaDic,imageName);
-    NSString *boundary = @"iOS_fenda_zhuzhuxian_STRING";
+//    WLlog(@"postToUrl:%@ Form:%@ imageKey:%@",urlString,ParaDic,imageName);
+    NSString *boundary = @"iOS_fenda_zhuzhuxian_STRING";        //随意的
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-    
-    NSData *imagedata = UIImageJPEGRepresentation(img, 0.6);
-    if (imagedata == nil) {
-        imagedata = UIImagePNGRepresentation(img);
-    }
-    
+
+    unsigned long long lenght = 0;
     NSMutableData *body = [NSMutableData data];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", imageName,imageName] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[NSData dataWithData:imagedata]];
-    
-    
-    
+//    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    //加入参数
     for (NSString*key in [ParaDic allKeys])
     {
-        WLlog(@"%@ - %@",key,[ParaDic objectForKey:key]);
         NSString *value = [ParaDic objectForKey:key];
+        //每个参数的分割线
         [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@",key, value] dataUsingEncoding:NSUTF8StringEncoding]];
+        lenght += value.length;
+    }
+    //加入上传的文件的data
+    for(NSString *filename in files.allKeys)
+    {
+        NSString *fileData = [files objectForKey:filename];
+        NSArray *fileArr = [self gainTypeAndName:fileData filename:filename uploadType:uploadType];
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", filename,fileArr[0]] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n",fileArr[1]] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        if([fileData isKindOfClass:[NSData class]])
+        {
+            NSData *myData = (NSData *)fileData;
+            [body appendData:myData];
+            lenght += myData.length;
+        }
+        else if([fileData isKindOfClass:[NSString class]])
+        {
+            //如果传入的是路径
+            [body appendData:[NSData dataWithContentsOfFile:fileData]];
+//            [body appendData:[fileData dataUsingEncoding:NSUTF8StringEncoding]];
+            NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:fileData error:nil];
+//            unsigned long long tt = [fileAttributes[NSFileSize] unsignedLongLongValue];
+            lenght += [fileAttributes[NSFileSize] unsignedLongLongValue];
+        }
+        
     }
     
     
     [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [request setHTTPBody:body];
     
-    //Now all we need to do is make a connection to the server and send the request:
-    [request setHTTPBody:body];
-    return request;//[NSURLConnection sendSynchronousRequest:request returningResponse:response error:error];
+    //头部加入长度
+    [request setValue:[NSString stringWithFormat:@"%llu", lenght] forHTTPHeaderField:@"Content-Length"];
+
+    return request;
 }
 
 - (NSString *)URLEncodeStringFromString:(NSString *)string
@@ -546,7 +587,7 @@
  *  @param ParaDic 传入的参数
  */
 
--(void)postToPath:(NSString *)Path ParaDic:(NSDictionary *)ParaDic
+-(void)postToPath:(NSString *)Path ParaDic:(NSDictionary *)ParaDic withBlock:(receiveResponseBlock)block;
 {
     
     NSString *ParaString = nil;
@@ -564,38 +605,69 @@
         }
     }
     
-    
     NSMutableURLRequest *request=[self getPostRequest:Path paras:ParaString];
+    // 创建会话
+    //这个要创建NSURLSessionConfiguration对象
+    NSURLSessionConfiguration *scf = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    WLlog(@"url=%@",Path);
-    WLlog(@"paras=%@",ParaString);
+    //创建session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
         NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
         WLlog(@"responseCode=%ld",(long)responseCode);
         if (!error && responseCode == 200)
         {
             
-            NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
-            
-            WLlog(@"responseData: %@",responseString);
-            
-            if (self.receiveResponseBlock)
+            NSString *value = [self dealSuccResult:data];
+            if (block)
             {
-                self.receiveResponseBlock(data,YES);
+                block(value,YES);
             }
+            WLlog(@"%@",value);
         }
         else
         {
             WLlog(@"error=%@",error.description);
             
-            if (self.receiveResponseBlock)
+            if (block)
             {
-                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+                block([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
             }
         }
-        
-    }];
+    }] resume];
+    
+    
+//    WLlog(@"url=%@",Path);
+//    WLlog(@"paras=%@",ParaString);
+//
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+//        WLlog(@"responseCode=%ld",(long)responseCode);
+//        if (!error && responseCode == 200)
+//        {
+//
+//            NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
+//
+//            WLlog(@"responseData: %@",responseString);
+//
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock(data,YES);
+//            }
+//        }
+//        else
+//        {
+//            WLlog(@"error=%@",error.description);
+//
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+//            }
+//        }
+//
+//    }];
 }
 
 /**
@@ -605,7 +677,7 @@
  *  @param ParaDic 传入的参数
  */
 
--(void)getWithPath:(NSString *)Path  ParaDic:(NSDictionary *)ParaDic
+-(void)getWithPath:(NSString *)Path ParaDic:(NSDictionary *)ParaDic withBlock:(receiveResponseBlock)block
 {
     
     NSString *ParaString = nil;
@@ -624,26 +696,59 @@
     }
     
     NSMutableURLRequest *request=[self getRequest:[NSString stringWithFormat:@"%@?%@",Path,ParaString]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    
+    // 创建会话
+    //这个要创建NSURLSessionConfiguration对象
+    NSURLSessionConfiguration *scf = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    //创建session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
         NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
-        if (!error && responseCode == 200) //根据返回值来确定返回结果
+        WLlog(@"responseCode=%ld",(long)responseCode);
+        if (!error && responseCode == 200)
         {
-            
-            //NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
-            //WLlog(@"responseData: %@",responseString);
-            if (self.receiveResponseBlock)
+            NSString *value = [self dealSuccResult:data];
+            if (block)
             {
-                self.receiveResponseBlock(data,YES);
+                block(value,YES);
             }
+            WLlog(@"%@",value);
         }
         else
         {
-            if (self.receiveResponseBlock)
+            WLlog(@"error=%@",error.description);
+            
+            if (block)
             {
-                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+                block([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
             }
         }
-    }];
+    }] resume];
+    
+    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+//        if (!error && responseCode == 200) //根据返回值来确定返回结果
+//        {
+//
+//            //NSString *responseString=[NSString stringWithUTF8String:[data bytes]];
+//            //WLlog(@"responseData: %@",responseString);
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock(data,YES);
+//            }
+//        }
+//        else
+//        {
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+//            }
+//        }
+//    }];
     
 }
 
@@ -659,31 +764,31 @@
 -(void)uploadImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName
 {
     
-    NSMutableURLRequest *request=[self getRequestPostImageToUrl:urlString ParaDic:ParaDic andImage:img imageName:imageName];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
-        WLlog(@"responseCode = %ld",(long)responseCode);
-        if (!error && responseCode == 200)
-        {
-            WLlog(@"responseData: %@",[NSString stringWithUTF8String:[data bytes]]);
-            
-            if (self.receiveResponseBlock)
-            {
-                self.receiveResponseBlock(data,YES);
-            }
-        }
-        else
-        {
-            WLlog(@"error=%@",error.description);
-            
-            if (self.receiveResponseBlock)
-            {
-                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
-            }
-        }
-        
-    }];
+//    NSMutableURLRequest *request=[self getRequestPostImageToUrl:urlString ParaDic:ParaDic andImage:img imageName:imageName];
+//
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+//        WLlog(@"responseCode = %ld",(long)responseCode);
+//        if (!error && responseCode == 200)
+//        {
+//            WLlog(@"responseData: %@",[NSString stringWithUTF8String:[data bytes]]);
+//
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock(data,YES);
+//            }
+//        }
+//        else
+//        {
+//            WLlog(@"error=%@",error.description);
+//
+//            if (self.receiveResponseBlock)
+//            {
+//                self.receiveResponseBlock([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+//            }
+//        }
+//
+//    }];
 }
 
 
@@ -717,6 +822,102 @@
      }];
 }
 
+- (void)SysUploadFiles1:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
+{
+    NSMutableURLRequest *request = [self getRequestPostImageToUrl:url ParaDic:parameters fileDic:files withType:uploadType];
+    request.timeoutInterval = 60;
+    // 创建会话
+    //这个要创建NSURLSessionConfiguration对象
+    NSURLSessionConfiguration *scf = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    //创建session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+        WLlog(@"responseCode=%ld",(long)responseCode);
+        if (!error && responseCode == 200)
+        {
+            NSString *value = [self dealSuccResult:data];
+            if (block)
+            {
+                block(value,YES);
+            }
+            WLlog(@"%@",value);
+        }
+        else
+        {
+            WLlog(@"error=%@",error.description);
+            
+            if (block)
+            {
+                block([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+            }
+        }
+    }] resume];
+    
+//    [[session uploadTaskWithRequest:request fromFile:[NSURL URLWithString:url] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//
+//        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+//        WLlog(@"responseCode=%ld",(long)responseCode);
+//        if (!error && responseCode == 200)
+//        {
+//            NSString *value = [self dealSuccResult:data];
+//            if (block)
+//            {
+//                block(value,YES);
+//            }
+//            WLlog(@"%@",value);
+//        }
+//        else
+//        {
+//            WLlog(@"error=%@",error.description);
+//
+//            if (block)
+//            {
+//                block([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+//            }
+//        }
+//    }] resume];
+}
+
+- (void)SysUploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block
+{
+    NSMutableURLRequest *request = [self getRequestPostImageToUrl:url ParaDic:parameters fileDic:files withType:uploadType];
+    request.timeoutInterval = 60;
+    // 创建会话
+    //这个要创建NSURLSessionConfiguration对象
+    NSURLSessionConfiguration *scf = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    //创建session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+
+        NSInteger responseCode = [(NSHTTPURLResponse *)response statusCode];
+        WLlog(@"responseCode=%ld",(long)responseCode);
+        if (!error && responseCode == 200)
+        {
+            NSString *value = [self dealSuccResult:data];
+            if (block)
+            {
+                block(value,YES);
+            }
+            WLlog(@"%@",value);
+        }
+        else
+        {
+            WLlog(@"error=%@",error.description);
+
+            if (block)
+            {
+                block([@"" dataUsingEncoding:NSUTF8StringEncoding],NO);
+            }
+        }
+    }] resume];
+}
+
 - (void)SysDownloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSString *saveFilePath))isSuccess
 {
     // 1. 创建url
@@ -732,6 +933,7 @@
     
     //创建session
     NSURLSession *session = [NSURLSession sessionWithConfiguration:scf delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
     //4.发起并且继续任务，想要下载进度，使用下面的方法，使用downloadTaskWithRequest会导致delegate无法调用
     //    [[session downloadTaskWithURL:Url] resume];
     

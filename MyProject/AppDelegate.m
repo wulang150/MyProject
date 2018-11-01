@@ -22,6 +22,8 @@
     //图标右上角数字设0
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
+    [XZLog initLog];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
     self.window.backgroundColor = [UIColor whiteColor];

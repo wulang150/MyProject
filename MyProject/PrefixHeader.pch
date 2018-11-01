@@ -27,6 +27,8 @@
 #import "XZLog.h"
 #import "CommonFun.h"
 #import "UIApplication+Extension.h"
+#import "LAFileManager.h"
+#import "MJExtension.h"
 //MJRefresh
 
 #endif

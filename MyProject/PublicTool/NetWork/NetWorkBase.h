@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger,UploadType)
 
 + (NetWorkBase *)netModel;
 
-@property (nonatomic,copy) void (^receiveResponseBlock) (id result,BOOL succ);
+//@property (nonatomic,copy) void (^receiveResponseBlock) (id result,BOOL succ);
 
 //标识请求是否需要追加请求头
 @property (nonatomic,assign)BOOL needAppendRequestHeader;
@@ -64,15 +64,15 @@ typedef NS_ENUM(NSInteger,UploadType)
  *
  *  @param url        请求url
  *  @param parameters 请求参数
- *  @param files      要上传的文件数组
+ *  @param files      要上传的文件字典 @{filename:filepath/fileData}
  *  @param uploadType 上传的文件类型
  */
 //这个是循环多次调用上传接口
-- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
+//- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
 //这个是一次上传多个文件
-- (void)uploadFiless:(NSString *)url parameters:(NSDictionary *)parameters fileArray:(NSArray *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
+- (void)uploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
 
-- (void)uploadFile:(NSString *)url parameters:(NSDictionary *)parameters filePath:(NSString *)filePath withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
+//- (void)uploadFile:(NSString *)url parameters:(NSDictionary *)parameters filePath:(NSString *)filePath withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
 
 
 
@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger,UploadType)
  *  @param ParaDic 传入的参数
  */
 
--(void)postToPath:(NSString *)Path ParaDic:(NSDictionary *)ParaDic;
+-(void)postToPath:(NSString *)Path ParaDic:(NSDictionary *)ParaDic withBlock:(receiveResponseBlock)block;
 
 /**
  *  GET请求
@@ -110,14 +110,17 @@ typedef NS_ENUM(NSInteger,UploadType)
  *  @param ParaDic 传入的参数
  */
 
--(void)getWithPath:(NSString *)Path  ParaDic:(NSDictionary *)ParaDic;
+-(void)getWithPath:(NSString *)Path  ParaDic:(NSDictionary *)ParaDic withBlock:(receiveResponseBlock)block;
 
 
 //上传图片
--(void)uploadImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName;
+//-(void)uploadImageToUrl:(NSString *)urlString ParaDic:(NSDictionary*)ParaDic andImage:(UIImage*)img imageName:(NSString*)imageName;
 
+//- (void)SysUploadFiles1:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
+//上传文件不大的情况
+- (void)SysUploadFiles:(NSString *)url parameters:(NSDictionary *)parameters fileDic:(NSDictionary *)files withType:(UploadType)uploadType withBlock:(receiveResponseBlock)block;
 
-- (void)SysDownloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSString *saveFilePath))isSuccess;
+-(void)SysDownloadFilewithURL:(NSString *)downloadUrl filePath:(NSString *)filePath withResult:(void(^)(BOOL succ,NSString *saveFilePath))isSuccess;
 
 + (BOOL)isReachable;
 /**
