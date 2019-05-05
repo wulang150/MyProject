@@ -56,6 +56,7 @@
                   rightTitle:(NSString *)rightTitle
                  rightAction:(SEL)rightAction
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     if(self.navigationController.isNavigationBarHidden)
     {
         UIView *view = [[self class] comNavWithTitle:title leftImage:leftImage leftTitle:leftTitle leftAction:leftAction rightImage:rightImage rightTitle:rightTitle rightAction:rightAction itemSelf:self];
@@ -110,6 +111,8 @@
         self.navigationItem.leftBarButtonItem = leftBtn;
     if(rightBtn)
         self.navigationItem.rightBarButtonItem = rightBtn;
+    //tableView的是否自动insert
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     return nil;
 }
 

@@ -70,22 +70,30 @@ static UIWindow *comShowView;
     
 }
 
-+ (void)showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title
++ (void)showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title hiddenAfterDelay:(int)second
 {
-    if(view)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if(!view)
+        {
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            comShowView = window;
+        }
+        else
+        {
             comShowView = (UIWindow *)view;
-            [MBProgressHUD hideAllHUDsForView:view animated:YES];
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-            hud.removeFromSuperViewOnHide = YES;
-            hud.labelText = title;
-        });
-    }
-    else
-    {
-        [self showNoHiddenLoading:title];
-    }
+        }
+        if(comShowView)
+            [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:comShowView animated:YES];
+        if(second>0)
+            [hud hide:YES afterDelay:second];
+        hud.removeFromSuperViewOnHide = YES;
+        hud.labelText = title;
+    });
+    
+    
 }
 
 + (void)showNoHiddenLoading:(NSString *)title
@@ -95,36 +103,38 @@ static UIWindow *comShowView;
 
 + (void)showNoHiddenLoading:(NSString *)title hiddenAfterDelay:(int)second
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(comShowView)
-            [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
-        //    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        comShowView = window;
-        [MBProgressHUD hideAllHUDsForView:window animated:YES];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-        if(second>0)
-            [hud hide:YES afterDelay:second];
-        hud.removeFromSuperViewOnHide = YES;
-        hud.labelText = title;
-        
-        //自定义view
-        //        CGFloat radiu = 30;
-        //        hud.mode = MBProgressHUDModeCustomView;
-        //        FDPie *pie = [[FDPie alloc] initWithCenter:CGPointMake(radiu, radiu) radius:radiu];
-        //        pie.gradColorArr = @[[UIColor whiteColor],[UIColor blackColor]];
-        //        pie.centerView.backgroundColor = [UIColor clearColor];
-        //        pie.lineWidth = 4;
-        //        [pie reloadContent:NO];
-        //        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        //        anima.toValue = @(M_PI*2);
-        //        anima.duration = 0.8f;
-        //        anima.repeatCount = 1000;
-        //        [pie.layer addAnimation:anima forKey:nil];
-        //
-        //        hud.customView = pie;
-        //        hud.opacity = 0.2;
-    });
+    
+    [self showNoHiddenLoadingWithSuper:nil title:title hiddenAfterDelay:second];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if(comShowView)
+//            [MBProgressHUD hideAllHUDsForView:comShowView animated:YES];
+//        //    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
+//        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+//        comShowView = window;
+//        [MBProgressHUD hideAllHUDsForView:window animated:YES];
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+//        if(second>0)
+//            [hud hide:YES afterDelay:second];
+//        hud.removeFromSuperViewOnHide = YES;
+//        hud.labelText = title;
+//
+//        //自定义view
+//        //        CGFloat radiu = 30;
+//        //        hud.mode = MBProgressHUDModeCustomView;
+//        //        FDPie *pie = [[FDPie alloc] initWithCenter:CGPointMake(radiu, radiu) radius:radiu];
+//        //        pie.gradColorArr = @[[UIColor whiteColor],[UIColor blackColor]];
+//        //        pie.centerView.backgroundColor = [UIColor clearColor];
+//        //        pie.lineWidth = 4;
+//        //        [pie reloadContent:NO];
+//        //        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+//        //        anima.toValue = @(M_PI*2);
+//        //        anima.duration = 0.8f;
+//        //        anima.repeatCount = 1000;
+//        //        [pie.layer addAnimation:anima forKey:nil];
+//        //
+//        //        hud.customView = pie;
+//        //        hud.opacity = 0.2;
+//    });
 }
 + (MBProgressHUD *)showPressBar:(NSString *)title sel:(SEL)method onTarget:(id)target
 {

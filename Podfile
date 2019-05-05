@@ -10,6 +10,12 @@ pod 'MBProgressHUD', '~> 0.9.1'
 #pod 'MBProgressHUDExtensions', '~> 0.0.1'
 pod 'Masonry'
 pod 'MJRefresh'
+pod 'Bugly'
+#pod 'YYCache'
+pod 'YYKit'
+pod 'CocoaAsyncSocket', '~> 7.6.3'
+pod 'Firebase/Core'
+pod 'Aspects', '~> 1.4.1'
 
 end
 

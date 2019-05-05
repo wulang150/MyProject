@@ -9,8 +9,14 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "TabBarBaseViewController.h"
+#import <Bugly/Bugly.h>
+#import "RunLoopTracker.h"
+#import "SimpleViewController.h"
+#import "TmpTestViewController.h"
+#import <Firebase.h>
 
 @interface AppDelegate ()
+<BuglyDelegate>
 
 @end
 
@@ -24,17 +30,37 @@
     
     [XZLog initLog];
     
+    //fireBase
+    [FIRApp configure];
+    
+    //配置bugly
+    BuglyConfig *config = [[BuglyConfig alloc] init];
+    config.debugMode = YES;
+    config.blockMonitorEnable = YES;
+    config.blockMonitorTimeout = 2.0;
+    config.channel = @"bugly";
+    config.delegate = self;
+    config.consolelogEnable = YES;
+    config.viewControllerTrackingEnable = YES;
+    [Bugly startWithAppId:@"b72d30d389" developmentDevice:YES config:config];
+    
+    //性能问题
+    [RunLoopTracker startTracking:[NSRunLoop mainRunLoop].getCFRunLoop];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
     self.window.backgroundColor = [UIColor whiteColor];
 
 //    //首页
-    ViewController *vc = [ViewController new];
+//    ViewController *vc = [ViewController new];
+//    SimpleViewController *vc = [SimpleViewController new];
+    TmpTestViewController *vc = [TmpTestViewController new];
 //    TabBarBaseViewController *vc = [TabBarBaseViewController new];
 //    [self.window setRootViewController:vc];
+    
     //导航
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
-//    navi.navigationBarHidden = YES;
+    navi.navigationBarHidden = YES;
     
     [self.window setRootViewController:navi];
     
@@ -42,6 +68,12 @@
     
     
     return YES;
+}
+
+- (NSString * BLY_NULLABLE)attachmentForException:(NSException * BLY_NULLABLE)exception
+{
+    NSLog(@">>>>>>>>>>>>%@",exception);
+    return @"this is exception";
 }
 
 

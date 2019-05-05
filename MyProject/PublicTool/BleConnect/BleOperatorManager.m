@@ -264,7 +264,7 @@
     if (uuidStr != nil)
     {
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidStr];
-        //如果只是主动调用断连接口，这里还是可以获取到重连信息的
+        //如果只是主动调用断连接口，这里还是可以获取到蓝牙列表里面对应的外设
         NSArray *array = [self.centralManager retrievePeripheralsWithIdentifiers:@[uuid]];
         for (int i = 0; i<[array count]; i++)
         {

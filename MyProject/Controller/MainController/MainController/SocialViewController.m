@@ -50,9 +50,13 @@
 
 - (void)btnAction:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[RightViewController new] animated:YES];
+//    [self.navigationController pushViewController:[RightViewController new] animated:YES];
     
 //    [[[UIApplication sharedApplication] rootNavVC] pushViewController:[RightViewController new] animated:YES];
+    
+//    [[UIApplication sharedApplication] popOrPushToContrl:@"MapViewController"];
+//    [[UIApplication sharedApplication] popOrPushToContrl:@"IBeaconViewController"];
+    [[UIApplication sharedApplication] popOrPushToContrl:@"SimpleViewController"];
 }
 
 //- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

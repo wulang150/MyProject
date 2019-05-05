@@ -18,7 +18,7 @@
 + (void) showTouchLoading:(NSString *)title;
 + (void) showLoading:(NSString *)message hiddenAfterDelay:(int)second;
 + (void) showNoHiddenLoading:(NSString *)title;
-+ (void) showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title;
++ (void) showNoHiddenLoadingWithSuper:(UIView *)view title:(NSString *)title hiddenAfterDelay:(int)second;
 + (void) showNoHiddenLoading:(NSString *)title hiddenAfterDelay:(int)second;
 
 //UI视图快捷创建

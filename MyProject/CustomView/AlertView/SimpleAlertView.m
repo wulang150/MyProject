@@ -168,14 +168,14 @@
 - (void)show
 {
     //创建view
-    [self createViewWithTitle];
+//    [self createViewWitxhTitle];
     
     // 当前顶层窗口
 //    UIWindow *window = [UIApplication sharedApplication].keyWindow ;
     UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
     [window addSubview:self];
     
-    [self showAlertAnimation];
+//    [self showAlertAnimation];
     
 }
 
@@ -219,6 +219,96 @@
         [UIView setAnimationDuration:0.35];
         [UIView commitAnimations];
     }
+}
+
+- (void)drawRect:(CGRect)rect{
+    [self draw3:rect];
+}
+
+- (void)draw2:(CGRect)rect{
+    CGContextRef context=UIGraphicsGetCurrentContext ();
+    
+    
+    CGContextDrawPath (context,kCGPathStroke );
+    
+    
+    CGContextConcatCTM(context, CGAffineTransformMakeRotation(M_PI/4));
+    
+    
+    NSString *title = @"我的小狗";
+    
+    
+    UIFont *font = [UIFont systemFontOfSize:28];
+    
+    
+    NSDictionary *attr = @{NSFontAttributeName:font,NSForegroundColorAttributeName: UIColor.whiteColor};
+
+    CGSize size = [title sizeWithAttributes:attr];
+    
+    
+    //水平居中时x轴坐标
+    
+    
+    CGFloat xpos = [[UIScreen mainScreen] bounds].size.width / 2 - size.width / 2;
+    
+    CGFloat x = xpos / cos(M_PI/4);
+    //绘制字符串
+    
+    
+    [title drawAtPoint:CGPointMake(100, 20) withAttributes:attr];
+}
+
+- (void)draw1:(CGRect)rect{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSaveGState(context);
+    
+    //    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    //
+    //    // Create the gradient
+    //    CGColorRef startColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0].CGColor;
+    //    CGColorRef endColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0].CGColor;
+    //    NSArray *colors = [NSArray arrayWithObjects:(id)startColor, (id)endColor, nil];
+    //    CGFloat locations[] = { 0.0, 1.0 };
+    //    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef) colors, locations);
+    //    CGContextDrawLinearGradient(context, gradient, CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y), CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height), 0);
+    
+    // Create text
+    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+    NSString *string = @"some test string";
+    UIFont *font = [UIFont systemFontOfSize:16.0];
+    
+    // Rotate the context 90 degrees (convert to radians)
+//    CGAffineTransform transform1 = CGAffineTransformMakeRotation(-M_PI_2);
+//    CGContextConcatCTM(context, transform1);
+    CGContextTranslateCTM(context, +(120 * 0.5), +(32 * 0.5));
+    CGContextRotateCTM(context, M_PI_2);
+    
+    // Move the context back into the view
+//    CGContextTranslateCTM(context, -rect.size.height, 0);
+    
+    NSDictionary *attr = @{NSFontAttributeName:font,NSForegroundColorAttributeName: UIColor.whiteColor};
+    
+    // Draw the string
+//    [string drawInRect:CGRectMake(10, 10, 100, 32) withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];
+    [string drawAtPoint:CGPointMake(100, 100) withAttributes:attr];
+    
+    // Clean up
+    //    CGGradientRelease(gradient);
+    //    CGColorSpaceRelease(colorSpace);
+    
+    CGContextRestoreGState(context);
+}
+
+- (void)draw3:(CGRect)rect{
+    
+    [UIImage imageWithSize:CGSizeMake(120, 32) drawBlock:^(CGContextRef  _Nonnull context) {
+        CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+        NSString *string = @"some test string";
+        UIFont *font = [UIFont systemFontOfSize:16.0];
+        NSDictionary *attr = @{NSFontAttributeName:font,NSForegroundColorAttributeName: UIColor.whiteColor};
+        [string drawAtPoint:CGPointMake(2, 2) withAttributes:attr];
+    }];
 }
 
 @end

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TestMakeController">
+            <connections>
+                <outlet property="containView" destination="Lgk-wW-s3X" id="Kay-Yz-x0Y"/>
+                <outlet property="titleLab" destination="P6e-Qm-H82" id="mvM-7U-ZW4"/>
+                <outlet property="view" destination="iN0-l3-epB" id="rwI-hl-NeF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lgk-wW-s3X">
+                    <rect key="frame" x="77.5" y="303.5" width="220" height="60"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFI-Kp-vaf">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="60"/>
+                            <color key="backgroundColor" red="0.7754817034" green="0.72381504760000004" blue="0.39177809829999999" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="button"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6e-Qm-H82">
+                            <rect key="frame" x="120" y="0.0" width="100" height="60"/>
+                            <color key="backgroundColor" red="0.77548170336787559" green="0.72381504760208903" blue="0.39177809826296317" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="aFI-Kp-vaf" firstAttribute="top" secondItem="Lgk-wW-s3X" secondAttribute="top" id="0dM-rs-9up"/>
+                        <constraint firstItem="P6e-Qm-H82" firstAttribute="width" secondItem="aFI-Kp-vaf" secondAttribute="width" id="4bU-2v-OvM"/>
+                        <constraint firstAttribute="width" constant="220" id="6u9-Zp-CTZ"/>
+                        <constraint firstItem="P6e-Qm-H82" firstAttribute="top" secondItem="Lgk-wW-s3X" secondAttribute="top" id="IPH-OT-Hb2"/>
+                        <constraint firstAttribute="height" constant="60" id="O8g-DW-PzA"/>
+                        <constraint firstItem="aFI-Kp-vaf" firstAttribute="leading" secondItem="Lgk-wW-s3X" secondAttribute="leading" id="UcH-0Y-7WB"/>
+                        <constraint firstAttribute="trailing" secondItem="P6e-Qm-H82" secondAttribute="trailing" id="ZdA-gO-oYS"/>
+                        <constraint firstAttribute="bottom" secondItem="P6e-Qm-H82" secondAttribute="bottom" id="p59-Xe-WwL"/>
+                        <constraint firstAttribute="bottom" secondItem="aFI-Kp-vaf" secondAttribute="bottom" id="v4S-9N-alH"/>
+                        <constraint firstItem="P6e-Qm-H82" firstAttribute="leading" secondItem="aFI-Kp-vaf" secondAttribute="trailing" constant="20" id="yNV-fF-2zI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Lgk-wW-s3X" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="dR4-3Y-lnO"/>
+                <constraint firstItem="Lgk-wW-s3X" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="wqH-gr-LJp"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="135.19999999999999" y="149.77511244377811"/>
+        </view>
+    </objects>
+</document>
