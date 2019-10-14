@@ -7,6 +7,8 @@
 //
 
 #import "TmpTestViewController.h"
+#import "moviePlayerViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface TmpTestViewController ()
 <UITableViewDelegate,UITableViewDataSource>
@@ -42,7 +44,7 @@
 }
 
 - (void)setupData{
-    itemsArr = @[@"FireBase", @"离屏渲染", @"图片解码",@"YYKit",@"udp",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片"];
+    itemsArr = @[@"FireBase", @"testOpt1", @"AVPlayer",@"moviePlayerController",@"ZFPlayer",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片"];
 }
 - (void)setupUI{
     
@@ -85,24 +87,27 @@
             break;
         case 1:
         {
-            [[UIApplication sharedApplication] popOrPushToContrl:@"OffRenderViewController"];
+            [[UIApplication sharedApplication] popOrPushToContrl:@"TestOpt1ViewController"];
         }
             break;
         case 2:
         {
-            [[UIApplication sharedApplication] popOrPushToContrl:@"DecodedImageViewController"];
+            [[UIApplication sharedApplication] popOrPushToContrl:@"AVPlayerTestViewController"];
         }
             break;
         case 3:
         {
-            [[UIApplication sharedApplication] popOrPushToContrl:@"YYKitTestViewController"];
+            NSString *_documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/"];
+            _documentsDirectory = [NSString stringWithFormat:@"%@/movieH264.mp4",_documentsDirectory];
+            AVPlayer *player = [[AVPlayer alloc] initWithURL:[NSURL fileURLWithPath:_documentsDirectory]];
+            moviePlayerViewController *playerVC = [moviePlayerViewController new];
+            playerVC.player = player;
+            [self.navigationController pushViewController:playerVC animated:YES];
         }
             break;
         case 4:
         {
-            //            [[UIApplication sharedApplication] popOrPushToContrl:@"UdpServerViewController"];
-            SimpleAlertView *alert = [[SimpleAlertView alloc] initAlertView:@"tip" content:@"sdfdsfdsf" vi:nil btnTilte:nil];
-            [alert show];
+            [[UIApplication sharedApplication] popOrPushToContrl:@"ZFPlayerViewController"];
         }
             break;
         case 5:

@@ -56,7 +56,7 @@
 }
 
 - (void)setupData{
-    itemsArr = @[@"tableView的优化", @"离屏渲染", @"图片解码",@"YYKit",@"udp",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片"];
+    itemsArr = @[@"tableView的优化", @"离屏渲染", @"图片解码",@"YYKit",@"udp",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片",@"otherTest",@"FaceID"];
 }
 - (void)setupUI{
     
@@ -106,7 +106,7 @@
             break;
         case 1:
         {
-            [[UIApplication sharedApplication] popOrPushToContrl:@"OffRenderViewController"];
+            [[UIApplication sharedApplication] popOrPushToContrl:@"OffRenderViewController1"];
         }
             break;
         case 2:
@@ -149,6 +149,16 @@
         case 9:
         {
             [[UIApplication sharedApplication] popOrPushToContrl:@"CAImageTestViewController"];
+        }
+            break;
+        case 10:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"OtherTestViewController"];
+        }
+            break;
+        case 11:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"FaceIDViewController"];
         }
             break;
             

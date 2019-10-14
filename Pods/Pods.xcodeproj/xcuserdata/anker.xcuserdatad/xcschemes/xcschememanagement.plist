@@ -14,7 +14,32 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Bugly.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CocoaAsyncSocket.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Firebase.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FirebaseAnalytics.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FirebaseCore.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FirebaseInstanceID.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -50,6 +75,11 @@
 			<false/>
 		</dict>
 		<key>YYKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ZFPlayer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -94,6 +94,12 @@
 		9A079751222E85F400C88998 /* CAImageTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A079750222E85F400C88998 /* CAImageTestViewController.m */; };
 		9A09104921EF3C2F000F3F8C /* UdpServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A09104821EF3C2F000F3F8C /* UdpServerViewController.m */; };
 		9A1DED4922141FFF00DB076B /* TestOneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DED4822141FFF00DB076B /* TestOneViewController.m */; };
+		9A1E6D3522EED7B100489FC6 /* OffRenderViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1E6D3422EED7B100489FC6 /* OffRenderViewController1.m */; };
+		9A1FFE902325F9C300205D02 /* FaceIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1FFE8F2325F9C300205D02 /* FaceIDViewController.m */; };
+		9A1FFE932325FA6C00205D02 /* SWFingerprintLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1FFE922325FA6C00205D02 /* SWFingerprintLock.m */; };
+		9A32058022CB09CD00279962 /* AVPlayerTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A32057F22CB09CD00279962 /* AVPlayerTestViewController.m */; };
+		9A32058322CB417D00279962 /* moviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A32058222CB417D00279962 /* moviePlayerViewController.m */; };
+		9A32058B22CDD2AE00279962 /* ZFPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A32058A22CDD2AE00279962 /* ZFPlayerViewController.m */; };
 		9A37B44321BE66BE0006BBC4 /* TestDevViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A37B44221BE66BE0006BBC4 /* TestDevViewController.m */; };
 		9A40125E22261E71006F9889 /* VideoConvertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A40125D22261E71006F9889 /* VideoConvertViewController.m */; };
 		9A40127B222E6CF9006F9889 /* IMG_0284.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A401279222E6CF7006F9889 /* IMG_0284.jpeg */; };
@@ -110,11 +116,13 @@
 		9A937C8E2206967F00728E84 /* test2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8B2206967F00728E84 /* test2.jpg */; };
 		9A937C8F2206967F00728E84 /* test4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8C2206967F00728E84 /* test4.jpg */; };
 		9A937C902206967F00728E84 /* test3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8D2206967F00728E84 /* test3.jpg */; };
+		9A9A25FE2314CD50000E1EE3 /* OtherTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */; };
 		9A9F6ABA21CA2F54006AF1FD /* ZYNetworkAccessibity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AB821CA2F54006AF1FD /* ZYNetworkAccessibity.m */; };
 		9A9F6ABE21CB2992006AF1FD /* WLPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6ABD21CB2992006AF1FD /* WLPhotoManager.m */; };
 		9A9F6AC221CB8EEE006AF1FD /* HRLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AC021CB8EEE006AF1FD /* HRLocationConverter.m */; };
 		9A9F6AC521CC9547006AF1FD /* IBeaconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AC421CC9547006AF1FD /* IBeaconViewController.m */; };
 		9A9F6AC921CCDC41006AF1FD /* LocalNotifyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AC721CCDC40006AF1FD /* LocalNotifyManager.m */; };
+		9AC1ACAF22C4CED6006A6E85 /* TestOpt1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC1ACAE22C4CED6006A6E85 /* TestOpt1ViewController.m */; };
 		9ACFE1DC21E03E0D00305532 /* FriendCircleNewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ACFE1DA21E03E0D00305532 /* FriendCircleNewCell.m */; };
 		9ACFE1DD21E03E0D00305532 /* FriendLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ACFE1DB21E03E0D00305532 /* FriendLayout.m */; };
 		9ACFE1E321E03E2300305532 /* FriendCircleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ACFE1DF21E03E2300305532 /* FriendCircleCell.m */; };
@@ -342,6 +350,18 @@
 		9A09104821EF3C2F000F3F8C /* UdpServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UdpServerViewController.m; sourceTree = "<group>"; };
 		9A1DED4722141FFF00DB076B /* TestOneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestOneViewController.h; sourceTree = "<group>"; };
 		9A1DED4822141FFF00DB076B /* TestOneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestOneViewController.m; sourceTree = "<group>"; };
+		9A1E6D3322EED7B100489FC6 /* OffRenderViewController1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OffRenderViewController1.h; sourceTree = "<group>"; };
+		9A1E6D3422EED7B100489FC6 /* OffRenderViewController1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffRenderViewController1.m; sourceTree = "<group>"; };
+		9A1FFE8E2325F9C300205D02 /* FaceIDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceIDViewController.h; sourceTree = "<group>"; };
+		9A1FFE8F2325F9C300205D02 /* FaceIDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceIDViewController.m; sourceTree = "<group>"; };
+		9A1FFE912325FA6C00205D02 /* SWFingerprintLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWFingerprintLock.h; sourceTree = "<group>"; };
+		9A1FFE922325FA6C00205D02 /* SWFingerprintLock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWFingerprintLock.m; sourceTree = "<group>"; };
+		9A32057E22CB09CD00279962 /* AVPlayerTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerTestViewController.h; sourceTree = "<group>"; };
+		9A32057F22CB09CD00279962 /* AVPlayerTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVPlayerTestViewController.m; sourceTree = "<group>"; };
+		9A32058122CB417D00279962 /* moviePlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = moviePlayerViewController.h; sourceTree = "<group>"; };
+		9A32058222CB417D00279962 /* moviePlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moviePlayerViewController.m; sourceTree = "<group>"; };
+		9A32058922CDD2AE00279962 /* ZFPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZFPlayerViewController.h; sourceTree = "<group>"; };
+		9A32058A22CDD2AE00279962 /* ZFPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerViewController.m; sourceTree = "<group>"; };
 		9A37B44121BE66BE0006BBC4 /* TestDevViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDevViewController.h; sourceTree = "<group>"; };
 		9A37B44221BE66BE0006BBC4 /* TestDevViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestDevViewController.m; sourceTree = "<group>"; };
 		9A40125C22261E71006F9889 /* VideoConvertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoConvertViewController.h; sourceTree = "<group>"; };
@@ -364,6 +384,8 @@
 		9A937C8B2206967F00728E84 /* test2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test2.jpg; sourceTree = "<group>"; };
 		9A937C8C2206967F00728E84 /* test4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test4.jpg; sourceTree = "<group>"; };
 		9A937C8D2206967F00728E84 /* test3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test3.jpg; sourceTree = "<group>"; };
+		9A9A25FC2314CD50000E1EE3 /* OtherTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherTestViewController.h; sourceTree = "<group>"; };
+		9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OtherTestViewController.m; sourceTree = "<group>"; };
 		9A9F6AB821CA2F54006AF1FD /* ZYNetworkAccessibity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYNetworkAccessibity.m; sourceTree = "<group>"; };
 		9A9F6AB921CA2F54006AF1FD /* ZYNetworkAccessibity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYNetworkAccessibity.h; sourceTree = "<group>"; };
 		9A9F6ABC21CB2992006AF1FD /* WLPhotoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLPhotoManager.h; sourceTree = "<group>"; };
@@ -374,6 +396,8 @@
 		9A9F6AC421CC9547006AF1FD /* IBeaconViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IBeaconViewController.m; sourceTree = "<group>"; };
 		9A9F6AC721CCDC40006AF1FD /* LocalNotifyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotifyManager.m; sourceTree = "<group>"; };
 		9A9F6AC821CCDC40006AF1FD /* LocalNotifyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotifyManager.h; sourceTree = "<group>"; };
+		9AC1ACAD22C4CED6006A6E85 /* TestOpt1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestOpt1ViewController.h; sourceTree = "<group>"; };
+		9AC1ACAE22C4CED6006A6E85 /* TestOpt1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestOpt1ViewController.m; sourceTree = "<group>"; };
 		9ACFE1D821E03E0D00305532 /* FriendCircleNewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCircleNewCell.h; sourceTree = "<group>"; };
 		9ACFE1D921E03E0D00305532 /* FriendLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendLayout.h; sourceTree = "<group>"; };
 		9ACFE1DA21E03E0D00305532 /* FriendCircleNewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCircleNewCell.m; sourceTree = "<group>"; };
@@ -1148,6 +1172,8 @@
 			children = (
 				9ACFE1ED21E053C700305532 /* OffRenderViewController.h */,
 				9ACFE1EE21E053C700305532 /* OffRenderViewController.m */,
+				9A1E6D3322EED7B100489FC6 /* OffRenderViewController1.h */,
+				9A1E6D3422EED7B100489FC6 /* OffRenderViewController1.m */,
 			);
 			path = OffRenderViewTest;
 			sourceTree = "<group>";
@@ -1196,6 +1222,14 @@
 				9AD613BF2249CA020092CA5C /* TmpTestViewController.m */,
 				9AD613C12249CA8E0092CA5C /* FireBaseViewController.h */,
 				9AD613C22249CA8E0092CA5C /* FireBaseViewController.m */,
+				9AC1ACAD22C4CED6006A6E85 /* TestOpt1ViewController.h */,
+				9AC1ACAE22C4CED6006A6E85 /* TestOpt1ViewController.m */,
+				9A32057E22CB09CD00279962 /* AVPlayerTestViewController.h */,
+				9A32057F22CB09CD00279962 /* AVPlayerTestViewController.m */,
+				9A32058122CB417D00279962 /* moviePlayerViewController.h */,
+				9A32058222CB417D00279962 /* moviePlayerViewController.m */,
+				9A32058922CDD2AE00279962 /* ZFPlayerViewController.h */,
+				9A32058A22CDD2AE00279962 /* ZFPlayerViewController.m */,
 			);
 			path = TmpTestController;
 			sourceTree = "<group>";
@@ -1232,6 +1266,12 @@
 				9AF2504221D6053D00F14377 /* YYKitTestViewController.m */,
 				9A1DED4722141FFF00DB076B /* TestOneViewController.h */,
 				9A1DED4822141FFF00DB076B /* TestOneViewController.m */,
+				9A9A25FC2314CD50000E1EE3 /* OtherTestViewController.h */,
+				9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */,
+				9A1FFE8E2325F9C300205D02 /* FaceIDViewController.h */,
+				9A1FFE8F2325F9C300205D02 /* FaceIDViewController.m */,
+				9A1FFE912325FA6C00205D02 /* SWFingerprintLock.h */,
+				9A1FFE922325FA6C00205D02 /* SWFingerprintLock.m */,
 			);
 			path = SimpleTestController;
 			sourceTree = "<group>";
@@ -1338,6 +1378,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1433,16 +1474,18 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1454,6 +1497,7 @@
 			files = (
 				9398C56E1F95B18F00213A56 /* BleCommonFun.m in Sources */,
 				93581D1D218AA816001FF16D /* MJPropertyKey.m in Sources */,
+				9A9A25FE2314CD50000E1EE3 /* OtherTestViewController.m in Sources */,
 				93C763B51F05E30B0017152C /* DBOperator.m in Sources */,
 				9371D42521183EFF002842DA /* BarSelectView.m in Sources */,
 				9371D42821183F1B002842DA /* BarSelectItem.m in Sources */,
@@ -1480,6 +1524,7 @@
 				93581D22218AA816001FF16D /* NSObject+MJProperty.m in Sources */,
 				93581D03218AA7BA001FF16D /* SystemStoreManager.m in Sources */,
 				930F98712101EA8300240D6F /* LAFileManager.m in Sources */,
+				9A32058B22CDD2AE00279962 /* ZFPlayerViewController.m in Sources */,
 				9A9F6AC521CC9547006AF1FD /* IBeaconViewController.m in Sources */,
 				93D2ECB420B66576007426C8 /* BleOperatorManager.m in Sources */,
 				939F44691F051649009F9A9A /* FMDatabaseAdditions.m in Sources */,
@@ -1490,6 +1535,7 @@
 				9A40125E22261E71006F9889 /* VideoConvertViewController.m in Sources */,
 				93581D1B218AA816001FF16D /* MJFoundation.m in Sources */,
 				93C763D81F062F2A0017152C /* XlabTools.m in Sources */,
+				9AC1ACAF22C4CED6006A6E85 /* TestOpt1ViewController.m in Sources */,
 				9ACFE1EA21E0409D00305532 /* YYFPSLabel.m in Sources */,
 				939F44391F04E1C0009F9A9A /* FloatTableView.m in Sources */,
 				9AF24F5521D0B28300F14377 /* DevManager.m in Sources */,
@@ -1515,12 +1561,14 @@
 				93581D1A218AA816001FF16D /* MJExtensionConst.m in Sources */,
 				9AD613C32249CA8E0092CA5C /* FireBaseViewController.m in Sources */,
 				93040792213E63C5002C5247 /* CollectDataUploadServer.m in Sources */,
+				9A1FFE902325F9C300205D02 /* FaceIDViewController.m in Sources */,
 				9AF2504021D5DB9900F14377 /* SimpleViewController.m in Sources */,
 				93581D20218AA816001FF16D /* NSObject+MJCoding.m in Sources */,
 				930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */,
 				9ACFE1DD21E03E0D00305532 /* FriendLayout.m in Sources */,
 				930F98682101E99D00240D6F /* NetWorkBase.m in Sources */,
 				9A44992C21B7A68800D38AB2 /* RunLoopTracker.m in Sources */,
+				9A1FFE932325FA6C00205D02 /* SWFingerprintLock.m in Sources */,
 				9331E8521F145EC300A7C6E4 /* BottomSelectView.m in Sources */,
 				93581D1C218AA816001FF16D /* MJProperty.m in Sources */,
 				93AA44DE1F0C7237007C01A6 /* PageSelectView.m in Sources */,
@@ -1535,9 +1583,11 @@
 				9A9F6AC221CB8EEE006AF1FD /* HRLocationConverter.m in Sources */,
 				93D6B3EB210F005F00C451CA /* UIScrollView+PullUp.m in Sources */,
 				939F44121F04B05B009F9A9A /* NSTimer+Extension.m in Sources */,
+				9A32058022CB09CD00279962 /* AVPlayerTestViewController.m in Sources */,
 				93C2AD0320F5B80800D00092 /* XZLog.m in Sources */,
 				939F44101F04B05B009F9A9A /* NSObject+Extension.m in Sources */,
 				9ACFE1EF21E053C700305532 /* OffRenderViewController.m in Sources */,
+				9A32058322CB417D00279962 /* moviePlayerViewController.m in Sources */,
 				9A44992921B6736200D38AB2 /* MyAnnotation.m in Sources */,
 				93C763C91F062D8C0017152C /* Reachability.m in Sources */,
 				9A9F6ABE21CB2992006AF1FD /* WLPhotoManager.m in Sources */,
@@ -1548,6 +1598,7 @@
 				939F44291F04B299009F9A9A /* SimpleAlertView.m in Sources */,
 				930A35ED2112DD0E00DBC627 /* MainViewController.m in Sources */,
 				9A44992421B65C0F00D38AB2 /* MapViewController.m in Sources */,
+				9A1E6D3522EED7B100489FC6 /* OffRenderViewController1.m in Sources */,
 				93C763B41F05E30B0017152C /* DBManager.m in Sources */,
 				93040791213E63C5002C5247 /* CollectDataAssistManager.m in Sources */,
 				93C763E51F0633B70017152C /* TKAlertView.m in Sources */,
@@ -1715,7 +1766,7 @@
 				INFOPLIST_FILE = MyProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oceanwing.alex.MyProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.security.alex.MyProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = zhixin_universal;
 			};
@@ -1729,7 +1780,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = P2G796VEYC;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1737,9 +1788,9 @@
 				INFOPLIST_FILE = MyProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oceanwing.alex.MyProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.security.alex.MyProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = zhixin_universal;
 			};
 			name = Release;
 		};

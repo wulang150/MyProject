@@ -31,7 +31,7 @@
     [XZLog initLog];
     
     //fireBase
-    [FIRApp configure];
+//    [FIRApp configure];
     
     //配置bugly
     BuglyConfig *config = [[BuglyConfig alloc] init];
@@ -53,8 +53,8 @@
 
 //    //首页
 //    ViewController *vc = [ViewController new];
-//    SimpleViewController *vc = [SimpleViewController new];
-    TmpTestViewController *vc = [TmpTestViewController new];
+    SimpleViewController *vc = [SimpleViewController new];
+//    TmpTestViewController *vc = [TmpTestViewController new];
 //    TabBarBaseViewController *vc = [TabBarBaseViewController new];
 //    [self.window setRootViewController:vc];
     

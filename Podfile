@@ -17,5 +17,9 @@ pod 'CocoaAsyncSocket', '~> 7.6.3'
 pod 'Firebase/Core'
 pod 'Aspects', '~> 1.4.1'
 
+pod 'ZFPlayer', '~> 3.0'
+pod 'ZFPlayer/ControlView', '~> 3.0'
+pod 'ZFPlayer/AVPlayer', '~> 3.0'
+
 end
 
