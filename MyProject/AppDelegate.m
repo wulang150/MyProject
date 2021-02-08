@@ -13,7 +13,7 @@
 #import "RunLoopTracker.h"
 #import "SimpleViewController.h"
 #import "TmpTestViewController.h"
-#import <Firebase.h>
+//#import <Firebase.h>
 
 @interface AppDelegate ()
 <BuglyDelegate>

@@ -7,9 +7,13 @@
 //
 
 #import "ZXFireBaseManage.h"
-#import <FirebaseAnalytics/FIRAnalytics.h>
+//#import <FirebaseAnalytics/FIRAnalytics.h>
 
 @implementation ZXFireBaseManage
+
++ (void)setUserPropertyWithValue:(nullable NSString *)value name:(NSString *)name{
+//    [FIRAnalytics setUserPropertyString:value forName:name];
+}
 
 + (void)reportEvent:(NSString *)event{
     
@@ -19,8 +23,8 @@
 
 + (void)reportEvent:(NSString *)event withParameters:(NSDictionary *_Nullable)params{
     
-    [FIRAnalytics logEventWithName:event
-                        parameters:params];
+//    [FIRAnalytics logEventWithName:event
+//                        parameters:params];
 }
 
 @end

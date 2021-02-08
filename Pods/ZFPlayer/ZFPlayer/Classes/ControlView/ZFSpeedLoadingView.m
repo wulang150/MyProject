@@ -8,7 +8,11 @@
 #import "ZFSpeedLoadingView.h"
 #import "ZFNetworkSpeedMonitor.h"
 #import "UIView+ZFFrame.h"
+#if __has_include(<ZFPlayer/ZFPlayer.h>)
 #import <ZFPlayer/ZFPlayer.h>
+#else
+#import "ZFPlayer.h"
+#endif
 
 @interface ZFSpeedLoadingView ()
 
@@ -59,9 +63,6 @@
     CGFloat min_h = 0;
     CGFloat min_view_w = self.zf_width;
     CGFloat min_view_h = self.zf_height;
-    
-    min_w = min_view_w;
-    min_h = min_view_h;
     
     min_w = 44;
     min_h = min_w;

@@ -11,7 +11,7 @@
 #import "FriendCircleNewCell.h"
 #import "YYFPSLabel.h"
 
-#define FLAG              //去掉注释，就是开启了优化的代码，注释就是使用非优化代码
+//#define FLAG              //去掉注释，就是开启了优化的代码，注释就是使用非优化代码
 
 @interface ProTableViewController ()
 <UITableViewDelegate,UITableViewDataSource>

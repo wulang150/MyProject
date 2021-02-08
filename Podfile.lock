@@ -15,51 +15,32 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
-  - Bugly (2.5.0)
-  - CocoaAsyncSocket (7.6.3)
-  - Firebase/Core (4.13.0):
-    - FirebaseAnalytics (= 4.2.0)
-    - FirebaseCore (= 4.0.20)
-  - FirebaseAnalytics (4.2.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - nanopb (~> 0.3)
-  - FirebaseCore (4.0.20):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (2.0.10):
-    - FirebaseCore (~> 4.0)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-  - Masonry (1.0.2)
+  - Bugly (2.5.71)
+  - CocoaAsyncSocket (7.6.5)
+  - dbMule (0.1.4)
+  - Masonry (1.1.0)
   - MBProgressHUD (0.9.2)
-  - MJRefresh (3.1.12)
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
+  - MJRefresh (3.5.0)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
-  - ZFPlayer (3.2.10):
-    - ZFPlayer/Core (= 3.2.10)
-  - ZFPlayer/AVPlayer (3.2.10):
+  - ZFPlayer (3.3.3):
+    - ZFPlayer/Core (= 3.3.3)
+  - ZFPlayer/AVPlayer (3.3.3):
     - ZFPlayer/Core
-  - ZFPlayer/ControlView (3.2.10):
+  - ZFPlayer/ControlView (3.3.3):
     - ZFPlayer/Core
-  - ZFPlayer/Core (3.2.10)
+  - ZFPlayer/Core (3.3.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - Aspects (~> 1.4.1)
   - Bugly
   - CocoaAsyncSocket (~> 7.6.3)
-  - Firebase/Core
+  - dbMule (from `https://github.com/wulang150/dbMule.git`)
   - Masonry
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh
@@ -70,42 +51,40 @@ DEPENDENCIES:
   - ZFPlayer/ControlView (~> 3.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Aspects
     - Bugly
     - CocoaAsyncSocket
-    - Firebase
-    - FirebaseAnalytics
-    - FirebaseCore
-    - FirebaseInstanceID
-    - GoogleToolboxForMac
     - Masonry
     - MBProgressHUD
     - MJRefresh
-    - nanopb
     - SDWebImage
     - YYKit
     - ZFPlayer
 
+EXTERNAL SOURCES:
+  dbMule:
+    :git: https://github.com/wulang150/dbMule.git
+
+CHECKOUT OPTIONS:
+  dbMule:
+    :commit: 9dcec08b0c9e0e036da28d605db894cf23463e5f
+    :git: https://github.com/wulang150/dbMule.git
+
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
-  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
-  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
-  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
-  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
-  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  dbMule: 87cb9f2aa669dc5801105d9a1db3c6b872e1f0ed
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
-  ZFPlayer: a51c6ffebaf06b91d373091bb4a62ee188cfc7de
+  ZFPlayer: 1310252c253b9958e4fcd411e706b99c31834eaf
 
-PODFILE CHECKSUM: 6ddcfc6f3562299733296a3a84a182b57a355b6b
+PODFILE CHECKSUM: 186579a73a0cf2f68bf91b1771d980515c4045a5
 
-COCOAPODS: 1.7.0.beta.3
+COCOAPODS: 1.9.3

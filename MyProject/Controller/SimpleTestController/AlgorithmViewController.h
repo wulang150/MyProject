@@ -11,10 +11,11 @@
 	
 
 #import <UIKit/UIKit.h>
+#import "BaseController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AlgorithmViewController : UIViewController
+@interface AlgorithmViewController : BaseController
 
 @end
 

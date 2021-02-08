@@ -11,7 +11,7 @@
 @interface FDTextView()
 <UITextViewDelegate>
 {
-    float width,height;
+    CGFloat width,height;
     UIView *bgView;
     int placeFontSize;
     NSInteger MX;
@@ -27,6 +27,8 @@
     CGFloat maxHeight;      //键盘的最大高度
     __weak UIView *superView;      //自动上移时候，移动的view，如果设置为空，默认是整个window上移
     CGRect superRect;
+    
+    BOOL isAutoLayout;      //是否为自动布局
 }
 @end
 
@@ -43,14 +45,22 @@
 {
     if(self = [super initWithFrame:frame])
     {
+        isAutoLayout = NO;
         [self createView];
     }
     
     return self;
 }
 
-- (void)createView
-{
+- (id)init{
+    if(self = [super init]){
+        isAutoLayout = YES;
+        [self createView];
+    }
+    return self;
+}
+
+- (void)initData{
     flag = 1;
     statusAdjust = 0;
     tmpFrame = self.frame;
@@ -60,22 +70,39 @@
     width = self.frame.size.width;
     height = self.frame.size.height;
     placeFontSize = 13;
-    
-    [self addSubview:self.placeholderView];
+}
 
-    //背景模板
-    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ([UIScreen mainScreen].bounds.size.width), ([UIScreen mainScreen].bounds.size.height))];
+- (void)createView
+{
+    [self initData];
+    [self addSubview:self.placeholderView];
+}
+
+
+- (void)createBgView:(BOOL)isAutoLayout{
+    [bgView removeFromSuperview];
+    UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
+    if(isAutoLayout){
+        
+        bgView = [[UIView alloc] init];
+        [window addSubview:bgView];
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.leading.bottom.trailing.mas_equalTo(0);
+        }];
+    }else{
+        //背景模板
+        bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ([UIScreen mainScreen].bounds.size.width), ([UIScreen mainScreen].bounds.size.height))];
+        [window addSubview:bgView];
+    }
     bgView.backgroundColor = [UIColor blackColor];
     bgView.tag = 555;
     bgView.alpha = 0.1;
-    
     //点击事件
     UITapGestureRecognizer *singleTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bgTag)];
     singleTap.numberOfTapsRequired = 1;
     singleTap.numberOfTouchesRequired = 1;
     [bgView addGestureRecognizer:singleTap];
-    
 }
 
 - (UILabel *)placeholderView
@@ -112,15 +139,30 @@
     }
 }
 
+- (void)setIsMask:(BOOL)isMask{
+    _isMask = isMask;
+    bgView.hidden = !isMask;
+}
+
 - (void)setPlaceholder:(NSString *)placeholder
 {
     _placeholder = placeholder;
-    CGRect rect = [placeholder boundingRectWithSize:CGSizeMake(width-12, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:placeFontSize]} context:nil];
-    float h = ceilf(rect.size.height);
-    
-    _placeholderView.frame = CGRectMake(6, (height-h)/2, width-12, h);
-    _placeholderView.center = CGPointMake(width/2, height/2);
     _placeholderView.text = placeholder;
+    if(!isAutoLayout){
+        //使用绝对布局
+        CGRect rect = [placeholder boundingRectWithSize:CGSizeMake(width-12, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:placeFontSize]} context:nil];
+        float h = ceilf(rect.size.height);
+        
+        _placeholderView.frame = CGRectMake(6, (height-h)/2, width-12, h);
+        _placeholderView.center = CGPointMake(width/2, height/2);
+    }else{
+        //使用自动布局
+        [_placeholderView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.leading.mas_equalTo(10);
+            make.trailing.mas_equalTo(-10);
+            make.centerY.mas_equalTo(0);
+        }];
+    }
 }
 
 - (void)setIsOneLine:(BOOL)isOneLine
@@ -170,6 +212,9 @@
 {
     if(statusAdjust!=1)
         return;
+    if(tmpFrame.size.width<0.1||tmpFrame.size.height<0.1){
+        tmpFrame = self.frame;
+    }
     CGSize size = CGSizeMake(CGFLOAT_MAX, tmpFrame.size.height);
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.font,NSFontAttributeName, nil];
     CGRect curRect = [self.text boundingRectWithSize:size
@@ -204,6 +249,9 @@
 {
     if(statusAdjust!=2)
         return;
+    if(tmpFrame.size.width<0.1||tmpFrame.size.height<0.1){
+        tmpFrame = self.frame;
+    }
     CGSize size = CGSizeMake(tmpFrame.size.width - 8, CGFLOAT_MAX);
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.font,NSFontAttributeName, nil];
     CGRect curRect = [self.text boundingRectWithSize:size
@@ -280,12 +328,10 @@
     {
         maxHeight = keyboardRect.size.height;
     }
-    if(flag)
-    {
-        //保证每次只执行一次
-        [self performSelector:@selector(willShow) withObject:nil afterDelay:0.3];
-        flag = 0;
-    }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    //保证每次只执行一次
+    [self performSelector:@selector(willShow) withObject:nil afterDelay:0.3];
     
 }
 
@@ -310,7 +356,6 @@
     [UIView setAnimationDuration:0.35];
     [UIView commitAnimations];
     
-    flag = 1;
     
 }
 
@@ -340,10 +385,7 @@
     {
         [_FDdelegate FDTextViewShouldBeginEditing:self];
     }
-    UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
-    UIView *view = [window viewWithTag:555];
-    if(!view)
-        [window addSubview:bgView];
+    [self createBgView:isAutoLayout];
     [_placeholderView setHidden:YES];
     return YES;
 }

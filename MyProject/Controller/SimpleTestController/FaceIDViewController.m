@@ -8,6 +8,7 @@
 
 #import "FaceIDViewController.h"
 #import "SWFingerprintLock.h"
+#import "VDBFingerprintLock.h"
 
 @interface FaceIDViewController ()
 
@@ -23,7 +24,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     NSLog(@"%s",__func__);
-    [[SWFingerprintLock shareInstance] logout];
+    [[VDBFingerprintLock shareInstance] logout];
 }
 
 - (void)setupUI{
@@ -32,9 +33,19 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [[SWFingerprintLock shareInstance] unlockWithResultBlock:^(UnlockResult result, NSString * _Nonnull errMsg) {
-        
+//    [[VDBFingerprintLock shareInstance] unlockWithResultBlock:^(VDBUnlockResult result, NSString * _Nonnull errMsg) {
+//
+//    }];
+    int succ = 0;
+//    [[VDBFingerprintLock shareInstance] checkUnlockSupportType1:&succ];
+    
+    [VDBFingerprintLock checkUnlockSupportType:&succ];
+    
+    [VDBFingerprintLock unlockWithResultBlock:^(VDBUnlockResult result, NSString * _Nonnull errMsg) {
+        NSLog(@"Fingerprint>>>>>>%d",succ);
     }];
+    
+    NSLog(@"Fingerprint>>>>>>%d",succ);
 }
 
 @end

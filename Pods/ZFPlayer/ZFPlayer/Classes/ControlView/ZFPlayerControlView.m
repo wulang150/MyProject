@@ -31,8 +31,11 @@
 #import "UIImageView+ZFCache.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "ZFVolumeBrightnessView.h"
-#import "ZFSmallFloatControlView.h"
+#if __has_include(<ZFPlayer/ZFPlayer.h>)
 #import <ZFPlayer/ZFPlayer.h>
+#else
+#import "ZFPlayer.h"
+#endif
 
 @interface ZFPlayerControlView () <ZFSliderViewDelegate>
 /// 竖屏控制层的View
@@ -107,8 +110,6 @@
     CGFloat min_view_w = self.zf_width;
     CGFloat min_view_h = self.zf_height;
     
-    min_w = min_view_w;
-    min_h = min_view_h;
     self.portraitControlView.frame = self.bounds;
     self.landScapeControlView.frame = self.bounds;
     self.floatControlView.frame = self.bounds;
@@ -157,11 +158,11 @@
     self.bottomPgrogress.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
     min_x = 0;
-    min_y = 0;
-    min_w = 160;
-    min_h = 40;
+    min_y = iPhoneX ? 54 : 30;
+    min_w = 170;
+    min_h = 35;
     self.volumeBrightnessView.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.volumeBrightnessView.center = self.center;
+    self.volumeBrightnessView.zf_centerX = self.zf_centerX;
 }
 
 - (void)dealloc {
@@ -243,12 +244,16 @@
 }
 
 /// 音量改变的通知
-- (void)volumeChanged:(NSNotification *)notification {
-    float volume = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-    if (self.player.isFullScreen) {
-        [self.volumeBrightnessView updateProgress:volume withVolumeBrightnessType:ZFVolumeBrightnessTypeVolume];
-    } else {
-        [self.volumeBrightnessView addSystemVolumeView];
+- (void)volumeChanged:(NSNotification *)notification {    
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *reasonstr = userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
+    if ([reasonstr isEqualToString:@"ExplicitVolumeChange"]) {
+        float volume = [ userInfo[@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+        if (self.player.isFullScreen) {
+            [self.volumeBrightnessView updateProgress:volume withVolumeBrightnessType:ZFVolumeBrightnessTypeVolume];
+        } else {
+            [self.volumeBrightnessView addSystemVolumeView];
+        }
     }
 }
 
@@ -263,6 +268,7 @@
     self.bottomPgrogress.bufferValue = 0;
     self.floatControlView.hidden = YES;
     self.failBtn.hidden = YES;
+    self.volumeBrightnessView.hidden = YES;
     self.portraitControlView.hidden = self.player.isFullScreen;
     self.landScapeControlView.hidden = !self.player.isFullScreen;
     if (self.controlViewAppeared) {
@@ -287,6 +293,11 @@
     [self.landScapeControlView showTitle:title fullScreenMode:fullScreenMode];
     [self.coverImageView setImageWithURLString:coverUrl placeholder:placeholder];
     [self.bgImgView setImageWithURLString:coverUrl placeholder:placeholder];
+    if (self.prepareShowControlView) {
+        [self showControlViewWithAnimated:NO];
+    } else {
+        [self hideControlViewWithAnimated:NO];
+    }
 }
 
 /// 设置标题、UIImage封面、全屏模式
@@ -298,6 +309,11 @@
     [self.landScapeControlView showTitle:title fullScreenMode:fullScreenMode];
     self.coverImageView.image = image;
     self.bgImgView.image = image;
+    if (self.prepareShowControlView) {
+        [self showControlViewWithAnimated:NO];
+    } else {
+        [self hideControlViewWithAnimated:NO];
+    }
 }
 
 #pragma mark - ZFPlayerControlViewDelegate
@@ -316,7 +332,7 @@
         return [self.landScapeControlView shouldResponseGestureWithPoint:point withGestureType:gestureType touch:touch];
     } else {
         if (!self.customDisablePanMovingDirection) {
-            if (self.player.scrollView) {  /// 列表时候禁止左右滑动
+            if (self.player.scrollView) {  /// 列表时候禁止上下滑动（防止和列表滑动冲突）
                 self.player.disablePanMovingDirection = ZFPlayerDisablePanMovingDirectionVertical;
             } else { /// 不禁用滑动方向
                 self.player.disablePanMovingDirection = ZFPlayerDisablePanMovingDirectionNone;
@@ -391,12 +407,15 @@
     @weakify(self)
     if (direction == ZFPanDirectionH && self.sumTime >= 0 && self.player.totalTime > 0) {
         [self.player seekToTime:self.sumTime completionHandler:^(BOOL finished) {
-            @strongify(self)
-            /// 左右滑动调节播放进度
-            [self.portraitControlView sliderChangeEnded];
-            [self.landScapeControlView sliderChangeEnded];
-            if (self.controlViewAppeared) {
-                [self autoFadeOutControlView];
+            if (finished) {
+                @strongify(self)
+                /// 左右滑动调节播放进度
+                [self.portraitControlView sliderChangeEnded];
+                [self.landScapeControlView sliderChangeEnded];
+                self.bottomPgrogress.isdragging = NO;
+                if (self.controlViewAppeared) {
+                    [self autoFadeOutControlView];
+                }
             }
         }];
         if (self.seekToPlay) {
@@ -448,6 +467,8 @@
 - (void)videoPlayer:(ZFPlayerController *)videoPlayer loadStateChanged:(ZFPlayerLoadState)state {
     if (state == ZFPlayerLoadStatePrepare) {
         self.coverImageView.hidden = NO;
+        [self.portraitControlView playBtnSelectedState:videoPlayer.currentPlayerManager.shouldAutoPlay];
+        [self.landScapeControlView playBtnSelectedState:videoPlayer.currentPlayerManager.shouldAutoPlay];
     } else if (state == ZFPlayerLoadStatePlaythroughOK || state == ZFPlayerLoadStatePlayable) {
         self.coverImageView.hidden = YES;
         if (self.effectViewShow) {
@@ -470,7 +491,9 @@
 - (void)videoPlayer:(ZFPlayerController *)videoPlayer currentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime {
     [self.portraitControlView videoPlayer:videoPlayer currentTime:currentTime totalTime:totalTime];
     [self.landScapeControlView videoPlayer:videoPlayer currentTime:currentTime totalTime:totalTime];
-    self.bottomPgrogress.value = videoPlayer.progress;
+    if (!self.bottomPgrogress.isdragging) {
+        self.bottomPgrogress.value = videoPlayer.progress;
+    }
 }
 
 /// 缓冲改变回调
@@ -539,6 +562,11 @@
     }
 }
 
+- (void)videoPlayer:(ZFPlayerController *)videoPlayer floatViewShow:(BOOL)show {
+    self.floatControlView.hidden = !show;
+    self.portraitControlView.hidden = show;
+}
+
 #pragma mark - Private Method
 
 - (void)sliderValueChangingValue:(CGFloat)value isForward:(BOOL)forward {
@@ -562,6 +590,8 @@
     /// 更新滑杆
     [self.portraitControlView sliderValueChanged:value currentTimeString:draggedTime];
     [self.landScapeControlView sliderValueChanged:value currentTimeString:draggedTime];
+    self.bottomPgrogress.isdragging = YES;
+    self.bottomPgrogress.value = value;
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideFastView) object:nil];
     [self performSelector:@selector(hideFastView) withObject:nil afterDelay:0.1];
@@ -651,10 +681,20 @@
         _portraitControlView = [[ZFPortraitControlView alloc] init];
         _portraitControlView.sliderValueChanging = ^(CGFloat value, BOOL forward) {
             @strongify(self)
+            NSString *draggedTime = [ZFUtilities convertTimeSecond:self.player.totalTime*value];
+            /// 更新滑杆和时间
+            [self.landScapeControlView sliderValueChanged:value currentTimeString:draggedTime];
+            self.fastProgressView.value = value;
+            self.bottomPgrogress.isdragging = YES;
+            self.bottomPgrogress.value = value;
             [self cancelAutoFadeOutControlView];
         };
         _portraitControlView.sliderValueChanged = ^(CGFloat value) {
             @strongify(self)
+            [self.landScapeControlView sliderChangeEnded];
+            self.fastProgressView.value = value;
+            self.bottomPgrogress.isdragging = NO;
+            self.bottomPgrogress.value = value;
             [self autoFadeOutControlView];
         };
     }
@@ -667,10 +707,20 @@
         _landScapeControlView = [[ZFLandScapeControlView alloc] init];
         _landScapeControlView.sliderValueChanging = ^(CGFloat value, BOOL forward) {
             @strongify(self)
+            NSString *draggedTime = [ZFUtilities convertTimeSecond:self.player.totalTime*value];
+            /// 更新滑杆和时间
+            [self.portraitControlView sliderValueChanged:value currentTimeString:draggedTime];
+            self.fastProgressView.value = value;
+            self.bottomPgrogress.isdragging = YES;
+            self.bottomPgrogress.value = value;
             [self cancelAutoFadeOutControlView];
         };
         _landScapeControlView.sliderValueChanged = ^(CGFloat value) {
             @strongify(self)
+            [self.portraitControlView sliderChangeEnded];
+            self.fastProgressView.value = value;
+            self.bottomPgrogress.isdragging = NO;
+            self.bottomPgrogress.value = value;
             [self autoFadeOutControlView];
         };
     }
@@ -764,7 +814,11 @@
         @weakify(self)
         _floatControlView.closeClickCallback = ^{
             @strongify(self)
-            [self.player stopCurrentPlayingCell];
+            if (self.player.containerType == ZFPlayerContainerTypeCell) {
+                [self.player stopCurrentPlayingCell];
+            } else if (self.player.containerType == ZFPlayerContainerTypeView) {
+                [self.player stopCurrentPlayingView];
+            }
             [self resetControlView];
         };
     }
@@ -774,6 +828,8 @@
 - (ZFVolumeBrightnessView *)volumeBrightnessView {
     if (!_volumeBrightnessView) {
         _volumeBrightnessView = [[ZFVolumeBrightnessView alloc] init];
+        _volumeBrightnessView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+        _volumeBrightnessView.hidden = YES;
     }
     return _volumeBrightnessView;
 }

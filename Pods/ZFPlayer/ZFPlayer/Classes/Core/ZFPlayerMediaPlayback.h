@@ -59,12 +59,12 @@ typedef NS_ENUM(NSInteger, ZFPlayerScalingMode) {
 @optional
 /// The player volume.
 /// Only affects audio volume for the player instance and not for the device.
-/// You can change device volume or player volume as needed,change the player volume you can folllow the `ZFPlayerMediaPlayback` protocol.
+/// You can change device volume or player volume as needed,change the player volume you can follow the `ZFPlayerMediaPlayback` protocol.
 @property (nonatomic) float volume;
 
 /// The player muted.
 /// indicates whether or not audio output of the player is muted. Only affects audio muting for the player instance and not for the device.
-/// You can change device volume or player muted as needed,change the player muted you can folllow the `ZFPlayerMediaPlayback` protocol.
+/// You can change device volume or player muted as needed,change the player muted you can follow the `ZFPlayerMediaPlayback` protocol.
 @property (nonatomic, getter=isMuted) BOOL muted;
 
 /// Playback speed,0.5...2
@@ -92,11 +92,14 @@ typedef NS_ENUM(NSInteger, ZFPlayerScalingMode) {
  @abstract Check whether video preparation is complete.
  @discussion isPreparedToPlay processing logic
  
- * If isPreparedToPlay is TRUE, you can call [ZFPlayerMediaPlayback play] API start playing;
- * If isPreparedToPlay to FALSE, direct call [ZFPlayerMediaPlayback play], in the play the internal automatic call [ZFPlayerMediaPlayback prepareToPlay] API.
- * Returns YES if prepared for playback.
+ * If isPreparedToPlay is true, you can call [ZFPlayerMediaPlayback play] API start playing;
+ * If isPreparedToPlay to false, direct call [ZFPlayerMediaPlayback play], in the play the internal automatic call [ZFPlayerMediaPlayback prepareToPlay] API.
+ * Returns true if prepared for playback.
  */
 @property (nonatomic, readonly) BOOL isPreparedToPlay;
+
+/// The player should auto player, default is YES.
+@property (nonatomic) BOOL shouldAutoPlay;
 
 /// The play asset URL.
 @property (nonatomic) NSURL *assetURL;

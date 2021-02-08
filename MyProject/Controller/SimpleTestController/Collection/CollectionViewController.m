@@ -79,11 +79,9 @@
 //    layout.minimumLineSpacing = 10;
 //    layout.itemCount = num;
     //创建一个layout布局类
-//    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
-    //设置布局方向为垂直流布局
-//    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-//    ThreeDCollectionLayout *layout = [[ThreeDCollectionLayout alloc] init];
-    MyTestCollectionLayout *layout = [[MyTestCollectionLayout alloc] init];
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
+//    设置布局方向为垂直流布局
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     //创建collectionView 通过一个布局策略layout来创建
     UICollectionView *collect = [[UICollectionView alloc]initWithFrame:CGRectMake(20, 80, self.view.frame.size.width-40, self.view.frame.size.height/2) collectionViewLayout:layout];
@@ -95,13 +93,14 @@
 //    collect.pagingEnabled = YES;
 //    collect.delaysContentTouches = NO;
 //    collect.canCancelContentTouches = NO;
-//    layout.itemSize = CGSizeMake(collect.frame.size.width-100, collect.frame.size.height/2);
+    layout.itemSize = CGSizeMake(collect.frame.size.width-100, collect.frame.size.height/2);
     //注册item类型 这里使用系统的类型
     [collect registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellid"];
     
     [self.view addSubview:collect];
     
-    _currentIndex = dataArr.count*500;
+//    _currentIndex = dataArr.count*500;
+    _currentIndex = 0;
     _collection = collect;
 //    [collect scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
@@ -144,15 +143,7 @@
     lab.textAlignment = NSTextAlignmentCenter;
     lab.text = str;
     [cell.contentView addSubview:lab];
-//
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 220)];
-//    view.backgroundColor = [UIColor yellowColor];
-//    [cell.contentView addSubview:view];
-//    
-//    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(40, 40, 100, 60)];
-//    bgView.userInteractionEnabled = YES;
-//    bgView.backgroundColor = [UIColor blueColor];
-//    [cell.contentView addSubview:bgView];
+
     return cell;
 }
 
@@ -171,23 +162,38 @@
     BOOL toNext = _endX -  _startX >= dragMiniDistance;
     if (toPre) {
         _currentIndex--;
+        if(_currentIndex<0){
+            _currentIndex = 0;
+        }
         
     }else if(toNext){
         _currentIndex++;
-        
+        if(_currentIndex>=dataArr.count){
+            _currentIndex = dataArr.count-1;
+        }
     }
-    
     
     [_collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
 
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    _startX = scrollView.contentOffset.x;
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _startX = scrollView.contentOffset.x;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+//    if(decelerate){
+//        return;
+//    }
+    _endX = scrollView.contentOffset.x;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self fixCellToCenter];
+    });
+    
+}
+
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 //    _endX = scrollView.contentOffset.x;
 //    dispatch_async(dispatch_get_main_queue(), ^{
 //        [self fixCellToCenter];

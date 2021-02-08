@@ -24,7 +24,13 @@
 
 #import "ZFAVPlayerManager.h"
 #import <UIKit/UIKit.h>
+#if __has_include(<ZFPlayer/ZFPlayer.h>)
 #import <ZFPlayer/ZFPlayer.h>
+#import <ZFPlayer/ZFReachabilityManager.h>
+#else
+#import "ZFPlayer.h"
+#import "ZFReachabilityManager.h"
+#endif
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -114,6 +120,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
 @synthesize isPlaying                      = _isPlaying;
 @synthesize rate                           = _rate;
 @synthesize isPreparedToPlay               = _isPreparedToPlay;
+@synthesize shouldAutoPlay                 = _shouldAutoPlay;
 @synthesize scalingMode                    = _scalingMode;
 @synthesize playerPlayFailed               = _playerPlayFailed;
 @synthesize presentationSizeChanged        = _presentationSizeChanged;
@@ -122,6 +129,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
     self = [super init];
     if (self) {
         _scalingMode = ZFPlayerScalingModeAspectFit;
+        _shouldAutoPlay = YES;
     }
     return self;
 }
@@ -130,9 +138,11 @@ static NSString *const kPresentationSize         = @"presentationSize";
     if (!_assetURL) return;
     _isPreparedToPlay = YES;
     [self initializePlayer];
-    [self play];
+    if (self.shouldAutoPlay) {
+        [self play];
+    }
     self.loadState = ZFPlayerLoadStatePrepare;
-    if (_playerPrepareToPlay) _playerPrepareToPlay(self, self.assetURL);
+    if (self.playerPrepareToPlay) self.playerPrepareToPlay(self, self.assetURL);
 }
 
 - (void)reloadPlayer {
@@ -162,6 +172,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
 - (void)stop {
     [_playerItemKVO safelyRemoveAllObservers];
     self.loadState = ZFPlayerLoadStateUnknown;
+    self.playState = ZFPlayerPlayStatePlayStopped;
     if (self.player.rate != 0) [self.player pause];
     [self.player removeTimeObserver:_timeObserver];
     [self.player replaceCurrentItemWithPlayerItem:nil];
@@ -177,14 +188,15 @@ static NSString *const kPresentationSize         = @"presentationSize";
     self->_totalTime = 0;
     self->_bufferTime = 0;
     self.isReadyToPlay = NO;
-    self.playState = ZFPlayerPlayStatePlayStopped;
 }
 
 - (void)replay {
     @weakify(self)
     [self seekToTime:0 completionHandler:^(BOOL finished) {
         @strongify(self)
-        [self play];
+        if (finished) {
+            [self play];
+        }
     }];
 }
 
@@ -242,7 +254,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
 }
 
 - (void)initializePlayer {
-    _asset = [AVURLAsset assetWithURL:self.assetURL];
+    _asset = [AVURLAsset URLAssetWithURL:self.assetURL options:self.requestHeader];
     _playerItem = [AVPlayerItem playerItemWithAsset:_asset];
     _player = [AVPlayer playerWithPlayerItem:_playerItem];
     [self enableAudioTracks:YES inPlayerItem:_playerItem];
@@ -275,13 +287,15 @@ static NSString *const kPresentationSize         = @"presentationSize";
 - (void)bufferingSomeSecond {
     // playbackBufferEmpty会反复进入，因此在bufferingOneSecond延时播放执行完之前再调用bufferingSomeSecond都忽略
     if (self.isBuffering || self.playState == ZFPlayerPlayStatePlayStopped) return;
+    /// 没有网络
+    if ([ZFReachabilityManager sharedManager].networkReachabilityStatus == ZFReachabilityStatusNotReachable) return;
     self.isBuffering = YES;
     
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.player pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 如果此时用户已经暂停了，则不再需要开启播放了
-        if (!self.isPlaying) {
+        if (!self.isPlaying && self.loadState == ZFPlayerLoadStateStalled) {
             self.isBuffering = NO;
             return;
         }
@@ -322,11 +336,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
         @strongify(self)
         if (!self) return;
         NSArray *loadedRanges = self.playerItem.seekableTimeRanges;
-        /// 大于0才把状态改为可以播放，解决黑屏问题
-        if (CMTimeGetSeconds(time) > 0 && !self.isReadyToPlay) {
-            self.isReadyToPlay = YES;
-            self.loadState = ZFPlayerLoadStatePlaythroughOK;
-        }
+        if (self.isPlaying && self.loadState == ZFPlayerLoadStateStalled) self.player.rate = self.rate;
         if (loadedRanges.count > 0) {
             if (self.playerPlayTimeChanged) self.playerPlayTimeChanged(self, self.currentTime, self.totalTime);
         }
@@ -344,19 +354,25 @@ static NSString *const kPresentationSize         = @"presentationSize";
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([keyPath isEqualToString:kStatus]) {
             if (self.player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-                /// 第一次初始化
-                if (self.loadState == ZFPlayerLoadStatePrepare) {
-                    if (self.playerPrepareToPlay) self.playerReadyToPlay(self, self.assetURL);
+                if (!self.isReadyToPlay) {
+                    self.isReadyToPlay = YES;
+                    self.loadState = ZFPlayerLoadStatePlaythroughOK;
+                    if (self.playerReadyToPlay) self.playerReadyToPlay(self, self.assetURL);
                 }
                 if (self.seekTime) {
-                    [self seekToTime:self.seekTime completionHandler:nil];
+                    if (self.shouldAutoPlay) [self pause];
+                    [self seekToTime:self.seekTime completionHandler:^(BOOL finished) {
+                        if (finished) {
+                            if (self.shouldAutoPlay) [self play];
+                        }
+                    }];
                     self.seekTime = 0;
+                } else {
+                    if (self.shouldAutoPlay) [self play];
                 }
-                if (self.isPlaying) [self play];
                 self.player.muted = self.muted;
                 NSArray *loadedRanges = self.playerItem.seekableTimeRanges;
                 if (loadedRanges.count > 0) {
-                    /// Fix https://github.com/renzifeng/ZFPlayer/issues/475
                     if (self.playerPlayTimeChanged) self.playerPlayTimeChanged(self, self.currentTime, self.totalTime);
                 }
             } else if (self.player.currentItem.status == AVPlayerItemStatusFailed) {
@@ -374,7 +390,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
             // When the buffer is good
             if (self.playerItem.playbackLikelyToKeepUp) {
                 self.loadState = ZFPlayerLoadStatePlayable;
-                if (self.isPlaying) [self play];
+                if (self.isPlaying) [self.player play];
             }
         } else if ([keyPath isEqualToString:kLoadedTimeRanges]) {
             NSTimeInterval bufferTime = [self availableDuration];

@@ -69,15 +69,12 @@ static CGFloat ContentHeight;
 //    // 水平滚动
 //    
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//    self.minimumLineSpacing = 20;
-    
+    self.minimumLineSpacing = 0;
+//    self.itemSize = CGSizeMake(self.collectionView.frame.size.width/3, self.collectionView.frame.size.height);
     // 设置内边距
-//    CGFloat inset = (self.collectionView.frame.size.width - self.itemSize.width) * 0.5;
-//    
-////    self.sectionInset = UIEdgeInsetsMake(0, inset, 0, inset);
-//    
-//   self.collectionView.contentInset = UIEdgeInsetsMake(0, inset, 0, inset);
     
+//    CGFloat inset = (self.collectionView.frame.size.width - self.itemSize.width) * 0.5;
+//    CGFloat yinset = (self.collectionView.frame.size.height - self.itemSize.height) * 0.5;
     CGFloat inset = (self.collectionView.frame.size.width - self.itemSize.width) * 0.5;
     CGFloat yinset = (self.collectionView.frame.size.height - self.itemSize.height) * 0.5;
     // 设置第一个和最后一个默认居中显示
@@ -105,6 +102,7 @@ static CGFloat ContentHeight;
  
  */
 
+/*
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     
@@ -126,8 +124,8 @@ static CGFloat ContentHeight;
     for (UICollectionViewLayoutAttributes *attrs in array) {
 
         // 只处理正在界面上面显示的Item
-//        if(!CGRectIntersectsRect(visibleRect, attrs.frame))
-//            continue;
+        if(!CGRectIntersectsRect(visibleRect, attrs.frame))
+            continue;
         // cell的中心点x 和 collectionView最中心点的x值 的间距
         CGFloat delta = ABS(attrs.center.x - centerX);
 //        CGFloat scale = 0.8;
@@ -183,7 +181,7 @@ static CGFloat ContentHeight;
     
 }
 
-
+*/
 
 /**
  

@@ -29,29 +29,37 @@
 - (void)setupUI{
     [self setNavWithTitle:@"FireBase" leftImage:@"arrow" leftTitle:nil leftAction:@selector(backAction) rightImage:nil rightTitle:nil rightAction:nil];
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(100, 140, 120, 40);
-    [btn setTitle:@"test1" forState:UIControlStateNormal];
-    btn.backgroundColor = [UIColor lightGrayColor];
-    btn.tag = 100;
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *btn = [self gainBtn:CGRectMake(100, 140, 120, 40) tag:100 title:@"test1"];
     [self.view addSubview:btn];
     
+    UIButton *btn1 = [self gainBtn:CGRectMake(100, 220, 120, 40) tag:101 title:@"test2"];
+    [self.view addSubview:btn1];
+    
+    UIButton *btn2 = [self gainBtn:CGRectMake(100, 300, 120, 40) tag:102 title:@"e1"];
+    [self.view addSubview:btn2];
+    
+    UIButton *btn3 = [self gainBtn:CGRectMake(100, 380, 120, 40) tag:103 title:@"e2"];
+    [self.view addSubview:btn3];
+    
+    //开启FireBase的调试模式，上传更及时
+    //在子线程中开启displayLink
+//    self.videoThread = [[NSThread alloc] initWithTarget:self selector:@selector(startVideoLink) object:nil];
+//    [self.videoThread start];
+    //在主线程开启
+//    [self startVideoLink];
+}
+
+- (UIButton *)gainBtn:(CGRect)frame tag:(NSInteger)tag title:(NSString *)title{
     UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(100, 220, 120, 40);
-    [btn1 setTitle:@"test2" forState:UIControlStateNormal];
+    btn1.frame = frame;
+    [btn1 setTitle:title forState:UIControlStateNormal];
     btn1.backgroundColor = [UIColor lightGrayColor];
-    btn1.tag = 101;
+    btn1.tag = tag;
     [btn1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
-    //开启FireBase的调试模式，上传更及时
-    //在子线程中开启displayLink
-    self.videoThread = [[NSThread alloc] initWithTarget:self selector:@selector(startVideoLink) object:nil];
-    [self.videoThread start];
-    //在主线程开启
-//    [self startVideoLink];
+    
+    return btn1;
 }
 
 - (void)startVideoLink{
@@ -126,33 +134,43 @@
 }
 
 - (void)btnAction:(UIButton *)sender{
-//    switch (sender.tag) {
-//        case 100:
-//        {
+    switch (sender.tag) {
+        case 100:
+        {
 //            [FIRAnalytics logEventWithName:kFIREventSelectContent
 //                                parameters:@{
 //                                             kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", sender.titleLabel.text],
 //                                             kFIRParameterItemName:sender.titleLabel.text,
 //                                             kFIRParameterContentType:@"image"
 //                                             }];
-////            [ZXFireBaseManage reportEvent:@"testBtn1" withParameters:@{
-////                                                                       @"name":@"helloBtn",
-////                                                                       @"id":@"122222"
-////                                                                       }];
-//        }
-//            break;
-//        case 101:
-//        {
+//            [ZXFireBaseManage reportEvent:@"testBtn1" withParameters:@{
+//                                                                       @"name":@"helloBtn",
+//                                                                       @"id":@"122222"
+//                                                                       }];
+        }
+            break;
+        case 101:
+        {
 //            [FIRAnalytics logEventWithName:@"testBtn"
 //                                parameters:@{
 //                                             @"name": @"wulang",
 //                                             @"full_text": @"hello"
 //                                             }];
-//        }
-//            break;
-//        default:
-//            break;
-//    }
+        }
+            break;
+        case 102:
+        {
+//            [FIRAnalytics setUserPropertyString:@"e1" forName:@"environment"];
+        }
+            break;
+        case 103:
+        {
+//            [FIRAnalytics setUserPropertyString:@"e2" forName:@"environment"];
+        }
+            break;
+        default:
+            break;
+    }
     
 }
 

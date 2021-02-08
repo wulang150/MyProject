@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZXFireBaseManage : NSObject
 
++ (void)setUserPropertyWithValue:(nullable NSString *)value name:(NSString *)name;
+
 + (void)reportEvent:(NSString *)event;
 
 + (void)reportEvent:(NSString *)event withParameters:(NSDictionary *_Nullable)params;

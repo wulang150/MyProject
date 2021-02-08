@@ -7,6 +7,9 @@
 //
 
 #import "TestOneViewController.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <IJKMediaFramework/IJKMediaFramework.h>
 
 @interface TestOneViewController ()
 <UIScrollViewDelegate>
@@ -15,6 +18,8 @@
 }
 @property(nonatomic) UIScrollView *scrollView;
 @property(nonatomic) UIImageView *imgView;
+@property(nonatomic) UILabel *testLab;
+@property(nonatomic) IJKFFMoviePlayerController *ijkPlayer;
 @end
 
 @implementation TestOneViewController
@@ -22,10 +27,60 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self setNavWithTitle:@"Test" leftImage:@"arrow" leftTitle:nil leftAction:nil rightImage:nil rightTitle:nil rightAction:nil];
+    [self setNavWithTitle:@"Test" leftImage:@"arrow" leftTitle:nil leftAction:nil rightImage:nil rightTitle:nil rightAction:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self testZoom];
+//    [self testZoom];
+    
+//    [self testAsynLab];
+    [self testIjkPlayer];
+}
+
+- (NSString *)getDocumentWithFile:(NSString *)filename{
+    NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    char ss = [documentsDirectory characterAtIndex:0];
+    if(ss=='/')
+    {
+        documentsDirectory = [documentsDirectory substringFromIndex:1];
+    }
+    
+    return [NSString stringWithFormat:@"%@/%@",documentsDirectory,filename];
+}
+//测试ijk播放
+- (void)testIjkPlayer{
+    NSString *videoPath = [self getDocumentWithFile:@"afei.mp4"];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:videoPath]){
+        NSLog(@"videoFile is not Exist!!!!");
+        return;
+    }
+    
+    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+    self.ijkPlayer = [[IJKFFMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:videoPath] withOptions:options];
+//    self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.ijkPlayer.view.frame = CGRectMake(10, 100, self.view.bounds.size.width-20, 280);
+//    self.player.scalingMode = IJKMPMovieScalingModeAspectFit;
+    self.ijkPlayer.shouldAutoplay = YES;
+    [self.ijkPlayer prepareToPlay];
+    [self.ijkPlayer play];
+
+//    self.view.autoresizesSubviews = YES;
+    [self.view addSubview:self.ijkPlayer.view];
+}
+
+//测试子线程文本赋值
+- (void)testAsynLab{
+    self.testLab = [[UILabel alloc] init];
+    //-[UILabel setText:] must be used from main thread only
+    self.testLab.frame = CGRectMake(20,100,120,32);
+    [self.view addSubview:self.testLab];
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        self.testLab.text = @"sdfdfdsfsd";
+//    });
+    
+    UILabel *lab1 = [[UILabel alloc] init];
+    lab1.text = @"aaaaaaaaa";
+    lab1.frame = CGRectMake(20,150,120,32);
+    [self.view addSubview:lab1];
 }
 //测试图片缩放
 - (void)testZoom{

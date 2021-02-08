@@ -25,8 +25,13 @@
 #import <UIKit/UIKit.h>
 #import "ZFPortraitControlView.h"
 #import "ZFLandScapeControlView.h"
-#import <ZFPlayer/ZFPlayerMediaControl.h>
 #import "ZFSpeedLoadingView.h"
+#import "ZFSmallFloatControlView.h"
+#if __has_include(<ZFPlayer/ZFPlayerMediaControl.h>)
+#import <ZFPlayer/ZFPlayerMediaControl.h>
+#else
+#import "ZFPlayerMediaControl.h"
+#endif
 
 @interface ZFPlayerControlView : UIView <ZFPlayerMediaControl>
 
@@ -66,6 +71,9 @@
 /// 高斯模糊视图
 @property (nonatomic, strong, readonly) UIView *effectView;
 
+/// 小窗口控制层
+@property (nonatomic, strong, readonly) ZFSmallFloatControlView *floatControlView;
+
 /// 快进视图是否显示动画，默认NO.
 @property (nonatomic, assign) BOOL fastViewAnimated;
 
@@ -95,6 +103,9 @@
 
 /// 横向滑动控制播放进度时是否显示控制层,默认 YES.
 @property (nonatomic, assign) BOOL horizontalPanShowControlView;
+
+/// prepare时候是否显示控制层,默认 NO.
+@property (nonatomic, assign) BOOL prepareShowControlView;
 
 /// prepare时候是否显示loading,默认 NO.
 @property (nonatomic, assign) BOOL prepareShowLoading;

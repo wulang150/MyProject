@@ -7,12 +7,35 @@
 //
 
 #import "TestOpt1ViewController.h"
+#import "FDTextView.h"
+#import "FDTextField.h"
+#import "MyShowView.h"
+
+@interface StudentObj()
+@property(nonatomic) NSString *city;
+@end
+
+@implementation StudentObj
+
+@synthesize age = _age;
+//添加了@synthesize修饰后，就相当了生成了名为_name的实例变量，并且生成了对应的setting与getting方法
+@synthesize name = _name;
+
+- (NSString *)age{
+    self.city = @"111111";
+    return _age;
+}
+@end
 
 @interface TestOpt1ViewController ()
 
 @end
 
 @implementation TestOpt1ViewController
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,11 +48,80 @@
     
 //    [self testAutoLayer];
     
-    [self testOther];
+//    [self testOther];
+    
+//    [self testFDTextView];
+    
+//    [self testFDTextField];
+    
+    [self testProy];
+    
+//    [self testNotification];
 }
 
 - (void)backAction{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)notifyAction{
+    NSLog(@"vc__notify");
+}
+
+- (void)testNotification{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifyAction) name:@"myNotify" object:nil];
+    
+    MyShowView *showView = [[MyShowView alloc] init];
+//    [showView show];
+    [self.view addSubview:showView];
+    [showView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.mas_equalTo(120);
+        make.center.mas_equalTo(0);
+    }];
+}
+
+- (void)testProy{
+    StudentObj *stu = [[StudentObj alloc] init];
+    stu.name = @"xiaoming";
+//    stu.age = @"18";
+    stu.score = @"88";
+    
+    NSLog(@"student=%@, %@, %@, %@",stu.name,stu.age,stu.score,stu.city);
+}
+
+- (void)testFDTextView{
+    FDTextView *textView = [[FDTextView alloc] initWithFrame:CGRectMake(40, 400, SCREEN_WIDTH-80, 44)];
+//    FDTextView *textView = [[FDTextView alloc] init];
+    textView.placeholder = @"placeholder";
+    textView.MaxNum = 100;
+    [textView isAutoUp:YES superView:nil];
+    textView.layer.borderWidth = 1;
+//    textView.isOneLine = YES;
+    textView.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:textView];
+//    textView.isMask = NO;
+    [textView startAdjustWithMX:0 MY:220];
+    
+//    [textView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(400);
+//        make.centerX.mas_equalTo(0);
+//        make.width.equalTo(self.view).multipliedBy(0.65);
+//        make.height.mas_equalTo(44);
+//    }];
+}
+
+- (void)testFDTextField{
+    FDTextField *textField = [[FDTextField alloc] init];
+    textField.placeholder = @"eeeee";
+    [textField isAutoUp:YES superView:nil];
+    textField.layer.borderWidth = 1;
+    [self.view addSubview:textField];
+    textField.maxNum = 10;
+    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(500);
+        make.width.mas_equalTo(180);
+        make.height.mas_equalTo(46);
+        make.centerX.mas_equalTo(0);
+    }];
 }
 
 - (void)testOther{
@@ -84,11 +176,13 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //    [self testLock1];
     
-    NSInteger num = 20;
-    while (num--) {
-        [self testLock2:num];
-        [NSThread sleepForTimeInterval:0.5];
-    }
+//    NSInteger num = 20;
+//    while (num--) {
+//        [self testLock2:num];
+//        [NSThread sleepForTimeInterval:0.5];
+//    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"myNotify" object:nil];
 }
 
 - (void)testAutoLayer{

@@ -11,18 +11,22 @@
 	
 
 #import "AlgorithmViewController.h"
-
-Class Stack{
-    int val;
-    void push(int a);
-    int pop();
-}
+#include <stack>
+#include <queue>
+using namespace std;
 
 typedef struct TreeNode{
     int val;
     struct TreeNode *left;
     struct TreeNode *right;
 }TreeNode;
+
+//class Stack{
+//public:
+//    int len;
+//    void push(TreeNode *node);
+//    TreeNode *pop();
+//};
 
 @interface AlgorithmViewController ()
 
@@ -66,9 +70,10 @@ void showArr(int a[],int n){
 void testTree(){
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
     TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
-    preShowTree(headNode);
+//    preShowTree1(headNode);
+    cenShowTree(headNode);
 }
-
+//将数组转换为树
 TreeNode *createTree(int *a,int n,int k){
     if(k>=n){
         return NULL;
@@ -90,7 +95,40 @@ void preShowTree(TreeNode *headNode){
 }
 //非递归
 void preShowTree1(TreeNode *headNode){
-    
+    stack<TreeNode *> s;
+//    stack.push(headNode);
+    TreeNode *node = headNode;
+    while (node||!s.empty()) {
+        if(node){
+            s.push(node);
+            printf("%d,",node->val);
+            node = node->left;
+        }
+        else{
+            node = s.top();
+            s.pop();
+            node = node->right;
+        }
+    }
+}
+
+void cenShowTree(TreeNode *headNode){
+    if(headNode==NULL){
+        return;
+    }
+    queue<TreeNode *> q;
+    q.push(headNode);
+    while (!q.empty()) {
+        TreeNode *node = q.front();
+        q.pop();
+        printf("%d,",node->val);
+        if(node->left){
+            q.push(node->left);
+        }
+        if(node->right){
+            q.push(node->right);
+        }
+    }
 }
 
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定

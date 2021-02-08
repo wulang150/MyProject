@@ -7,6 +7,8 @@
 //
 
 #import "OtherTestViewController.h"
+#import "IDCPlayItemSelectView.h"
+#import <dbMule/dbMuleManager.h>
 
 @implementation WaterObj
 
@@ -21,6 +23,7 @@
 {
     
 }
+@property(nonatomic) IDCPlayItemSelectView *playItemSelectView;
 @property(nonatomic) UISlider *slider;
 @end
 
@@ -61,7 +64,67 @@
 //        make.height.mas_equalTo(30);
 //    }];
     
-    [self testStackView];
+//    [self testStackView];
+    
+//    [self testColl];
+//    [self testdbMule];
+    [self testSerialQueue];
+}
+
+//测试串行队列里面是线程的同步处理问题
+- (void)testSerialQueue{
+    //队列里面的任务是异步的，可以通知信号量或者dispatch_group_enter转为同步
+    //这里控制执行顺序为：group1>>>group2>>>group3
+    dispatch_group_t group = dispatch_group_create();
+//    dispatch_queue_t queue = dispatch_queue_create("com.dispatch.serial", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    dispatch_group_async(group, queue, ^{
+
+        dispatch_group_enter(group);
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [NSThread sleepForTimeInterval:2];
+
+            NSLog(@"group1");
+            dispatch_group_leave(group);
+        });
+        
+    });
+    
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    
+    dispatch_group_async(group, queue, ^{
+        dispatch_group_enter(group);
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [NSThread sleepForTimeInterval:1];
+            
+            NSLog(@"group2");
+            dispatch_group_leave(group);
+        });
+    });
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    
+    dispatch_group_async(group, queue, ^{
+
+        NSLog(@"group3");
+    });
+}
+
+- (void)testdbMule{
+    dbMuleManager *obj = [[dbMuleManager alloc] init];
+    [obj show];
+}
+
+- (void)testColl{
+//    self.playItemSelectView = [[IDCPlayItemSelectView alloc] init];
+    self.playItemSelectView = [[IDCPlayItemSelectView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 44)];
+//    self.playItemSelectView.delegate = self;
+    [self.view addSubview:self.playItemSelectView];
+//    [self.playItemSelectView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(100);
+//        make.leading.mas_equalTo(0);
+//        make.trailing.mas_equalTo(0);
+//        make.height.mas_equalTo(44);
+//    }];
 }
 
 - (void)testStackView{
