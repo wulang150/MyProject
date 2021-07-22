@@ -44,7 +44,7 @@
 }
 
 - (void)setupData{
-    itemsArr = @[@"FireBase", @"testOpt1", @"AVPlayer",@"moviePlayerController",@"ZFPlayer",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片"];
+    itemsArr = @[@"FireBase", @"testOpt1", @"AVPlayer",@"moviePlayerController",@"ZFPlayer",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片",@"OpenGL",@"runloop"];
 }
 - (void)setupUI{
     
@@ -133,6 +133,16 @@
         case 9:
         {
             [[UIApplication sharedApplication] popOrPushToContrl:@"CAImageTestViewController"];
+        }
+            break;
+        case 10:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"OpenGLViewController"];
+        }
+            break;
+        case 11:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"runLoopController"];
         }
             break;
             

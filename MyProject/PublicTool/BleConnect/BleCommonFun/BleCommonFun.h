@@ -45,7 +45,7 @@
  *
  *  @return 移位后的数据
  */
-+ (UInt32) NSDataToUInt32:(UInt32)number;
++ (UInt32)NSDataToUInt32:(UInt32)number;
 //周分布
 + (char)weekOfDayDistribution:(NSArray *)array;
 

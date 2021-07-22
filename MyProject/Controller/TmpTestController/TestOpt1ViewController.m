@@ -10,6 +10,7 @@
 #import "FDTextView.h"
 #import "FDTextField.h"
 #import "MyShowView.h"
+#import <objc/runtime.h>
 
 @interface StudentObj()
 @property(nonatomic) NSString *city;
@@ -25,6 +26,41 @@
     self.city = @"111111";
     return _age;
 }
+@end
+
+
+@interface Person()
+{
+    NSString *name1;
+}
+
+@end
+@implementation Person
+
+//- (NSString *)getName1{
+//    return @"1111";
+//}
+
+- (NSString *)name1{
+    return @"2222";
+}
+
+- (NSString *)isName1{
+    return @"3333";
+}
+
+- (NSString *)_name1{
+    return @"4444";
+}
+
+- (void)showName1{
+    
+}
+
++ (void)showName2{
+    
+}
+
 @end
 
 @interface TestOpt1ViewController ()
@@ -54,9 +90,17 @@
     
 //    [self testFDTextField];
     
-    [self testProy];
+//    [self testProy];
     
 //    [self testNotification];
+    Person *person1 = [[Person alloc] init];
+//    person1.name2 = @"xiao";
+//
+//    Person *person2 = [[Person alloc] init];
+//    person2.name2 = @"wulang";
+    
+    NSString *val = [person1 valueForKey:@"name1"];
+    NSLog(@"whidfdfdfdfdfdf>>%@",val);
 }
 
 - (void)backAction{
@@ -86,6 +130,7 @@
     stu.score = @"88";
     
     NSLog(@"student=%@, %@, %@, %@",stu.name,stu.age,stu.score,stu.city);
+
 }
 
 - (void)testFDTextView{

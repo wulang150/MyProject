@@ -13,6 +13,7 @@
 #import "RunLoopTracker.h"
 #import "SimpleViewController.h"
 #import "TmpTestViewController.h"
+#import "OCTestController.h"
 //#import <Firebase.h>
 
 @interface AppDelegate ()
@@ -53,9 +54,10 @@
 
 //    //首页
 //    ViewController *vc = [ViewController new];
-    SimpleViewController *vc = [SimpleViewController new];
-//    TmpTestViewController *vc = [TmpTestViewController new];
+//    SimpleViewController *vc = [SimpleViewController new];
+    TmpTestViewController *vc = [TmpTestViewController new];
 //    TabBarBaseViewController *vc = [TabBarBaseViewController new];
+//    OCTestController *vc = [OCTestController new];
 //    [self.window setRootViewController:vc];
     
     //导航

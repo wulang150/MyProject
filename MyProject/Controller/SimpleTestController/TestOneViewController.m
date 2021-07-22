@@ -20,12 +20,14 @@
 @property(nonatomic) UIImageView *imgView;
 @property(nonatomic) UILabel *testLab;
 @property(nonatomic) IJKFFMoviePlayerController *ijkPlayer;
+@property(nonatomic) NSThread *aliveThread;
 @end
 
 @implementation TestOneViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     [self setNavWithTitle:@"Test" leftImage:@"arrow" leftTitle:nil leftAction:nil rightImage:nil rightTitle:nil rightAction:nil];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -33,7 +35,79 @@
 //    [self testZoom];
     
 //    [self testAsynLab];
-    [self testIjkPlayer];
+//    [self testIjkPlayer];
+    
+//    [self testLiveThread];
+}
+
+- (void)testUI{
+    
+}
+
+//常驻线程
+- (void)testLiveThread{
+    self.aliveThread = [[NSThread alloc] initWithTarget:self selector:@selector(aliveThreadAction) object:nil];
+    [self.aliveThread start];
+}
+
+- (void)aliveThreadAction{
+    NSLog(@"aliveThreadAction>>>>1");
+    
+    //子线程带上了NSRunLoop监听，一直监听待处理的事件
+    //添加Port 实时监听
+//    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
+
+//    NSTimer *timer = [NSTimer timerWithTimeInterval:3 block:^(NSTimer * _Nonnull timer) {
+//        NSLog(@"aliveThreadAction>>>>time");
+//    } repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:5
+     
+                                     target: self
+     
+                                   selector:@selector(testFun)
+     
+                                   userInfo: nil
+     
+                                    repeats: NO];
+//    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    //添加runloop
+    [[NSRunLoop currentRunLoop]run];
+    
+    //或者
+//    while (1) {
+//        //添加runloop
+//        [[NSRunLoop currentRunLoop]run];
+//    }
+    NSLog(@"aliveThreadAction>>>>end");
+}
+
+- (void)addToAliveThread{
+    NSLog(@"addToAliveThread>>>>2");
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self performSelector:@selector(addToAliveThread) onThread:self.aliveThread withObject:nil waitUntilDone:NO];
+}
+
+- (void)testFun{
+    int a[] = {34,56,12,22,78,22,22,22,12,12,23,24};
+    int len = sizeof(a)/sizeof(int);
+    int tmpS = a[0];
+    int max = 1;
+    int num = 1;
+    for(int i=0;i<len-1;i++){
+        if(a[i]==a[i+1]){
+            num++;
+        }else{
+            if(max<num){
+                max = num;
+                tmpS = a[i];
+            }
+            num = 1;
+        }
+    }
+    
+    printf("result>>>>>>>%d count=%d\n",tmpS,max);
 }
 
 - (NSString *)getDocumentWithFile:(NSString *)filename{
@@ -192,9 +266,6 @@
     [self performSelector:@selector(updateViewCoordinate) withObject:nil afterDelay:0.3];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
-}
 
 - (void)tapAction{
     static int flag = 1;

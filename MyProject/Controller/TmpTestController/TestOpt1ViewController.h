@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,readonly) NSString *city;
 @end
 
+@interface Person : NSObject
+
+@property(nonatomic) NSString *name2;
+@end
+
 @interface TestOpt1ViewController : BaseController
 
 @end

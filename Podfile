@@ -2,7 +2,7 @@
 
 platform :ios, '11.0'
 
-source 'https://github.com/wulang150/WlRepo.git'
+#source 'https://github.com/wulang150/WlRepo.git'
 
 source 'https://github.com/CocoaPods/Specs.git'
 
@@ -31,6 +31,6 @@ pod 'ZFPlayer/AVPlayer', '~> 3.0'
 #pod 'AmplifyPlugins/AWSAPIPlugin'
 
 #pod 'dbMule'
-pod 'dbMule', :git => 'https://github.com/wulang150/dbMule.git'a
+pod 'dbMule', :git => 'https://github.com/wulang150/dbMule.git'
 end
 
