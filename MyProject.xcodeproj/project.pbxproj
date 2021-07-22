@@ -115,7 +115,6 @@
 		9A3E1D1F265DE742001A9A21 /* GLTriangle3DController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E1D1E265DE742001A9A21 /* GLTriangle3DController.m */; };
 		9A3E1D28265DE7CE001A9A21 /* Triangle3DFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E1D26265DE7CE001A9A21 /* Triangle3DFragment.glsl */; };
 		9A3E1D29265DE7CE001A9A21 /* Triangle3DVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E1D27265DE7CE001A9A21 /* Triangle3DVertex.glsl */; };
-		9A3F05CF2477F62C00788FD0 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3F05CE2477F62C00788FD0 /* IJKMediaFramework.framework */; };
 		9A40125E22261E71006F9889 /* VideoConvertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A40125D22261E71006F9889 /* VideoConvertViewController.m */; };
 		9A40127B222E6CF9006F9889 /* IMG_0284.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A401279222E6CF7006F9889 /* IMG_0284.jpeg */; };
 		9A40127C222E6CF9006F9889 /* IMG_0266.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A40127A222E6CF8006F9889 /* IMG_0266.png */; };
@@ -546,7 +545,6 @@
 				9A44992621B65C4A00D38AB2 /* MapKit.framework in Frameworks */,
 				939F446E1F05167E009F9A9A /* libsqlite3.0.tbd in Frameworks */,
 				FE68AB38F7C16160C7A4E1B5 /* libPods-MyProject.a in Frameworks */,
-				9A3F05CF2477F62C00788FD0 /* IJKMediaFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1693,12 +1691,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
-				"${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -27,13 +27,6 @@ PODS:
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
-  - ZFPlayer (3.3.3):
-    - ZFPlayer/Core (= 3.3.3)
-  - ZFPlayer/AVPlayer (3.3.3):
-    - ZFPlayer/Core
-  - ZFPlayer/ControlView (3.3.3):
-    - ZFPlayer/Core
-  - ZFPlayer/Core (3.3.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -46,9 +39,6 @@ DEPENDENCIES:
   - MJRefresh
   - SDWebImage (~> 3.7.1)
   - YYKit
-  - ZFPlayer (~> 3.0)
-  - ZFPlayer/AVPlayer (~> 3.0)
-  - ZFPlayer/ControlView (~> 3.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -61,7 +51,6 @@ SPEC REPOS:
     - MJRefresh
     - SDWebImage
     - YYKit
-    - ZFPlayer
 
 EXTERNAL SOURCES:
   dbMule:
@@ -83,8 +72,7 @@ SPEC CHECKSUMS:
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
-  ZFPlayer: 1310252c253b9958e4fcd411e706b99c31834eaf
 
-PODFILE CHECKSUM: c5a6fcf4ac373958537874c6cb8c3d2c1b9e7e90
+PODFILE CHECKSUM: 04a8fad94b681486244edec8a575b9b9b3146319
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

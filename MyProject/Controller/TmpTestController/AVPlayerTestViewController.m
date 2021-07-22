@@ -8,7 +8,7 @@
 
 #import "AVPlayerTestViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "ZFPlayer.h"
+//#import "ZFPlayer.h"
 
 @interface AVPlayerTestViewController ()
 {
