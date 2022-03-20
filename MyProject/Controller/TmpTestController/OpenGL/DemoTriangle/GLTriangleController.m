@@ -142,12 +142,24 @@
     [self renderVertices];
 }
 
+/*
+ -0.25f, -0.25, 0.0f,
+ -0.5f,  0.5f, 0.0f,
+ -0.5f, -0.5f, 0.0f,
+ 0.5f,  -0.5f, 0.0f,
+ -0.5f,  0.5f, 0.0f,
+ */
+ 
+
 - (void)renderVertices {
     const GLfloat vertices[] = {
-        0.0f,  0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        0.5f,  -0.5f, 0.0f
+        0.5f,  -0.5f, 0.0f,
         
+//        -0.5f,  0.5f, 0.0f,
+//        0.5f, 0.5f, 0.0f,
+//        0.5f,  -0.5f, 0.0f
     };
     // Load the vertex data，(不使用VBO)则直接从CPU中传递顶点数据到GPU中进行渲染
     // 给_positionSlot传递vertices数据
@@ -156,15 +168,21 @@
     
     // 颜色数组
     const GLfloat Colors[] = {
-        0,0,0,1, // 左下，黑色
-        1,0,0,1, // 右下，红色
-        0,0,1,1, // 左上，蓝色
+        1,0,0,1,
+        0,1,0,1,
+        0,0,1,1,
+        
+//        1,0,0,1,
+//        1,0,0,1,
+//        1,0,0,1, 
     };
     // 取出Colors数组中的每个坐标点的颜色值，赋给_colorSlot
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, 0, Colors);
     glEnableVertexAttribArray(_colorSlot);
     
     // Draw triangle
-    glDrawArrays(GL_TRIANGLES, 0, 18);
+    int num = sizeof(vertices)/(sizeof(float)*3);
+    glDrawArrays(GL_TRIANGLES, 0, num);
+//    glDrawArrays(GL_TRIANGLE_FAN, 0, num);
 }
 @end

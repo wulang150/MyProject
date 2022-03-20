@@ -14,6 +14,7 @@
 #import "SimpleViewController.h"
 #import "TmpTestViewController.h"
 #import "OCTestController.h"
+#import "OpenGLViewController.h"
 //#import <Firebase.h>
 
 @interface AppDelegate ()
@@ -54,11 +55,13 @@
 
 //    //首页
 //    ViewController *vc = [ViewController new];
-//    SimpleViewController *vc = [SimpleViewController new];
-    TmpTestViewController *vc = [TmpTestViewController new];
+    SimpleViewController *vc = [SimpleViewController new];
+//    TmpTestViewController *vc = [TmpTestViewController new];
 //    TabBarBaseViewController *vc = [TabBarBaseViewController new];
 //    OCTestController *vc = [OCTestController new];
 //    [self.window setRootViewController:vc];
+    
+//    OpenGLViewController *vc = [OpenGLViewController new];
     
     //导航
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];

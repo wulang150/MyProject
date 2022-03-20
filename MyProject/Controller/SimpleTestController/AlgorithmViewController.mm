@@ -13,6 +13,7 @@
 #import "AlgorithmViewController.h"
 #include <stack>
 #include <queue>
+#include <vector>
 using namespace std;
 
 typedef struct TreeNode{
@@ -20,6 +21,11 @@ typedef struct TreeNode{
     struct TreeNode *left;
     struct TreeNode *right;
 }TreeNode;
+
+typedef struct ListNode{
+    int val;
+    struct ListNode *next;
+}ListNode;
 
 //class Stack{
 //public:
@@ -43,7 +49,13 @@ typedef struct TreeNode{
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    testTree();
+
+//    testTree();
+//    testMaxGap();
+//    testReverseAllStr();
+//    testSortTwoList();
+//    testFindListNodeByKey();
+    testReversalList();
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
@@ -67,11 +79,195 @@ void showArr(int a[],int n){
     NSLog(str);
 }
 
+//创建链表
+ListNode *createList(int *arr,int num){
+    ListNode *headNode = NULL;
+    ListNode *nextNode = NULL;
+    for(int i=0;i<num;i++){
+        ListNode *tNode = new ListNode();
+        tNode->val = arr[i];
+        if(headNode==NULL){
+            headNode = tNode;
+        }
+        if(nextNode){
+            nextNode->next = tNode;
+        }
+        nextNode = tNode;
+    }
+    if(nextNode){
+        nextNode->next = NULL;
+    }
+    return headNode;
+}
+//显示链表
+void showList(ListNode *list){
+    while (list) {
+        printf("%d,",list->val);
+        list = list->next;
+    }
+    printf("\n");
+}
+
+//排序两个有序链表（非递归）
+ListNode *sortTwoList(ListNode *list1, ListNode *list2){
+    if(list1==NULL) return list2;
+    if(list2==NULL) return list1;
+    
+    ListNode *headNode = new ListNode();
+    ListNode *nextNode = headNode;
+    while (true) {
+        if(list1==NULL){
+            nextNode->next = list2;
+            break;
+        }
+        if(list2==NULL){
+            nextNode->next = list1;
+            break;
+        }
+        if(list1->val<list2->val){
+            nextNode->next = list1;
+            list1 = list1->next;
+        }else{
+            nextNode->next = list2;
+            list2 = list2->next;
+        }
+        nextNode = nextNode->next;
+    }
+    return headNode->next;
+}
+//递归
+ListNode *sortTwoListRecursion(ListNode *list1, ListNode *list2){
+    if(list1==NULL) return list2;
+    if(list2==NULL) return list1;
+    
+    ListNode *headNode;
+    if(list1->val<list2->val){
+        headNode = list1;
+        headNode->next = sortTwoListRecursion(list1->next, list2);
+    }else{
+        headNode = list2;
+        headNode->next = sortTwoListRecursion(list1, list2->next);
+    }
+    return headNode;
+}
+void testSortTwoList(){
+    int arr1[] = {2,5,7,9,10,13,16,17};
+    int arr2[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    showList(list1);
+    ListNode *list2 = createList(arr2, sizeof(arr2)/sizeof(int));
+    showList(list2);
+    
+//    ListNode *list = sortTwoList(list1, list2);
+    ListNode *list = sortTwoListRecursion(list1, list2);
+    showList(list);
+}
+
+//输出链表中倒数第k个节点
+ListNode *findListNodeByKey(ListNode *headNode,int k){
+    if(headNode==NULL||k<=0){
+        return NULL;
+    }
+    ListNode *frontNode = headNode;
+    for(int i=0;i<k-1;i++){
+        if(frontNode==NULL){
+            return NULL;
+        }
+        frontNode = frontNode->next;
+    }
+    while (frontNode->next) {
+        frontNode = frontNode->next;
+        headNode = headNode->next;
+    }
+    return headNode;
+}
+
+void testFindListNodeByKey(){
+    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    ListNode *findNode = findListNodeByKey(list1, 20);
+    showList(findNode);
+}
+
+//寻找带环的链表的入库
+ListNode *findEntryNode(ListNode *headNode){
+    if(headNode==NULL)
+        return NULL;
+    //1、证明有环
+    ListNode *aHeadNode = headNode;
+    ListNode *behindNode = headNode;
+    while (true) {
+        aHeadNode = aHeadNode->next;
+        if(aHeadNode==NULL)
+            return NULL;
+        aHeadNode = aHeadNode->next;
+        if(aHeadNode==NULL)
+            return NULL;
+        behindNode = behindNode->next;
+        if(aHeadNode==behindNode){
+            break;
+        }
+    }
+    //2、得到环的节点数
+    int num = 0;
+    while (true) {
+        aHeadNode = aHeadNode->next;
+        num++;
+        if(aHeadNode==behindNode){
+            break;
+        }
+    }
+    //3、找倒数的第k个节点
+    ListNode *entryNode = findListNodeByKey(headNode, num);
+    return entryNode;
+}
+
+//反转链表
+ListNode *reversalList(ListNode *headNode){
+    if(headNode==NULL)
+        return NULL;
+    ListNode *preNode = NULL;
+    ListNode *newNode = headNode;
+    ListNode *nextNode = newNode->next;
+    while (newNode) {
+        newNode->next = preNode;
+        if(nextNode==NULL){
+            break;
+        }
+        preNode = newNode;
+        newNode = nextNode;
+        nextNode = newNode->next;
+        
+    }
+    return newNode;
+}
+
+void testReversalList(){
+    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    list1 = reversalList(list1);
+    showList(list1);
+}
+
 void testTree(){
-    int a[] = {45,23,32,16,100,78,56,29,33,23,17};
+    int a[] = {1,2,3,4,5,6,7,8,9,10,11};
     TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
 //    preShowTree1(headNode);
-    cenShowTree(headNode);
+//    cenShowTree(headNode);
+    int maxPath = 0;
+    int currentSum = 0;
+//    countMaxTreePath(headNode, currentSum, maxPath);
+    
+    vector<int> tmpVec, retVec;
+    countMaxTreePath1(headNode, currentSum, maxPath, &tmpVec, &retVec);
+    
+    NSLog(@"maxPath=%d",maxPath);
+    
+    vector<int>::iterator iter = retVec.begin();
+    for(;iter!=retVec.end();iter++){
+        printf("%d,",*iter);
+    }
+    printf("\n");
 }
 //将数组转换为树
 TreeNode *createTree(int *a,int n,int k){
@@ -130,6 +326,50 @@ void cenShowTree(TreeNode *headNode){
         }
     }
 }
+
+//计算所有路径的最大权重值
+void countMaxTreePath(TreeNode *headNode,int currentSum,int &max){
+    if(headNode){
+        currentSum += headNode->val;
+        if(headNode->left==NULL&&headNode->right==NULL){
+            //到叶节点了
+            if(currentSum>max) max = currentSum;
+        }
+        countMaxTreePath(headNode->left,currentSum, max);
+        countMaxTreePath(headNode->right,currentSum, max);
+        currentSum = currentSum - headNode->val;
+    }
+}
+//计算所有路径的最大权重值，并输出路径
+void countMaxTreePath1(TreeNode *headNode,int currentSum,int &max,vector<int> *tmpVec,vector<int> *retVec){
+    if(tmpVec==NULL || retVec==NULL){
+        return;
+    }
+    if(headNode){
+        currentSum += headNode->val;
+        tmpVec->push_back(headNode->val);
+        if(headNode->left==NULL&&headNode->right==NULL){
+            //到叶节点了
+            if(currentSum>max){
+                max = currentSum;
+                while (!retVec->empty()) {
+                    retVec->pop_back();
+                }
+                vector<int>::iterator iter = tmpVec->begin();
+                for(;iter!=tmpVec->end();iter++){
+                    retVec->push_back(*iter);
+                }
+            }
+        }
+        countMaxTreePath1(headNode->left,currentSum, max, tmpVec, retVec);
+        countMaxTreePath1(headNode->right,currentSum, max, tmpVec, retVec);
+        currentSum = currentSum - headNode->val;
+        tmpVec->pop_back();
+    }
+}
+
+
+
 
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定
 void mergeSort(int a[],int s,int e)
@@ -208,7 +448,7 @@ int partitionQuickSort(int a[],int s,int e){
 ////    print(a,10);
 //    return low;
 //}
-//时间 O(nlog2(n)) 空间 O(nlog2(n)) 不稳定
+//快速排序 时间 O(nlog2(n)) 空间 O(nlog2(n)) 不稳定
 void quickSort(int a[],int s,int e){
     if(s<e){
         int mid = partitionQuickSort(a, s, e);
@@ -251,4 +491,95 @@ void heapSort(int a[],int n){
         makeHeap(a, 0, i);
     }
 }
+
+//所有的组合
+void allPart(char *begin,int len,vector<char> *q){
+    
+    if(len==0){
+        for(int i=0;i<q->size();i++){
+            printf("%c",(*q)[i]);
+        }
+        printf("\n");
+        return;
+    }
+    if(*begin=='\0'){
+        return;
+    }
+    char ic = *begin;
+    q->push_back(ic);
+    allPart(begin+1, len-1, q);
+    q->pop_back();
+    allPart(begin+1, len, q);
+}
+void allPartMain(char *s,int len){
+    
+    for(int i=1;i<=len;i++){
+        vector<char> q;
+        allPart(s, i, &q);
+    }
+}
+void testAllPart(){
+    
+    char *s = "abcd";
+    allPartMain(s, 4);
+}
+
+//计算最大差值
+void testMaxGap(){
+    //如下的数组，最大差值是5与16，并且必须是先5再16，跟股票交易一样
+    int arr[] = {9, 11, 8, 5, 7, 12, 16, 14};
+    
+    int size = sizeof(arr)/sizeof(int);
+    if(size<2) return;
+    int min = arr[0];
+    int maxDiff = arr[1] - arr[0];
+    for(int i=2;i<sizeof(arr)/sizeof(int);i++){
+        if(arr[i-1]<min)
+            min = arr[i-1];
+        
+        if(arr[i]-min>maxDiff){
+            maxDiff = arr[i] - min;
+        }
+    }
+    
+    printf("max=%d",maxDiff);
+}
+
+//翻转字符串
+void reverseStr(char *s,char *e)
+{
+    if(s==NULL||e==NULL) return;
+    while (s<e) {
+        char t = *s;
+        *s = *e;
+        *e = t;
+        s++;
+        e--;
+    }
+}
+
+void testReverseAllStr(){
+    //I am a student   变为  student a am I
+    char str[] = "I am a student";
+    int len = (int)strlen(str);
+    if(len<2) return;
+    char *s = str;
+    char *e = s + len - 1;
+    
+    reverseStr(s, e);
+    
+    s = e = str;
+    while (*e != '\0') {
+        if(*s == ' '){
+            s++;
+        }else if(*e != '\0' && *e==' '){
+            reverseStr(s, e-1);
+            s = e+1;
+        }
+        e++;
+    }
+    
+    printf("str=%s",str);
+}
+
 @end

@@ -15,6 +15,7 @@
 #import "TestCollectionLayout.h"
 #import "ThreeDCollectionLayout.h"
 #import "MyTestCollectionLayout.h"
+#import "FDMBannerFlowLayout.h"
 
 @interface CollectionViewController ()
 <UICollectionViewDelegate,UICollectionViewDataSource>
@@ -77,27 +78,41 @@
 //    TestCollectionLayout *layout = [[TestCollectionLayout alloc] init];
 //    layout.dataArr = dataArr;
 //    layout.minimumLineSpacing = 10;
-//    layout.itemCount = num;
+//    layout.itemCount = num; 
     //创建一个layout布局类
-    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
-//    设置布局方向为垂直流布局
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
+//    设置布局方向为横向流布局
+//    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    CGFloat collectW = self.view.frame.size.width;
+    CGFloat collectH = 160;
+    CGFloat itemW = 220;
+    UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
+    FDMBannerFlowLayout *layout = [[FDMBannerFlowLayout alloc] initWithSectionInset:sectionInset andMiniLineSapce:10 andMiniInterItemSpace:0 andItemSize:CGSizeMake(itemW, collectH)];
     
     //创建collectionView 通过一个布局策略layout来创建
-    UICollectionView *collect = [[UICollectionView alloc]initWithFrame:CGRectMake(20, 80, self.view.frame.size.width-40, self.view.frame.size.height/2) collectionViewLayout:layout];
+//    UICollectionView *collect = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 80, collectW, collectH) collectionViewLayout:layout];
+    UICollectionView *collect = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     //代理设置
     collect.delegate = self;
     collect.dataSource = self;
     collect.showsVerticalScrollIndicator = NO;
     collect.showsHorizontalScrollIndicator = NO;
+    collect.decelerationRate = UIScrollViewDecelerationRateFast;
 //    collect.pagingEnabled = YES;
 //    collect.delaysContentTouches = NO;
 //    collect.canCancelContentTouches = NO;
-    layout.itemSize = CGSizeMake(collect.frame.size.width-100, collect.frame.size.height/2);
+//    layout.itemSize = CGSizeMake(collect.frame.size.width-100, collect.frame.size.height);
     //注册item类型 这里使用系统的类型
     [collect registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellid"];
     
     [self.view addSubview:collect];
+    
+    [collect mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.top.mas_equalTo(80);
+        make.width.mas_equalTo(collectW);
+        make.height.mas_equalTo(collectH);
+    }];
     
 //    _currentIndex = dataArr.count*500;
     _currentIndex = 0;
@@ -152,51 +167,51 @@
     NSLog(@">>>>>>>>>>%zi",indexPath.row);
 }
 
-- (void)fixCellToCenter
-{
-    //最小滚动距离
-    
-    float dragMiniDistance = 20;
-    
-    BOOL toPre = _startX -  _endX >= dragMiniDistance;
-    BOOL toNext = _endX -  _startX >= dragMiniDistance;
-    if (toPre) {
-        _currentIndex--;
-        if(_currentIndex<0){
-            _currentIndex = 0;
-        }
-        
-    }else if(toNext){
-        _currentIndex++;
-        if(_currentIndex>=dataArr.count){
-            _currentIndex = dataArr.count-1;
-        }
-    }
-    
-    [_collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    _startX = scrollView.contentOffset.x;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-//    if(decelerate){
-//        return;
+//- (void)fixCellToCenter:(BOOL)decelerate
+//{
+//    //最小滚动距离
+//
+//    float dragMiniDistance = 20;
+//
+//    BOOL toPre = _startX -  _endX >= dragMiniDistance;
+//    BOOL toNext = _endX -  _startX >= dragMiniDistance;
+//    if (toPre) {
+//        _currentIndex--;
+//        if(_currentIndex<0){
+//            _currentIndex = 0;
+//        }
+//
+//    }else if(toNext){
+//        _currentIndex++;
+//        if(_currentIndex>=dataArr.count){
+//            _currentIndex = dataArr.count-1;
+//        }
 //    }
-    _endX = scrollView.contentOffset.x;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self fixCellToCenter];
-    });
-    
-}
-
+//    BOOL animated = decelerate?NO:YES;
+//    [_collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    _startX = scrollView.contentOffset.x;
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+////    if(decelerate){
+////        return;
+////    }
+//    _endX = scrollView.contentOffset.x;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self fixCellToCenter:decelerate];
+//    });
+//
+//}
+//
 //- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 //    _endX = scrollView.contentOffset.x;
 //    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self fixCellToCenter];
+////        [self fixCellToCenter];
 //    });
 //}
 

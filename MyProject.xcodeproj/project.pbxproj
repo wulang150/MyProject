@@ -93,6 +93,7 @@
 		93FD9EB51F09E8200085EA56 /* DateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FD9EB41F09E8200085EA56 /* DateHandle.m */; };
 		9A079751222E85F400C88998 /* CAImageTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A079750222E85F400C88998 /* CAImageTestViewController.m */; };
 		9A09104921EF3C2F000F3F8C /* UdpServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A09104821EF3C2F000F3F8C /* UdpServerViewController.m */; };
+		9A0B8257271828C8006E1692 /* FDMBannerFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0B8256271828C8006E1692 /* FDMBannerFlowLayout.m */; };
 		9A1DED4922141FFF00DB076B /* TestOneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DED4822141FFF00DB076B /* TestOneViewController.m */; };
 		9A1E6D3522EED7B100489FC6 /* OffRenderViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1E6D3422EED7B100489FC6 /* OffRenderViewController1.m */; };
 		9A1FFE902325F9C300205D02 /* FaceIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1FFE8F2325F9C300205D02 /* FaceIDViewController.m */; };
@@ -134,6 +135,7 @@
 		9A937C8E2206967F00728E84 /* test2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8B2206967F00728E84 /* test2.jpg */; };
 		9A937C8F2206967F00728E84 /* test4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8C2206967F00728E84 /* test4.jpg */; };
 		9A937C902206967F00728E84 /* test3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8D2206967F00728E84 /* test3.jpg */; };
+		9A94535926E8E4CF009BD1C2 /* WeakTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */; };
 		9A9A25FE2314CD50000E1EE3 /* OtherTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */; };
 		9A9F6ABA21CA2F54006AF1FD /* ZYNetworkAccessibity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AB821CA2F54006AF1FD /* ZYNetworkAccessibity.m */; };
 		9A9F6ABE21CB2992006AF1FD /* WLPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6ABD21CB2992006AF1FD /* WLPhotoManager.m */; };
@@ -379,6 +381,8 @@
 		9A079750222E85F400C88998 /* CAImageTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAImageTestViewController.m; sourceTree = "<group>"; };
 		9A09104721EF3C2F000F3F8C /* UdpServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UdpServerViewController.h; sourceTree = "<group>"; };
 		9A09104821EF3C2F000F3F8C /* UdpServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UdpServerViewController.m; sourceTree = "<group>"; };
+		9A0B8255271828C8006E1692 /* FDMBannerFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDMBannerFlowLayout.h; sourceTree = "<group>"; };
+		9A0B8256271828C8006E1692 /* FDMBannerFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDMBannerFlowLayout.m; sourceTree = "<group>"; };
 		9A1DED4722141FFF00DB076B /* TestOneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestOneViewController.h; sourceTree = "<group>"; };
 		9A1DED4822141FFF00DB076B /* TestOneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestOneViewController.m; sourceTree = "<group>"; };
 		9A1E6D3322EED7B100489FC6 /* OffRenderViewController1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OffRenderViewController1.h; sourceTree = "<group>"; };
@@ -417,7 +421,6 @@
 		9A3E1D1E265DE742001A9A21 /* GLTriangle3DController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLTriangle3DController.m; sourceTree = "<group>"; };
 		9A3E1D26265DE7CE001A9A21 /* Triangle3DFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Triangle3DFragment.glsl; sourceTree = "<group>"; };
 		9A3E1D27265DE7CE001A9A21 /* Triangle3DVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Triangle3DVertex.glsl; sourceTree = "<group>"; };
-		9A3F05CE2477F62C00788FD0 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 		9A40125C22261E71006F9889 /* VideoConvertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoConvertViewController.h; sourceTree = "<group>"; };
 		9A40125D22261E71006F9889 /* VideoConvertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoConvertViewController.m; sourceTree = "<group>"; };
 		9A401279222E6CF7006F9889 /* IMG_0284.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0284.jpeg; sourceTree = "<group>"; };
@@ -446,6 +449,8 @@
 		9A937C8B2206967F00728E84 /* test2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test2.jpg; sourceTree = "<group>"; };
 		9A937C8C2206967F00728E84 /* test4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test4.jpg; sourceTree = "<group>"; };
 		9A937C8D2206967F00728E84 /* test3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test3.jpg; sourceTree = "<group>"; };
+		9A94535726E8E4CE009BD1C2 /* WeakTestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakTestModel.h; sourceTree = "<group>"; };
+		9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakTestModel.m; sourceTree = "<group>"; };
 		9A9A25FC2314CD50000E1EE3 /* OtherTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherTestViewController.h; sourceTree = "<group>"; };
 		9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OtherTestViewController.m; sourceTree = "<group>"; };
 		9A9F6AB821CA2F54006AF1FD /* ZYNetworkAccessibity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYNetworkAccessibity.m; sourceTree = "<group>"; };
@@ -577,7 +582,6 @@
 		667E07A53CBC18184FC5B626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A3F05CE2477F62C00788FD0 /* IJKMediaFramework.framework */,
 				9A44992521B65C4A00D38AB2 /* MapKit.framework */,
 				939F446D1F05167E009F9A9A /* libsqlite3.0.tbd */,
 				06E589A85C36B027887EF02F /* libPods-MyProject.a */,
@@ -1132,6 +1136,15 @@
 			path = UdpTest;
 			sourceTree = "<group>";
 		};
+		9A0B825427182879006E1692 /* FDMBannerView */ = {
+			isa = PBXGroup;
+			children = (
+				9A0B8255271828C8006E1692 /* FDMBannerFlowLayout.h */,
+				9A0B8256271828C8006E1692 /* FDMBannerFlowLayout.m */,
+			);
+			path = FDMBannerView;
+			sourceTree = "<group>";
+		};
 		9A3E1AE42654AB3F001A9A21 /* OCTestController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1290,6 +1303,7 @@
 		9AB66CD323B0EFBE00A7BB26 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
+				9A0B825427182879006E1692 /* FDMBannerView */,
 				9AB66CDE23B0EFBE00A7BB26 /* CircleCollectionLayout.h */,
 				9AB66CE623B0EFBE00A7BB26 /* CircleCollectionLayout.m */,
 				9AB66CDA23B0EFBE00A7BB26 /* CollectionViewController.h */,
@@ -1481,6 +1495,8 @@
 				9A3A0228239B50AE00230BFD /* LayoutTestViewController.m */,
 				9A76C332242C4C3100546865 /* AlgorithmViewController.h */,
 				9A76C333242C4C3100546865 /* AlgorithmViewController.mm */,
+				9A94535726E8E4CE009BD1C2 /* WeakTestModel.h */,
+				9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */,
 			);
 			path = SimpleTestController;
 			sourceTree = "<group>";
@@ -1759,6 +1775,7 @@
 				93581D1B218AA816001FF16D /* MJFoundation.m in Sources */,
 				93C763D81F062F2A0017152C /* XlabTools.m in Sources */,
 				9AC1ACAF22C4CED6006A6E85 /* TestOpt1ViewController.m in Sources */,
+				9A94535926E8E4CF009BD1C2 /* WeakTestModel.m in Sources */,
 				9A3A0229239B50AE00230BFD /* LayoutTestViewController.m in Sources */,
 				9ACFE1EA21E0409D00305532 /* YYFPSLabel.m in Sources */,
 				939F44391F04E1C0009F9A9A /* FloatTableView.m in Sources */,
@@ -1792,6 +1809,7 @@
 				93040792213E63C5002C5247 /* CollectDataUploadServer.m in Sources */,
 				9A1FFE902325F9C300205D02 /* FaceIDViewController.m in Sources */,
 				9AF2504021D5DB9900F14377 /* SimpleViewController.m in Sources */,
+				9A0B8257271828C8006E1692 /* FDMBannerFlowLayout.m in Sources */,
 				93581D20218AA816001FF16D /* NSObject+MJCoding.m in Sources */,
 				930F986E2101EA3500240D6F /* NSObject+performSelector.m in Sources */,
 				9ACFE1DD21E03E0D00305532 /* FriendLayout.m in Sources */,
