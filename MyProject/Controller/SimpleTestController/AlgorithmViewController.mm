@@ -13,6 +13,7 @@
 #import "AlgorithmViewController.h"
 #include <stack>
 #include <queue>
+#include <vector>
 using namespace std;
 
 typedef struct TreeNode{
@@ -43,7 +44,11 @@ typedef struct TreeNode{
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    testTree();
+//    testAllPart();
+//    return;
+//    testTree();
+//    testMaxGap();
+    testReverseAllStr();
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
@@ -67,11 +72,27 @@ void showArr(int a[],int n){
     NSLog(str);
 }
 
+
+
 void testTree(){
-    int a[] = {45,23,32,16,100,78,56,29,33,23,17};
+    int a[] = {1,2,3,4,5,6,7,8,9,10,11};
     TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
 //    preShowTree1(headNode);
-    cenShowTree(headNode);
+//    cenShowTree(headNode);
+    int maxPath = 0;
+    int currentSum = 0;
+//    countMaxTreePath(headNode, currentSum, maxPath);
+    
+    vector<int> tmpVec, retVec;
+    countMaxTreePath1(headNode, currentSum, maxPath, &tmpVec, &retVec);
+    
+    NSLog(@"maxPath=%d",maxPath);
+    
+    vector<int>::iterator iter = retVec.begin();
+    for(;iter!=retVec.end();iter++){
+        printf("%d,",*iter);
+    }
+    printf("\n");
 }
 //将数组转换为树
 TreeNode *createTree(int *a,int n,int k){
@@ -130,6 +151,50 @@ void cenShowTree(TreeNode *headNode){
         }
     }
 }
+
+//计算所有路径的最大权重值
+void countMaxTreePath(TreeNode *headNode,int currentSum,int &max){
+    if(headNode){
+        currentSum += headNode->val;
+        if(headNode->left==NULL&&headNode->right==NULL){
+            //到叶节点了
+            if(currentSum>max) max = currentSum;
+        }
+        countMaxTreePath(headNode->left,currentSum, max);
+        countMaxTreePath(headNode->right,currentSum, max);
+        currentSum = currentSum - headNode->val;
+    }
+}
+//计算所有路径的最大权重值，并输出路径
+void countMaxTreePath1(TreeNode *headNode,int currentSum,int &max,vector<int> *tmpVec,vector<int> *retVec){
+    if(tmpVec==NULL || retVec==NULL){
+        return;
+    }
+    if(headNode){
+        currentSum += headNode->val;
+        tmpVec->push_back(headNode->val);
+        if(headNode->left==NULL&&headNode->right==NULL){
+            //到叶节点了
+            if(currentSum>max){
+                max = currentSum;
+                while (!retVec->empty()) {
+                    retVec->pop_back();
+                }
+                vector<int>::iterator iter = tmpVec->begin();
+                for(;iter!=tmpVec->end();iter++){
+                    retVec->push_back(*iter);
+                }
+            }
+        }
+        countMaxTreePath1(headNode->left,currentSum, max, tmpVec, retVec);
+        countMaxTreePath1(headNode->right,currentSum, max, tmpVec, retVec);
+        currentSum = currentSum - headNode->val;
+        tmpVec->pop_back();
+    }
+}
+
+
+
 
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定
 void mergeSort(int a[],int s,int e)
@@ -251,4 +316,95 @@ void heapSort(int a[],int n){
         makeHeap(a, 0, i);
     }
 }
+
+//所有的组合
+void allPart(char *begin,int len,vector<char> *q){
+    
+    if(len==0){
+        for(int i=0;i<q->size();i++){
+            printf("%c",(*q)[i]);
+        }
+        printf("\n");
+        return;
+    }
+    if(*begin=='\0'){
+        return;
+    }
+    char ic = *begin;
+    q->push_back(ic);
+    allPart(begin+1, len-1, q);
+    q->pop_back();
+    allPart(begin+1, len, q);
+}
+void allPartMain(char *s,int len){
+    
+    for(int i=1;i<=len;i++){
+        vector<char> q;
+        allPart(s, i, &q);
+    }
+}
+void testAllPart(){
+    
+    char *s = "abcd";
+    allPartMain(s, 4);
+}
+
+//计算最大差值
+void testMaxGap(){
+    //如下的数组，最大差值是5与16，并且必须是先5再16，跟股票交易一样
+    int arr[] = {9, 11, 8, 5, 7, 12, 16, 14};
+    
+    int size = sizeof(arr)/sizeof(int);
+    if(size<2) return;
+    int min = arr[0];
+    int maxDiff = arr[1] - arr[0];
+    for(int i=2;i<sizeof(arr)/sizeof(int);i++){
+        if(arr[i-1]<min)
+            min = arr[i-1];
+        
+        if(arr[i]-min>maxDiff){
+            maxDiff = arr[i] - min;
+        }
+    }
+    
+    printf("max=%d",maxDiff);
+}
+
+//翻转字符串
+void reverseStr(char *s,char *e)
+{
+    if(s==NULL||e==NULL) return;
+    while (s<e) {
+        char t = *s;
+        *s = *e;
+        *e = t;
+        s++;
+        e--;
+    }
+}
+
+void testReverseAllStr(){
+    //I am a student   变为  student a am I
+    char str[] = "I am a student";
+    int len = (int)strlen(str);
+    if(len<2) return;
+    char *s = str;
+    char *e = s + len - 1;
+    
+    reverseStr(s, e);
+    
+    s = e = str;
+    while (*e != '\0') {
+        if(*s == ' '){
+            s++;
+        }else if(*e != '\0' && *e==' '){
+            reverseStr(s, e-1);
+            s = e+1;
+        }
+        e++;
+    }
+    
+    printf("str=%s",str);
+}
+
 @end

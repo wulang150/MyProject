@@ -101,6 +101,21 @@
     
     NSString *val = [person1 valueForKey:@"name1"];
     NSLog(@"whidfdfdfdfdfdf>>%@",val);
+    
+    NSArray *ab = nil;
+//    id dddd = objc_getClass(ab);
+    if([ab isMemberOfClass:[NSArray class]]){
+        NSLog(@"nil is NSArray");
+    }else{
+        NSLog(@"nil is not NSArray");
+    }
+    
+    NSDictionary *dd = nil;
+    if([dd isKindOfClass:[NSDictionary class]]){
+        NSLog(@"nil is NSDictionary>>%@",dd[@"key"]);
+    }else{
+        NSLog(@"nil is not NSDictionary");
+    }
 }
 
 - (void)backAction{
@@ -280,6 +295,7 @@
         make.centerX.mas_equalTo(0);
         make.width.height.equalTo(subView);
     }];
+    
     
 }
 

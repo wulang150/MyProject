@@ -9,7 +9,7 @@
 #import "TestOneViewController.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <IJKMediaFramework/IJKMediaFramework.h>
+//#import <IJKMediaFramework/IJKMediaFramework.h>
 
 @interface TestOneViewController ()
 <UIScrollViewDelegate>
@@ -19,11 +19,15 @@
 @property(nonatomic) UIScrollView *scrollView;
 @property(nonatomic) UIImageView *imgView;
 @property(nonatomic) UILabel *testLab;
-@property(nonatomic) IJKFFMoviePlayerController *ijkPlayer;
+//@property(nonatomic) IJKFFMoviePlayerController *ijkPlayer;
 @property(nonatomic) NSThread *aliveThread;
 @end
 
 @implementation TestOneViewController
+
+- (void)dealloc{
+    NSLog(@"TestOneViewController_dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,7 +45,26 @@
 }
 
 - (void)testUI{
-    
+    NSLog(@"fetchData>>>>hello");
+}
+
+//测试weak与strong
+- (void)testMemWeak{
+    NSLog(@"testMemWeak");
+    __weak __typeof(self) weakSelf = self;
+    [self fetchData:^{
+        __strong __typeof(self) strongSelf = weakSelf;
+        [strongSelf testUI];
+    }];
+}
+
+- (void)fetchData:(void(^)(void))callback{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:3];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(callback) callback();
+        });
+    });
 }
 
 //常驻线程
@@ -86,7 +109,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self performSelector:@selector(addToAliveThread) onThread:self.aliveThread withObject:nil waitUntilDone:NO];
+//    [self performSelector:@selector(addToAliveThread) onThread:self.aliveThread withObject:nil waitUntilDone:NO];
+//    [self toLandscapeLeft];
+    [self testMemWeak];
 }
 
 - (void)testFun{
@@ -128,17 +153,17 @@
         return;
     }
     
-    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
-    self.ijkPlayer = [[IJKFFMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:videoPath] withOptions:options];
-//    self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.ijkPlayer.view.frame = CGRectMake(10, 100, self.view.bounds.size.width-20, 280);
-//    self.player.scalingMode = IJKMPMovieScalingModeAspectFit;
-    self.ijkPlayer.shouldAutoplay = YES;
-    [self.ijkPlayer prepareToPlay];
-    [self.ijkPlayer play];
-
-//    self.view.autoresizesSubviews = YES;
-    [self.view addSubview:self.ijkPlayer.view];
+//    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+//    self.ijkPlayer = [[IJKFFMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:videoPath] withOptions:options];
+////    self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+//    self.ijkPlayer.view.frame = CGRectMake(10, 100, self.view.bounds.size.width-20, 280);
+////    self.player.scalingMode = IJKMPMovieScalingModeAspectFit;
+//    self.ijkPlayer.shouldAutoplay = YES;
+//    [self.ijkPlayer prepareToPlay];
+//    [self.ijkPlayer play];
+//
+////    self.view.autoresizesSubviews = YES;
+//    [self.view addSubview:self.ijkPlayer.view];
 }
 
 //测试子线程文本赋值
@@ -333,5 +358,10 @@
     [[UIDevice currentDevice] setValue:@(UIDeviceOrientationPortrait) forKey:@"orientation"];
 }
 
+-(void)toLandscapeLeft{
+//    if([IUtil deviceType] != IDeviceTypeiPad) {
+        [[UIDevice currentDevice] setValue:@(UIDeviceOrientationLandscapeLeft) forKey:@"orientation"];
+//    }
+}
 
 @end

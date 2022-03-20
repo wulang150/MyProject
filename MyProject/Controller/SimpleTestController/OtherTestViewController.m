@@ -9,6 +9,7 @@
 #import "OtherTestViewController.h"
 #import "IDCPlayItemSelectView.h"
 #import <dbMule/dbMuleManager.h>
+#import "WeakTestModel.h"
 
 @implementation WaterObj
 
@@ -25,9 +26,16 @@
 }
 @property(nonatomic) IDCPlayItemSelectView *playItemSelectView;
 @property(nonatomic) UISlider *slider;
+@property(nonatomic,weak) NSString *tmpStr;
+@property(nonatomic,weak) WeakTestModel *weakObj;
+@property(nonatomic) WeakTestModel *testModel;
 @end
 
 @implementation OtherTestViewController
+
+- (void)dealloc{
+    NSLog(@"OtherTestViewController dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,6 +44,31 @@
     
     NSInteger val = 1566940933730;
     NSLog(@">>>>>>>>%zi",val);
+//    __weak NSString *weakS;
+//    {
+//        NSString *aaaa = @"ddsfffffffffffffffffffff";
+//        weakS = aaaa;
+//        self.tmpStr = weakS;
+//    }
+//    NSLog(@"dffdf>>>>%@",weakS);
+    {
+        WeakTestModel *model = [[WeakTestModel alloc] init];
+        self.weakObj = model;
+    }
+    
+    self.testModel = [[WeakTestModel alloc] init];
+    __weak SendBlock weakBlock;
+    @autoreleasepool{
+        int a = 10;
+        SendBlock block = ^(int blockCode, UInt8 code, id  _Nullable result) {
+            NSLog(@"show sendBlock>>>%p val=%d",&a,a);
+        };
+        self.testModel.block = block;
+    }
+    if(self.testModel.block)
+        self.testModel.block(0,0,nil);
+//    self.testModel.block = weakBlock;
+    
 }
 
 - (void)setupUI{
@@ -43,8 +76,8 @@
     [self setNavWithTitle:@"Test" leftImage:@"arrow" leftTitle:nil leftAction:nil rightImage:nil rightTitle:nil rightAction:nil];
     
     //kvc操作也是会走setting方法的
-    WaterObj *water = [[WaterObj alloc] init];
-    [water setValue:@"eeee" forKey:@"name"];
+//    WaterObj *water = [[WaterObj alloc] init];
+//    [water setValue:@"eeee" forKey:@"name"];
     
 //    self.slider=[[UISlider alloc] init];
 //    [self.view addSubview:self.slider];
@@ -68,7 +101,57 @@
     
 //    [self testColl];
 //    [self testdbMule];
-    [self testSerialQueue];
+//    [self testSerialQueue];
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        [self testSerialQueue1];
+//    });
+    
+//    [self testTimer];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    NSLog(@"weak>>>%@",self.tmpStr);
+    [self.weakObj show];
+}
+
+- (void)testTimer{
+    __weak typeof(self) wself = self;
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:[YYWeakProxy proxyWithTarget:self] selector:@selector(timeAction) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)timeAction{
+    NSLog(@"timeAction>>>>>action");
+}
+
+- (void)fetchNet:(NSString *)url time:(NSInteger)time block:(void(^)(NSString *name))block{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:time];
+        if(block) block(url);
+    });
+}
+
+- (void)testSerialQueue1{
+    dispatch_group_t group = dispatch_group_create();
+    __block NSString *str = @"";
+    dispatch_group_enter(group);
+    NSLog(@"before fetch1");
+    [self fetchNet:@"123" time:2 block:^(NSString *name) {
+        NSLog(@"before fetch1 block");
+        str = [NSString stringWithFormat:@"%@%@",str,name];
+        dispatch_group_leave(group);
+    }];
+    
+    NSLog(@"before fetch2");
+    dispatch_group_enter(group);
+    [self fetchNet:@"456" time:3 block:^(NSString *name) {
+        NSLog(@"before fetch2 block");
+        str = [NSString stringWithFormat:@"%@%@",str,name];
+        dispatch_group_leave(group);
+    }];
+    
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    NSLog(@"result>>>%@",str);
 }
 
 //测试串行队列里面是线程的同步处理问题
@@ -79,34 +162,20 @@
 //    dispatch_queue_t queue = dispatch_queue_create("com.dispatch.serial", DISPATCH_QUEUE_SERIAL);
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_group_async(group, queue, ^{
-
-        dispatch_group_enter(group);
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [NSThread sleepForTimeInterval:2];
-
-            NSLog(@"group1");
-            dispatch_group_leave(group);
-        });
-        
+        [NSThread sleepForTimeInterval:2];
+        NSLog(@"group1");
     });
     
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    
+    NSLog(@">>>2");
     dispatch_group_async(group, queue, ^{
-        dispatch_group_enter(group);
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [NSThread sleepForTimeInterval:1];
-            
-            NSLog(@"group2");
-            dispatch_group_leave(group);
-        });
+        [NSThread sleepForTimeInterval:1];
+        NSLog(@"group2");
     });
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    
-    dispatch_group_async(group, queue, ^{
-
+    NSLog(@">>>3");
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         NSLog(@"group3");
     });
+    
 }
 
 - (void)testdbMule{
