@@ -71,7 +71,7 @@
     
     CALayer *lay = [CALayer new];
     lay.frame = CGRectMake(5, 5, 30, 30);
-    lay.backgroundColor = [UIColor greenColor].CGColor;
+    lay.backgroundColor = [UIColor blueColor].CGColor;
     [view.layer addSublayer:lay];
     
     view.centerY = lab.centerY;
@@ -96,10 +96,16 @@
 }
 //圆角
 - (UIView *)circleView:(UILabel *)lab{
+    //主layer设置了masksToBounds+cornerRadius，并且有subLayer才会产生离屏渲染
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(4, 4, 40, 40)];
     view.backgroundColor = [UIColor redColor];
     view.layer.cornerRadius = 20;
     view.layer.masksToBounds = YES;
+    
+    UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    subView.backgroundColor = [UIColor blueColor];
+    [view addSubview:subView];
+    
     view.centerY = lab.centerY;
     view.left = lab.right + 6;
     [self.view addSubview:view];
@@ -113,18 +119,49 @@
     view.layer.shadowOpacity = 0.8;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
     view.layer.shadowOffset = CGSizeMake(4, 4);
+    
+    //设置 shadowPath ，告诉 Core Animation 投影路径，则不会出现离屏渲染。
+//    view.layer.shadowPath = CGPathCreateWithRect(CGRectMake(4, 4, 40, 40), NULL);
+    
     view.centerY = lab.centerY;
     view.left = lab.right + 6;
     [self.view addSubview:view];
     return view;
 }
 //透明度
-- (UIView *)opacityView:(UILabel *)lab{
+- (UIView *)opacityView1:(UILabel *)lab{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(4, 4, 40, 40)];
     view.backgroundColor = [UIColor redColor];
-    view.layer.opacity = 0.4;
+    
+    UIView *opacityView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    opacityView.backgroundColor = [UIColor blueColor];
+    opacityView.alpha = 0.4;
+    [view addSubview:opacityView];
+    
     view.centerY = lab.centerY;
     view.left = lab.right + 6;
+    [self.view addSubview:view];
+    return view;
+}
+- (UIView *)opacityView:(UILabel *)lab{
+    //group opacity，其实从名字就可以猜到，alpha并不是分别应用在每一层之上，而是只有到整个layer树画完之后，再统一加上alpha，最后和底下其他layer的像素进行组合
+    //如果开启了 allowsGroupOpacity（默认是开启的），当 layer 的 opacity 小于1.0，且有子 layer 或者背景图，则会触发离屏渲染
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(4, 4, 40, 40)];
+    view.backgroundColor = [UIColor redColor];
+    view.centerY = lab.centerY;
+    view.left = lab.right + 6;
+    view.alpha = 0.6;
+//    view.layer.allowsGroupOpacity = NO;
+    
+    CALayer *opacityLay = [[CALayer alloc] init];
+    opacityLay.frame = CGRectMake(0, 0, 20, 20);
+    opacityLay.backgroundColor = [UIColor blueColor].CGColor;
+    [view.layer addSublayer:opacityLay];
+    
+//    UIView *opacityView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//    opacityView.backgroundColor = [UIColor blueColor];
+//    [view addSubview:opacityView];
+    
     [self.view addSubview:view];
     return view;
 }
@@ -132,7 +169,7 @@
 - (UIImageView *)imgView:(UILabel *)lab{
     //如果是图片被裁减了，也会产生离屏渲染
     UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(4, 4, 40, 40)];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor blueColor];
     view.image = [UIImage imageNamed:@"15bab"];
     view.layer.cornerRadius = 8;
     view.layer.masksToBounds = YES;

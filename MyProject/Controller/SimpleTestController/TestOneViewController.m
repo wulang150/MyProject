@@ -42,10 +42,20 @@
 //    [self testIjkPlayer];
     
 //    [self testLiveThread];
+    
+    [self testFloat];
 }
 
 - (void)testUI{
     NSLog(@"fetchData>>>>hello");
+}
+
+- (void)testFloat{
+//    NSInteger num = -5;
+//    CGFloat f = num/100.0;
+    CGFloat f = 0.21456555;
+    CGFloat f1 = 0.2178777;
+    NSLog(@"float>>>%.2f f1=%.2f",f,f1);
 }
 
 //测试weak与strong

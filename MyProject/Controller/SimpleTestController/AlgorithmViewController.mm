@@ -22,6 +22,11 @@ typedef struct TreeNode{
     struct TreeNode *right;
 }TreeNode;
 
+typedef struct ListNode{
+    int val;
+    struct ListNode *next;
+}ListNode;
+
 //class Stack{
 //public:
 //    int len;
@@ -49,6 +54,8 @@ typedef struct TreeNode{
 //    testTree();
 //    testMaxGap();
     testReverseAllStr();
+
+
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
@@ -72,7 +79,175 @@ void showArr(int a[],int n){
     NSLog(str);
 }
 
+//创建链表
+ListNode *createList(int *arr,int num){
+    ListNode *headNode = NULL;
+    ListNode *nextNode = NULL;
+    for(int i=0;i<num;i++){
+        ListNode *tNode = new ListNode();
+        tNode->val = arr[i];
+        if(headNode==NULL){
+            headNode = tNode;
+        }
+        if(nextNode){
+            nextNode->next = tNode;
+        }
+        nextNode = tNode;
+    }
+    if(nextNode){
+        nextNode->next = NULL;
+    }
+    return headNode;
+}
+//显示链表
+void showList(ListNode *list){
+    while (list) {
+        printf("%d,",list->val);
+        list = list->next;
+    }
+    printf("\n");
+}
 
+//排序两个有序链表（非递归）
+ListNode *sortTwoList(ListNode *list1, ListNode *list2){
+    if(list1==NULL) return list2;
+    if(list2==NULL) return list1;
+    
+    ListNode *headNode = new ListNode();
+    ListNode *nextNode = headNode;
+    while (true) {
+        if(list1==NULL){
+            nextNode->next = list2;
+            break;
+        }
+        if(list2==NULL){
+            nextNode->next = list1;
+            break;
+        }
+        if(list1->val<list2->val){
+            nextNode->next = list1;
+            list1 = list1->next;
+        }else{
+            nextNode->next = list2;
+            list2 = list2->next;
+        }
+        nextNode = nextNode->next;
+    }
+    return headNode->next;
+}
+//递归
+ListNode *sortTwoListRecursion(ListNode *list1, ListNode *list2){
+    if(list1==NULL) return list2;
+    if(list2==NULL) return list1;
+    
+    ListNode *headNode;
+    if(list1->val<list2->val){
+        headNode = list1;
+        headNode->next = sortTwoListRecursion(list1->next, list2);
+    }else{
+        headNode = list2;
+        headNode->next = sortTwoListRecursion(list1, list2->next);
+    }
+    return headNode;
+}
+void testSortTwoList(){
+    int arr1[] = {2,5,7,9,10,13,16,17};
+    int arr2[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    showList(list1);
+    ListNode *list2 = createList(arr2, sizeof(arr2)/sizeof(int));
+    showList(list2);
+    
+//    ListNode *list = sortTwoList(list1, list2);
+    ListNode *list = sortTwoListRecursion(list1, list2);
+    showList(list);
+}
+
+//输出链表中倒数第k个节点
+ListNode *findListNodeByKey(ListNode *headNode,int k){
+    if(headNode==NULL||k<=0){
+        return NULL;
+    }
+    ListNode *frontNode = headNode;
+    for(int i=0;i<k-1;i++){
+        if(frontNode==NULL){
+            return NULL;
+        }
+        frontNode = frontNode->next;
+    }
+    while (frontNode->next) {
+        frontNode = frontNode->next;
+        headNode = headNode->next;
+    }
+    return headNode;
+}
+
+void testFindListNodeByKey(){
+    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    ListNode *findNode = findListNodeByKey(list1, 20);
+    showList(findNode);
+}
+
+//寻找带环的链表的入库
+ListNode *findEntryNode(ListNode *headNode){
+    if(headNode==NULL)
+        return NULL;
+    //1、证明有环
+    ListNode *aHeadNode = headNode;
+    ListNode *behindNode = headNode;
+    while (true) {
+        aHeadNode = aHeadNode->next;
+        if(aHeadNode==NULL)
+            return NULL;
+        aHeadNode = aHeadNode->next;
+        if(aHeadNode==NULL)
+            return NULL;
+        behindNode = behindNode->next;
+        if(aHeadNode==behindNode){
+            break;
+        }
+    }
+    //2、得到环的节点数
+    int num = 0;
+    while (true) {
+        aHeadNode = aHeadNode->next;
+        num++;
+        if(aHeadNode==behindNode){
+            break;
+        }
+    }
+    //3、找倒数的第k个节点
+    ListNode *entryNode = findListNodeByKey(headNode, num);
+    return entryNode;
+}
+
+//反转链表
+ListNode *reversalList(ListNode *headNode){
+    if(headNode==NULL)
+        return NULL;
+    ListNode *preNode = NULL;
+    ListNode *newNode = headNode;
+    ListNode *nextNode = newNode->next;
+    while (newNode) {
+        newNode->next = preNode;
+        if(nextNode==NULL){
+            break;
+        }
+        preNode = newNode;
+        newNode = nextNode;
+        nextNode = newNode->next;
+        
+    }
+    return newNode;
+}
+
+void testReversalList(){
+    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    list1 = reversalList(list1);
+    showList(list1);
+}
 
 void testTree(){
     int a[] = {1,2,3,4,5,6,7,8,9,10,11};
@@ -273,7 +448,7 @@ int partitionQuickSort(int a[],int s,int e){
 ////    print(a,10);
 //    return low;
 //}
-//时间 O(nlog2(n)) 空间 O(nlog2(n)) 不稳定
+//快速排序 时间 O(nlog2(n)) 空间 O(nlog2(n)) 不稳定
 void quickSort(int a[],int s,int e){
     if(s<e){
         int mid = partitionQuickSort(a, s, e);
