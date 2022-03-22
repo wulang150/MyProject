@@ -49,13 +49,13 @@ typedef struct ListNode{
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-
+//    testAllPart();
+//    return;
 //    testTree();
 //    testMaxGap();
-//    testReverseAllStr();
-//    testSortTwoList();
-//    testFindListNodeByKey();
-    testReversalList();
+    testReverseAllStr();
+
+
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};

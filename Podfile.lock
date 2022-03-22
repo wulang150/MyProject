@@ -15,7 +15,6 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
-  - Bugly (2.5.71)
   - CocoaAsyncSocket (7.6.5)
   - dbMule (0.1.4)
   - Masonry (1.1.0)
@@ -31,7 +30,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - Aspects (~> 1.4.1)
-  - Bugly
   - CocoaAsyncSocket (~> 7.6.3)
   - dbMule (from `https://github.com/wulang150/dbMule.git`)
   - Masonry
@@ -44,7 +42,6 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Aspects
-    - Bugly
     - CocoaAsyncSocket
     - Masonry
     - MBProgressHUD
@@ -64,7 +61,6 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   dbMule: 87cb9f2aa669dc5801105d9a1db3c6b872e1f0ed
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
@@ -73,6 +69,6 @@ SPEC CHECKSUMS:
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 04a8fad94b681486244edec8a575b9b9b3146319
+PODFILE CHECKSUM: b82a828df162cd489ebcfacf583beff2a09ee423
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
