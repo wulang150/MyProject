@@ -53,8 +53,9 @@ typedef struct ListNode{
 //    return;
 //    testTree();
 //    testMaxGap();
-    testReverseAllStr();
-
+//    testTreeMirror();
+//    testReverseAllStr();
+    testIsPopOrder();
 
     return;
     
@@ -325,6 +326,7 @@ void cenShowTree(TreeNode *headNode){
             q.push(node->right);
         }
     }
+    printf("\n");
 }
 
 //计算所有路径的最大权重值
@@ -369,6 +371,80 @@ void countMaxTreePath1(TreeNode *headNode,int currentSum,int &max,vector<int> *t
 }
 
 
+//二叉树的镜像
+void testTreeMirror(){
+//    int a[] = {1,2,3,4,5,6,7};
+    int a[] = {1,2,2,4,5,5,7};
+    TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
+//    cenShowTree(headNode);
+//
+//    treeMirror(headNode);
+//    cenShowTree(headNode);
+    
+    printf("treeSymmetry>>>%d",treeSymmetry(headNode));
+    
+}
+void treeMirror(TreeNode *tree){
+    
+    if(!tree) return;
+    if(tree->left||tree->right){
+        //交换
+        TreeNode *tmp = tree->left;
+        tree->left = tree->right;
+        tree->right = tmp;
+    }
+    treeMirror(tree->left);
+    treeMirror(tree->right);
+}
+
+//对称二叉树
+bool treeSymmetry(TreeNode *tree){
+    return treeIsSymmetry(tree->left, tree->right);
+}
+
+bool treeIsSymmetry(TreeNode *tree1,TreeNode *tree2){
+    if(tree1==NULL&&tree2==NULL)
+        return 1;
+    if(tree1==NULL||tree2==NULL)
+        return 0;
+    if(tree1->val!=tree2->val){
+        return 0;
+    }
+    bool isDui = 0;
+    isDui = treeIsSymmetry(tree1->left,tree2->right);
+    if(isDui){
+        isDui = treeIsSymmetry(tree1->right,tree2->left);
+    }
+    return isDui;
+}
+
+
+//b是否为a栈的弹出系列
+void testIsPopOrder(){
+    int a[] = {1,2,3,4,5};
+    int b[] = {4,5,3,1,2};
+    printf("isPopOrder>>>%d\n",isPopOrder(a, b, sizeof(a)/sizeof(int)));
+}
+bool isPopOrder(int *a,int *b,int len){
+    stack<int> stk;
+    int bidx = 0;
+    int aidx = 0;
+    while (bidx<len) {
+        int vb = b[bidx];
+        if(!stk.empty()&&stk.top()==vb){
+            //比较下一个
+            bidx++;
+            stk.pop();
+        }else{
+            if(aidx>=len)
+                return 0;
+            int va = a[aidx++];
+            stk.push(va);
+        }
+        
+    }
+    return 1;
+}
 
 
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定
