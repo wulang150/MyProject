@@ -14,6 +14,7 @@
 #include <stack>
 #include <queue>
 #include <vector>
+#include <string>
 using namespace std;
 
 typedef struct TreeNode{
@@ -26,6 +27,12 @@ typedef struct ListNode{
     int val;
     struct ListNode *next;
 }ListNode;
+
+typedef struct ListNodes{
+    int val;
+    struct ListNodes *next;
+    struct ListNodes *pre;
+}ListNodes;
 
 //class Stack{
 //public:
@@ -49,14 +56,17 @@ typedef struct ListNode{
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    testAllPart();
-//    return;
 //    testTree();
 //    testMaxGap();
 //    testTreeMirror();
 //    testReverseAllStr();
-    testIsPopOrder();
-
+//    testIsPopOrder();
+//    testVerifySquenceOfBST();
+    
+//    testTwoTreeToList();
+//    testString();
+//    testArrValExceedHalf();
+    testStlHeapSort();
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
@@ -80,6 +90,7 @@ void showArr(int a[],int n){
     NSLog(str);
 }
 
+#pragma -mark 链表算法
 //创建链表
 ListNode *createList(int *arr,int num){
     ListNode *headNode = NULL;
@@ -224,6 +235,12 @@ ListNode *findEntryNode(ListNode *headNode){
 }
 
 //反转链表
+void testReversalList(){
+    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
+    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
+    list1 = reversalList(list1);
+    showList(list1);
+}
 ListNode *reversalList(ListNode *headNode){
     if(headNode==NULL)
         return NULL;
@@ -243,18 +260,18 @@ ListNode *reversalList(ListNode *headNode){
     return newNode;
 }
 
-void testReversalList(){
-    int arr1[] = {3,5,7,9,16,19,20,22,45,67};
-    ListNode *list1 = createList(arr1, sizeof(arr1)/sizeof(int));
-    list1 = reversalList(list1);
-    showList(list1);
-}
-
+#pragma -mark tree
 void testTree(){
-    int a[] = {1,2,3,4,5,6,7,8,9,10,11};
+    int a[] = {10,6,14,4,-1,-1,16};
     TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
 //    preShowTree1(headNode);
-//    cenShowTree(headNode);
+    cenShowTree1(headNode);
+//    vector<int> vec;
+//    showTreePath(headNode, &vec, 0, 18);
+//    int max = 0;
+//    countMaxTreePath(headNode,0,max);
+//    printf("countMaxTreePath>>>%d",max);
+    return;
     int maxPath = 0;
     int currentSum = 0;
 //    countMaxTreePath(headNode, currentSum, maxPath);
@@ -273,6 +290,9 @@ void testTree(){
 //将数组转换为树
 TreeNode *createTree(int *a,int n,int k){
     if(k>=n){
+        return NULL;
+    }
+    if(a[k]==-1){
         return NULL;
     }
     TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
@@ -309,6 +329,7 @@ void preShowTree1(TreeNode *headNode){
     }
 }
 
+//从上到下打印二叉树
 void cenShowTree(TreeNode *headNode){
     if(headNode==NULL){
         return;
@@ -329,6 +350,59 @@ void cenShowTree(TreeNode *headNode){
     printf("\n");
 }
 
+//从上到下分层打印二叉树
+void cenShowTree1(TreeNode *headNode){
+    if(headNode==NULL){
+        return;
+    }
+    queue<TreeNode *> q;
+    q.push(headNode);
+    int curCenCount = 1;
+    int nextCenCount = 0;
+    while (!q.empty()) {
+        TreeNode *node = q.front();
+        
+        if(node->left){
+            q.push(node->left);
+            nextCenCount++;
+        }
+        if(node->right){
+            q.push(node->right);
+            nextCenCount++;
+        }
+        
+        q.pop();
+        curCenCount--;
+        printf("%d ",node->val);
+        if(curCenCount<=0){
+            curCenCount = nextCenCount;
+            nextCenCount = 0;
+            //换行
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
+
+//输出为某值的所有路径
+void showTreePath(TreeNode *headNode,vector<int> *vec,int sum,int val){
+    if(!headNode)
+        return;
+    sum = sum + headNode->val;
+    vec->push_back(headNode->val);
+    if(headNode->left==NULL&&headNode->right==NULL&&sum==val){
+        vector<int>::iterator iter = vec->begin();
+        for(;iter!=vec->end();++iter){
+            printf("%d\t",*iter);
+        }
+        printf("\n");
+    }
+    showTreePath(headNode->left, vec, sum, val);
+    showTreePath(headNode->right, vec, sum, val);
+//    sum = sum - headNode->val;
+    vec->pop_back();
+}
+
 //计算所有路径的最大权重值
 void countMaxTreePath(TreeNode *headNode,int currentSum,int &max){
     if(headNode){
@@ -339,7 +413,7 @@ void countMaxTreePath(TreeNode *headNode,int currentSum,int &max){
         }
         countMaxTreePath(headNode->left,currentSum, max);
         countMaxTreePath(headNode->right,currentSum, max);
-        currentSum = currentSum - headNode->val;
+//        currentSum = currentSum - headNode->val;
     }
 }
 //计算所有路径的最大权重值，并输出路径
@@ -418,6 +492,163 @@ bool treeIsSymmetry(TreeNode *tree1,TreeNode *tree2){
     return isDui;
 }
 
+//判断是否为二叉搜索树的后序遍历
+void testVerifySquenceOfBST(){
+//    int arr[] = {5,7,6,9,11,10,8};
+    int arr[] = {7,4};
+    printf("testVerifySquenceOfBST>>>>%d",verifySquenceOfBST(arr, sizeof(arr)/sizeof(int)));
+}
+bool verifySquenceOfBST(int squ[],int len){
+    if(len<1)
+        return 0;
+    if(len<2)
+        return 1;
+    int cenPot = squ[len-1];
+    //分成左右两部分
+    int *lFirst = squ;
+    int *rFirst = squ;
+    for(int i=0;i<len-1;i++){
+        if(squ[i]>cenPot){
+            break;
+        }
+        if(squ[i]==cenPot){
+            return 0;
+        }
+        rFirst += 1;
+    }
+    if(rFirst-lFirst+1>len-1){
+        //没有右树
+        rFirst = NULL;
+    }else if(rFirst==squ){
+        //没有左树
+        lFirst = NULL;
+    }
+
+    if(rFirst){
+        int plen = len - 1 - (rFirst - squ);
+        //如果右树有小值，也是不合法的
+        for(int i=0;i<plen;i++){
+            if(rFirst[i]<=cenPot){
+                return 0;
+            }
+        }
+        if(!verifySquenceOfBST(rFirst, plen)){
+            return 0;
+        }
+    }
+    if(lFirst){
+        int plen = 0;
+        if(!rFirst){
+            plen = len - 1;
+        }else{
+            plen = rFirst - squ;
+        }
+        if(!verifySquenceOfBST(lFirst, plen)){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+//搜索二叉树转换成排序的双向链表，不能创建新节点
+void testTwoTreeToList(){
+    int a[] = {10,6,14,4,8,12,16};
+    TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
+    
+    TreeNode *listNode = NULL, *curNode = NULL;
+    twoTreeToList(headNode, &listNode, &curNode);
+    
+//    cenShowTree(listNode);
+    while (listNode) {
+        printf("%d\t",listNode->val);
+        listNode = listNode->right;
+    }
+    printf("\n");
+    
+}
+void twoTreeToList(TreeNode *headTree,TreeNode **headList,TreeNode **curNode){
+    if(headTree==NULL)
+        return;
+    
+    twoTreeToList(headTree->left,headList,curNode);
+    //值
+    if(*headList==NULL){
+        *headList = headTree;
+    }else{
+        (*curNode)->right = headTree;
+        headTree->left = *curNode;
+    }
+    *curNode = headTree;
+    twoTreeToList(headTree->right,headList,curNode);
+}
+
+#pragma -mark 字符串
+void testString(){
+    char str[] = "abcd";
+//    stringAllArrange(str);
+    stringAllGroup(str);
+}
+//字符串的排列
+void stringAllArrange(char *str){
+    if(str==NULL){
+        return;
+    }
+    
+    stringAllArrangeSub(str, str);
+}
+
+void stringAllArrangeSub(char *str,char *pStr){
+    if(*pStr=='\0'){
+        printf("%s\n",str);
+        return;
+    }
+    for(int i=0;i<strlen(pStr);i++){
+        char tmp = *pStr;
+        *pStr = pStr[i];
+        pStr[i] = tmp;
+        
+        stringAllArrangeSub(str,pStr+1);
+        
+        tmp = *pStr;
+        *pStr = pStr[i];
+        pStr[i] = tmp;
+    }
+}
+
+//求字符串的所有组合
+void stringAllGroup(char *str){
+    if(str==NULL){
+        return;
+    }
+    for(int i=1;i<=strlen(str);i++){
+        vector<char> vec;
+        stringAllGroupSub(str, i,&vec);
+    }
+}
+
+void stringAllGroupSub(char *str,int n,vector<char> *vec){
+    if(strlen(str)<n){
+        return;
+    }
+    if(n<=0){
+        vector<char>::iterator iter = vec->begin();
+        for(;iter!=vec->end();++iter){
+            printf("%c",*iter);
+        }
+        printf("\n");
+        return;
+    }
+    if(*str=='\0'){
+        return;
+    }
+//    printf("%c",*str);
+    vec->push_back(*str);
+    stringAllGroupSub(str+1,n-1,vec);
+    vec->pop_back();
+    stringAllGroupSub(str+1,n,vec);
+}
+
+#pragma -mark other
 
 //b是否为a栈的弹出系列
 void testIsPopOrder(){
@@ -446,7 +677,44 @@ bool isPopOrder(int *a,int *b,int len){
     return 1;
 }
 
+//数组中出现次数超过一半的的数字
+void testArrValExceedHalf(){
+//    int arr[] = {6,4,7,4,2,4,4,4,6,8};
+    int arr[] = {4};
+    printf("arrValExceedHalf>>>%d",arrValExceedHalf(arr, sizeof(arr)/sizeof(int)));
+}
+int arrValExceedHalf(int *arr,int len){
+    //运用部分快排的思维
+    if(arr==NULL||len<1)
+        return -1;
+    int mid = len/2;
+    int start = 0;
+    int end = len - 1;
+    int idx = partitionQuickSort(arr, start, end);
+    while (idx!=mid) {
+        if(idx<mid){
+            start = idx + 1;
+        }else{
+            end = idx - 1;
+        }
+        idx = partitionQuickSort(arr, start, end);
+    }
+    //检查idx对应的值是否超过一半
+    int num = 0;
+    int ret = arr[idx];
+    for(int i=0;i<len;i++){
+        if(ret==arr[i]){
+            num++;
+        }
+    }
+    if(num<=mid)
+        return -1;
+    return ret;
+}
 
+//最小的k个数
+
+#pragma -mark 排序
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定
 void mergeSort(int a[],int s,int e)
 {
@@ -566,6 +834,41 @@ void heapSort(int a[],int n){
         swap(&a[i], &a[0]);
         makeHeap(a, 0, i);
     }
+}
+
+
+//测试stl的堆排序
+void printVec(string head,vector<int> vec){
+    printf("%s: ",head.c_str());
+    vector<int>::iterator iter = vec.begin();
+    for(;iter!=vec.end();iter++){
+        printf("%d,",*iter);
+    }
+    printf("\n");
+}
+void testStlHeapSort(){
+    vector<int> vec{6,1,2,5,3,4};
+    printVec("vec:",vec);
+    make_heap(vec.begin(), vec.end(), greater<int>());
+    printVec("最小堆:",vec);
+    make_heap(vec.begin(), vec.end(), less<int>());
+    printVec("最大堆",vec);
+    
+    //往最大堆插入数值
+    vec.push_back(10);
+    push_heap(vec.begin(), vec.end());
+    printVec("插入值10",vec);
+    
+    //输出最大堆的最大值
+    int max = vec[0];
+    pop_heap(vec.begin(), vec.end());
+    printVec("最大值pop：",vec);
+    vec.pop_back();
+    
+    //输出排序后的
+    sort_heap(vec.begin(), vec.end());
+    printVec("排序：",vec);
+    
 }
 
 //所有的组合
