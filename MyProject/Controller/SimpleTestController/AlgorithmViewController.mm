@@ -1002,4 +1002,12 @@ void testReverseAllStr(){
     printf("str=%s",str);
 }
 
+//把数组中每一个数组合成最小的数
+int minMergeForArr(int *arr,int n){
+    if(arr==NULL||n<1)
+        return -1;
+    
+    return 0;
+}
+
 @end
