@@ -53,8 +53,8 @@ typedef struct ListNode{
 //    return;
 //    testTree();
 //    testMaxGap();
-    testReverseAllStr();
-
+//    testReverseAllStr();
+    testTreeIsSubTree();
 
     return;
     
@@ -249,6 +249,7 @@ void testReversalList(){
     showList(list1);
 }
 
+//树
 void testTree(){
     int a[] = {1,2,3,4,5,6,7,8,9,10,11};
     TreeNode *headNode = createTree(a, sizeof(a)/sizeof(int), 0);
@@ -325,6 +326,7 @@ void cenShowTree(TreeNode *headNode){
             q.push(node->right);
         }
     }
+    printf("\n");
 }
 
 //计算所有路径的最大权重值
@@ -368,7 +370,45 @@ void countMaxTreePath1(TreeNode *headNode,int currentSum,int &max,vector<int> *t
     }
 }
 
+//判断二叉树的子树
+void testTreeIsSubTree(){
+    int a[] = {8,8,7,9,2,1,1,1,1,4,7};
+    TreeNode *tree1 = createTree(a, sizeof(a)/sizeof(int), 0);
+    cenShowTree(tree1);
+    //sub tree
+    int b[] = {8,9,6};
+    TreeNode *tree2 = createTree(b, sizeof(b)/sizeof(int), 0);
+    cenShowTree(tree2);
+    
+    bool isSub = treeIsSubTree(tree1, tree2);
+    
+    printf("treeIsSubTree>>>>%d",isSub);
+    
+}
+bool treeIsSubTree(TreeNode *tree1,TreeNode *tree2){
+    if(tree1==NULL||tree2==NULL)
+        return 0;
+    bool ret = 0;
+    if(tree1->val==tree2->val){
+        ret = compareTree(tree1, tree2);
+    }
+    if(!ret)
+        ret = treeIsSubTree(tree1->left,tree2);
+    if(!ret)
+        ret = treeIsSubTree(tree1->right,tree2);
+    return ret;
+}
 
+bool compareTree(TreeNode *tree1,TreeNode *tree2){
+    if(tree2==NULL)
+        return 1;
+    if(tree1==NULL)
+        return 0;
+    if(tree1->val==tree2->val){
+        return compareTree(tree1->left, tree2->left) && compareTree(tree1->right, tree2->right);
+    }
+    return 0;
+}
 
 
 //归并排序 时间 O(nlog2(n)) 空间 O(n) 稳定
