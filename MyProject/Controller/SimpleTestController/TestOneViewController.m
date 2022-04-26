@@ -21,6 +21,8 @@
 @property(nonatomic) UILabel *testLab;
 //@property(nonatomic) IJKFFMoviePlayerController *ijkPlayer;
 @property(nonatomic) NSThread *aliveThread;
+
+@property(nonatomic,assign) UIButton *bbtn;
 @end
 
 @implementation TestOneViewController
@@ -43,11 +45,36 @@
     
 //    [self testLiveThread];
     
-    [self testFloat];
+//    [self testFloat];
+   
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    [self performSelector:@selector(addToAliveThread) onThread:self.aliveThread withObject:nil waitUntilDone:NO];
+//    [self toLandscapeLeft];
+//    [self testMemWeak];
+//    [self testGCD];
+    [self testZombieObj];
+}
+
+//测试僵尸对象
+- (void)testZombieObj{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.bbtn = btn;
+    btn = nil;
+    NSLog(@"testZombieObj>>>%@",self.bbtn);
 }
 
 - (void)testUI{
     NSLog(@"fetchData>>>>hello");
+}
+
+- (void)testGCD{
+    NSLog(@">>>>>>>1111111111111");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@">>>>>>>2222222222");
+    });
+    NSLog(@">>>>>>>3333333333333");
 }
 
 - (void)testFloat{
@@ -118,11 +145,6 @@
     NSLog(@"addToAliveThread>>>>2");
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [self performSelector:@selector(addToAliveThread) onThread:self.aliveThread withObject:nil waitUntilDone:NO];
-//    [self toLandscapeLeft];
-    [self testMemWeak];
-}
 
 - (void)testFun{
     int a[] = {34,56,12,22,78,22,22,22,12,12,23,24};

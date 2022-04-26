@@ -66,7 +66,8 @@ typedef struct ListNodes{
 //    testTwoTreeToList();
 //    testString();
 //    testArrValExceedHalf();
-    testStlHeapSort();
+//    testStlHeapSort();
+    testOther1();
     return;
     
     int a[] = {45,23,32,16,100,78,56,29,33,23,17};
@@ -871,6 +872,12 @@ void testStlHeapSort(){
     
 }
 
+#pragma -mark other1
+void testOther1(){
+//    testFindMaxSubArrVal();
+//    testFindOneNumber();
+    printf("numToStrForTypeNum>>>%d\n",numToStrForTypeNum(12259));
+}
 //所有的组合
 void allPart(char *begin,int len,vector<char> *q){
     
@@ -959,6 +966,78 @@ void testReverseAllStr(){
     }
     
     printf("str=%s",str);
+}
+
+//求联系子数组的最大值  比如：{1,-2,3,10,-4,7,2,-5}，最大子数组为{3,10,-4,7,2}
+void testFindMaxSubArrVal(){
+    int arr[] = {1,-2,3,10,-4,7,2,-5};
+    printf("findMaxSubArrVal>>>%d\n",findMaxSubArrVal(arr, sizeof(arr)/sizeof(int)));
+}
+int findMaxSubArrVal(int *arr,int len){
+    if(len<=0){
+        return 0;
+    }
+    int max = 0x80000000;       //最小负数
+    int tmp = 0;
+    for(int i=0;i<len;i++){
+        int fv = arr[i];
+        if(tmp<=0){
+            tmp = fv;
+        }else{
+            tmp += fv;
+        }
+        if(tmp>max){
+            max = tmp;
+        }
+    }
+    return max;
+}
+
+//1~n中，1出现的次数
+void testFindOneNumber(){
+    printf("findOneNumber>>>%d",findOneNumber(12));
+}
+int findOneNumber(int n){
+    int numOne = 0;
+    for(unsigned int i=1;i<=n;i++){
+        unsigned int val = i;
+        while (val>0) {
+            if(val%10==1){
+                numOne++;
+            }
+            val = val/10;
+        }
+    }
+    return numOne;
+}
+
+//46，把数字翻译成字符串，有多少种类型
+int numToStrForTypeNum(int num){
+    string str = to_string(num);
+    
+    int count = 1;
+    //已第一个数开始，2个2个分组，一个有多少组
+    count += countNumForGroup(str, 0);
+    count += countNumForGroup(str, 1);
+    return count;
+}
+
+int countNumForGroup(string str,int start){
+    int groupNum = 0;
+    for(int i=start;i<str.length();i=i+2){
+        if(i+1>=str.length()){
+            break;
+        }
+        int an = str[i] - '0';
+        int ab = str[i+1] - '0';
+        an = an * 10 + ab;
+        if(an>=10 && an<=25){
+            groupNum++;
+        }
+    }
+    groupNum = pow(2, groupNum)-1;
+    printf("countNumForGroup>>>%d\n",groupNum);
+    return groupNum;
 }
 
 @end
