@@ -60,6 +60,8 @@ typedef struct ListNodes{
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //    testTree();
 //    testMaxGap();
+//    testReverseAllStr();
+//    testTreeIsSubTree();
 //    testTreeMirror();
 //    testReverseAllStr();
 //    testIsPopOrder();
@@ -267,6 +269,7 @@ ListNode *reversalList(ListNode *headNode){
     return newNode;
 }
 
+//树
 #pragma -mark tree
 void testTree(){
     int a[] = {10,6,14,4,-1,-1,16};
@@ -451,7 +454,45 @@ void countMaxTreePath1(TreeNode *headNode,int currentSum,int &max,vector<int> *t
     }
 }
 
+//判断二叉树的子树
+void testTreeIsSubTree(){
+    int a[] = {8,8,7,9,2,1,1,1,1,4,7};
+    TreeNode *tree1 = createTree(a, sizeof(a)/sizeof(int), 0);
+    cenShowTree(tree1);
+    //sub tree
+    int b[] = {8,9,6};
+    TreeNode *tree2 = createTree(b, sizeof(b)/sizeof(int), 0);
+    cenShowTree(tree2);
+    
+    bool isSub = treeIsSubTree(tree1, tree2);
+    
+    printf("treeIsSubTree>>>>%d",isSub);
+    
+}
+bool treeIsSubTree(TreeNode *tree1,TreeNode *tree2){
+    if(tree1==NULL||tree2==NULL)
+        return 0;
+    bool ret = 0;
+    if(tree1->val==tree2->val){
+        ret = compareTree(tree1, tree2);
+    }
+    if(!ret)
+        ret = treeIsSubTree(tree1->left,tree2);
+    if(!ret)
+        ret = treeIsSubTree(tree1->right,tree2);
+    return ret;
+}
 
+bool compareTree(TreeNode *tree1,TreeNode *tree2){
+    if(tree2==NULL)
+        return 1;
+    if(tree1==NULL)
+        return 0;
+    if(tree1->val==tree2->val){
+        return compareTree(tree1->left, tree2->left) && compareTree(tree1->right, tree2->right);
+    }
+    return 0;
+}
 //二叉树的镜像
 void testTreeMirror(){
 //    int a[] = {1,2,3,4,5,6,7};
@@ -974,7 +1015,6 @@ void testReverseAllStr(){
     
     printf("str=%s",str);
 }
-
 //求联系子数组的最大值  比如：{1,-2,3,10,-4,7,2,-5}，最大子数组为{3,10,-4,7,2}
 void testFindMaxSubArrVal(){
     int arr[] = {1,-2,3,10,-4,7,2,-5};
@@ -1074,6 +1114,13 @@ int longestSubString(string str){
         maxLen = curLen;
     
     return maxLen;
+}
+//把数组中每一个数组合成最小的数
+int minMergeForArr(int *arr,int n){
+    if(arr==NULL||n<1)
+        return -1;
+    
+    return 0;
 }
 
 @end
