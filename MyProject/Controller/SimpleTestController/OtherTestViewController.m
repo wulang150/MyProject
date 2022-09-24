@@ -8,8 +8,15 @@
 
 #import "OtherTestViewController.h"
 #import "IDCPlayItemSelectView.h"
-#import <dbMule/dbMuleManager.h>
+//#import <dbMule/dbMuleManager.h>
 #import "WeakTestModel.h"
+
+#define SetKey(key,val) key = val
+
+@implementation WaterSuper
+
+
+@end
 
 @implementation WaterObj
 
@@ -22,7 +29,8 @@
 
 @interface OtherTestViewController ()
 {
-    
+    dispatch_semaphore_t _semA;
+    dispatch_semaphore_t _semB;
 }
 @property(nonatomic) IDCPlayItemSelectView *playItemSelectView;
 @property(nonatomic) UISlider *slider;
@@ -42,6 +50,17 @@
     // Do any additional setup after loading the view.
     [self setupUI];
     
+    WaterObj *obj = [[WaterObj alloc] init];
+//    [self testSettingName:obj.name val:@"1234"];
+    SetKey(obj.name, @"2222");
+    
+}
+
+- (void)testSettingName:(NSString *)key val:(NSString *)val{
+    key = val;
+}
+
+- (void)testFirst{
     NSInteger val = 1566940933730;
     NSLog(@">>>>>>>>%zi",val);
 //    __weak NSString *weakS;
@@ -67,7 +86,46 @@
     }
     if(self.testModel.block)
         self.testModel.block(0,0,nil);
-//    self.testModel.block = weakBlock;
+}
+
+- (void)doForA{
+    NSLog(@"start work A");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:2];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_semaphore_signal(_semA);
+        });
+    });
+}
+- (void)doForB{
+    NSLog(@"start work B");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:4];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_semaphore_signal(_semB);
+        });
+    });
+}
+
+- (void)doForC{
+    NSLog(@"start work C");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        dispatch_semaphore_wait(_semB, DISPATCH_TIME_FOREVER);
+        NSLog(@"after B");
+        dispatch_semaphore_wait(_semA, DISPATCH_TIME_FOREVER);
+        NSLog(@"after A");
+        
+        NSLog(@"do for c");
+    });
+}
+
+- (void)testSignal{
+    _semA = dispatch_semaphore_create(0);
+    _semB = dispatch_semaphore_create(0);
+    
+    [self doForA];
+    [self doForB];
+    [self doForC];
     
 }
 
@@ -110,8 +168,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSLog(@"weak>>>%@",self.tmpStr);
-    [self.weakObj show];
+//    NSLog(@"weak>>>%@",self.tmpStr);
+//    [self.weakObj show];
+    [self testSignal];
 }
 
 - (void)testTimer{
@@ -179,8 +238,8 @@
 }
 
 - (void)testdbMule{
-    dbMuleManager *obj = [[dbMuleManager alloc] init];
-    [obj show];
+//    dbMuleManager *obj = [[dbMuleManager alloc] init];
+//    [obj show];
 }
 
 - (void)testColl{

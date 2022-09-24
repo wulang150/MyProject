@@ -22,7 +22,7 @@ pod 'CocoaAsyncSocket', '~> 7.6.3'
 #pod 'Firebase/Core'
 pod 'Aspects', '~> 1.4.1'
 
-pod 'ReactiveCocoa', '~> 10.1'
+pod 'ReactiveObjC', '~> 3.1.0'
 
 #pod 'ZFPlayer', '~> 3.0'
 #pod 'ZFPlayer/ControlView', '~> 3.0'

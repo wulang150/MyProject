@@ -101,9 +101,9 @@
 
 - (void)transitionToItem:(BarSelectItem *)item animated:(BOOL)animated
 {
-    if([self.delegate respondsToSelector:@selector(BarSelectView:didSelectedItem:)])
+    if([self.delegate respondsToSelector:@selector(barSelectView:didSelectedItem:)])
     {
-        [self.delegate BarSelectView:self didSelectedItem:item];
+        [self.delegate barSelectView:self didSelectedItem:item];
     }
     CAShapeLayer *animatingTabTransitionLayer = [CAShapeLayer layer];
     void (^completionBlock)(void) = ^{

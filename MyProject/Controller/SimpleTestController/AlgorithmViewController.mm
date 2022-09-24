@@ -15,6 +15,8 @@
 #include <queue>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <sstream>
 using namespace std;
 
 typedef struct TreeNode{
@@ -89,6 +91,10 @@ void showArr(int a[],int n){
         str = [NSString stringWithFormat:@"%@%d,",str,a[i]];
     }
     NSLog(str);
+}
+
+void testCFunc(){
+    
 }
 
 #pragma -mark 链表算法
@@ -876,7 +882,8 @@ void testStlHeapSort(){
 void testOther1(){
 //    testFindMaxSubArrVal();
 //    testFindOneNumber();
-    printf("numToStrForTypeNum>>>%d\n",numToStrForTypeNum(12259));
+//    printf("numToStrForTypeNum>>>%d\n",numToStrForTypeNum(12259));
+    testLongestSubString();
 }
 //所有的组合
 void allPart(char *begin,int len,vector<char> *q){
@@ -1038,6 +1045,35 @@ int countNumForGroup(string str,int start){
     groupNum = pow(2, groupNum)-1;
     printf("countNumForGroup>>>%d\n",groupNum);
     return groupNum;
+}
+
+void testLongestSubString(){
+    string str = "arabcacfr";
+    printf("longestSubString>>>%d",longestSubString(str));
+}
+int longestSubString(string str){
+    int curLen = 0;
+    int maxLen = 0;
+    int partion[26] = {0};
+    for(int i=0;i<26;i++){
+        partion[i] = -1;
+    }
+    
+    for(int i=0;i<str.length();i++){
+        int idxVal = partion[str[i] - 'a'];
+        if(idxVal<0 || i-idxVal>curLen){
+            curLen++;
+        }else{
+            if(curLen>maxLen)
+                maxLen = curLen;
+            curLen = i - idxVal;
+        }
+        partion[str[i] - 'a'] = i;
+    }
+    if(curLen>maxLen)
+        maxLen = curLen;
+    
+    return maxLen;
 }
 
 @end

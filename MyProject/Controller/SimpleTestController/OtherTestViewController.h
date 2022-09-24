@@ -10,6 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface WaterSuper : NSObject
+
+@property(nonatomic) NSString *name;
+@end
+
 @interface WaterObj : NSObject
 
 @property(nonatomic) NSString *name;

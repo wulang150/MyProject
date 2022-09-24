@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		839A6FE89BA0C35B5E2F80AD /* Pods_MyProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF05659C0A2AA048BA41168C /* Pods_MyProject.framework */; };
 		93040791213E63C5002C5247 /* CollectDataAssistManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9304078D213E63C5002C5247 /* CollectDataAssistManager.m */; };
 		93040792213E63C5002C5247 /* CollectDataUploadServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93040790213E63C5002C5247 /* CollectDataUploadServer.m */; };
 		93040796213E6595002C5247 /* mydata3_1.zip in Resources */ = {isa = PBXBuildFile; fileRef = 93040795213E6594002C5247 /* mydata3_1.zip */; };
@@ -135,6 +136,9 @@
 		9A937C8E2206967F00728E84 /* test2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8B2206967F00728E84 /* test2.jpg */; };
 		9A937C8F2206967F00728E84 /* test4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8C2206967F00728E84 /* test4.jpg */; };
 		9A937C902206967F00728E84 /* test3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A937C8D2206967F00728E84 /* test3.jpg */; };
+		9A9407D02817E9B5006943B3 /* TestReactCocoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9407CF2817E9B5006943B3 /* TestReactCocoVC.m */; };
+		9A9407D728191DC9006943B3 /* ReactiveLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9407D628191DC9006943B3 /* ReactiveLogin.m */; };
+		9A9407DB28191E42006943B3 /* UserVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9407DA28191E42006943B3 /* UserVM.m */; };
 		9A94535926E8E4CF009BD1C2 /* WeakTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */; };
 		9A9A25FE2314CD50000E1EE3 /* OtherTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A25FD2314CD50000E1EE3 /* OtherTestViewController.m */; };
 		9A9F6ABA21CA2F54006AF1FD /* ZYNetworkAccessibity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F6AB821CA2F54006AF1FD /* ZYNetworkAccessibity.m */; };
@@ -184,9 +188,9 @@
 		9AF24F5821D0B2C000F14377 /* ATVDevManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF24F5721D0B2C000F14377 /* ATVDevManager.m */; };
 		9AF2504021D5DB9900F14377 /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2503F21D5DB9900F14377 /* SimpleViewController.m */; };
 		9AF2504321D6053D00F14377 /* YYKitTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2504221D6053D00F14377 /* YYKitTestViewController.m */; };
+		9AFC8A7D2827676300EAD001 /* TestMasoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC8A7C2827676300EAD001 /* TestMasoryVC.m */; };
 		9AFD656F21F88B36007EF363 /* TcpServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD656E21F88B36007EF363 /* TcpServerViewController.m */; };
 		9AFD657221F88B47007EF363 /* TcpClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD657121F88B47007EF363 /* TcpClientViewController.m */; };
-		FE68AB38F7C16160C7A4E1B5 /* libPods-MyProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E589A85C36B027887EF02F /* libPods-MyProject.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,7 +211,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06E589A85C36B027887EF02F /* libPods-MyProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377C613D9FECB012BABAA118 /* Pods-MyProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyProject/Pods-MyProject.debug.xcconfig"; sourceTree = "<group>"; };
 		9304078C213E63C5002C5247 /* CollectDataAssistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectDataAssistManager.h; sourceTree = "<group>"; };
 		9304078D213E63C5002C5247 /* CollectDataAssistManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectDataAssistManager.m; sourceTree = "<group>"; };
@@ -449,6 +452,12 @@
 		9A937C8B2206967F00728E84 /* test2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test2.jpg; sourceTree = "<group>"; };
 		9A937C8C2206967F00728E84 /* test4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test4.jpg; sourceTree = "<group>"; };
 		9A937C8D2206967F00728E84 /* test3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test3.jpg; sourceTree = "<group>"; };
+		9A9407CE2817E9B5006943B3 /* TestReactCocoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestReactCocoVC.h; sourceTree = "<group>"; };
+		9A9407CF2817E9B5006943B3 /* TestReactCocoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestReactCocoVC.m; sourceTree = "<group>"; };
+		9A9407D528191DC9006943B3 /* ReactiveLogin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactiveLogin.h; sourceTree = "<group>"; };
+		9A9407D628191DC9006943B3 /* ReactiveLogin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactiveLogin.m; sourceTree = "<group>"; };
+		9A9407D928191E42006943B3 /* UserVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserVM.h; sourceTree = "<group>"; };
+		9A9407DA28191E42006943B3 /* UserVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserVM.m; sourceTree = "<group>"; };
 		9A94535726E8E4CE009BD1C2 /* WeakTestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakTestModel.h; sourceTree = "<group>"; };
 		9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakTestModel.m; sourceTree = "<group>"; };
 		9A9A25FC2314CD50000E1EE3 /* OtherTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherTestViewController.h; sourceTree = "<group>"; };
@@ -535,10 +544,13 @@
 		9AF2503F21D5DB9900F14377 /* SimpleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleViewController.m; sourceTree = "<group>"; };
 		9AF2504121D6053D00F14377 /* YYKitTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYKitTestViewController.h; sourceTree = "<group>"; };
 		9AF2504221D6053D00F14377 /* YYKitTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYKitTestViewController.m; sourceTree = "<group>"; };
+		9AFC8A7B2827676300EAD001 /* TestMasoryVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestMasoryVC.h; sourceTree = "<group>"; };
+		9AFC8A7C2827676300EAD001 /* TestMasoryVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestMasoryVC.m; sourceTree = "<group>"; };
 		9AFD656D21F88B36007EF363 /* TcpServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TcpServerViewController.h; sourceTree = "<group>"; };
 		9AFD656E21F88B36007EF363 /* TcpServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TcpServerViewController.m; sourceTree = "<group>"; };
 		9AFD657021F88B47007EF363 /* TcpClientViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TcpClientViewController.h; sourceTree = "<group>"; };
 		9AFD657121F88B47007EF363 /* TcpClientViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TcpClientViewController.m; sourceTree = "<group>"; };
+		DF05659C0A2AA048BA41168C /* Pods_MyProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E638EBC6DB98D3096075B633 /* Pods-MyProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyProject/Pods-MyProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -549,7 +561,7 @@
 			files = (
 				9A44992621B65C4A00D38AB2 /* MapKit.framework in Frameworks */,
 				939F446E1F05167E009F9A9A /* libsqlite3.0.tbd in Frameworks */,
-				FE68AB38F7C16160C7A4E1B5 /* libPods-MyProject.a in Frameworks */,
+				839A6FE89BA0C35B5E2F80AD /* Pods_MyProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,7 +596,7 @@
 			children = (
 				9A44992521B65C4A00D38AB2 /* MapKit.framework */,
 				939F446D1F05167E009F9A9A /* libsqlite3.0.tbd */,
-				06E589A85C36B027887EF02F /* libPods-MyProject.a */,
+				DF05659C0A2AA048BA41168C /* Pods_MyProject.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1264,6 +1276,17 @@
 			path = subView;
 			sourceTree = "<group>";
 		};
+		9A9407D828191E01006943B3 /* MVVMTest */ = {
+			isa = PBXGroup;
+			children = (
+				9A9407D528191DC9006943B3 /* ReactiveLogin.h */,
+				9A9407D628191DC9006943B3 /* ReactiveLogin.m */,
+				9A9407D928191E42006943B3 /* UserVM.h */,
+				9A9407DA28191E42006943B3 /* UserVM.m */,
+			);
+			path = MVVMTest;
+			sourceTree = "<group>";
+		};
 		9A9F6AB721CA2F54006AF1FD /* ZYNetworkAccessibity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1471,6 +1494,7 @@
 		9AF24FB521D5D97500F14377 /* SimpleTestController */ = {
 			isa = PBXGroup;
 			children = (
+				9A9407D828191E01006943B3 /* MVVMTest */,
 				9AB66CD323B0EFBE00A7BB26 /* Collection */,
 				9AB66CD123B0E6B000A7BB26 /* IDCPlayItemSelectView.h */,
 				9AB66CD023B0E6B000A7BB26 /* IDCPlayItemSelectView.m */,
@@ -1497,6 +1521,10 @@
 				9A76C333242C4C3100546865 /* AlgorithmViewController.mm */,
 				9A94535726E8E4CE009BD1C2 /* WeakTestModel.h */,
 				9A94535826E8E4CE009BD1C2 /* WeakTestModel.m */,
+				9A9407CE2817E9B5006943B3 /* TestReactCocoVC.h */,
+				9A9407CF2817E9B5006943B3 /* TestReactCocoVC.m */,
+				9AFC8A7B2827676300EAD001 /* TestMasoryVC.h */,
+				9AFC8A7C2827676300EAD001 /* TestMasoryVC.m */,
 			);
 			path = SimpleTestController;
 			sourceTree = "<group>";
@@ -1523,7 +1551,7 @@
 				939F43C01F049B0C009F9A9A /* Sources */,
 				939F43C11F049B0C009F9A9A /* Frameworks */,
 				939F43C21F049B0C009F9A9A /* Resources */,
-				DCBC11254749B7DCDDB3BCD5 /* [CP] Copy Pods Resources */,
+				4DBDF3B5FE5D10BCF9F9F65A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1699,22 +1727,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DCBC11254749B7DCDDB3BCD5 /* [CP] Copy Pods Resources */ = {
+		4DBDF3B5FE5D10BCF9F9F65A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/Aspects/Aspects.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveObjC/ReactiveObjC.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Aspects.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveObjC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyProject/Pods-MyProject-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1765,6 +1809,7 @@
 				9A32058B22CDD2AE00279962 /* ZFPlayerViewController.m in Sources */,
 				9A9F6AC521CC9547006AF1FD /* IBeaconViewController.m in Sources */,
 				93D2ECB420B66576007426C8 /* BleOperatorManager.m in Sources */,
+				9A9407D02817E9B5006943B3 /* TestReactCocoVC.m in Sources */,
 				9A3E1BAC265CB29C001A9A21 /* OpenGLViewController.m in Sources */,
 				939F44691F051649009F9A9A /* FMDatabaseAdditions.m in Sources */,
 				939F43CC1F049B0C009F9A9A /* AppDelegate.m in Sources */,
@@ -1777,7 +1822,9 @@
 				9AC1ACAF22C4CED6006A6E85 /* TestOpt1ViewController.m in Sources */,
 				9A94535926E8E4CF009BD1C2 /* WeakTestModel.m in Sources */,
 				9A3A0229239B50AE00230BFD /* LayoutTestViewController.m in Sources */,
+				9A9407D728191DC9006943B3 /* ReactiveLogin.m in Sources */,
 				9ACFE1EA21E0409D00305532 /* YYFPSLabel.m in Sources */,
+				9A9407DB28191E42006943B3 /* UserVM.m in Sources */,
 				939F44391F04E1C0009F9A9A /* FloatTableView.m in Sources */,
 				9AF24F5521D0B28300F14377 /* DevManager.m in Sources */,
 				939F44151F04B05B009F9A9A /* UIImageView+HeadImage.m in Sources */,
@@ -1808,6 +1855,7 @@
 				9AD613C32249CA8E0092CA5C /* FireBaseViewController.m in Sources */,
 				93040792213E63C5002C5247 /* CollectDataUploadServer.m in Sources */,
 				9A1FFE902325F9C300205D02 /* FaceIDViewController.m in Sources */,
+				9AFC8A7D2827676300EAD001 /* TestMasoryVC.m in Sources */,
 				9AF2504021D5DB9900F14377 /* SimpleViewController.m in Sources */,
 				9A0B8257271828C8006E1692 /* FDMBannerFlowLayout.m in Sources */,
 				93581D20218AA816001FF16D /* NSObject+MJCoding.m in Sources */,

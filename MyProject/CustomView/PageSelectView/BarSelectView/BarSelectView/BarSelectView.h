@@ -13,7 +13,7 @@
 
 @protocol BarSelectViewDelegate <NSObject>
 
-- (void)BarSelectView:(BarSelectView *)barView didSelectedItem:(BarSelectItem *)item;
+- (void)barSelectView:(BarSelectView *)barView didSelectedItem:(BarSelectItem *)item;
 @end
 
 @interface BarSelectView : UIView

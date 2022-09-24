@@ -56,7 +56,7 @@
 }
 
 - (void)setupData{
-    itemsArr = @[@"tableView的优化", @"离屏渲染", @"图片解码",@"算法",@"udp",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片",@"otherTest",@"FaceID",@"layout",@"collection",@"YYKit"];
+    itemsArr = @[@"tableView的优化", @"离屏渲染", @"图片解码",@"算法",@"udp",@"TcpServer",@"TcpClient",@"新测试",@"视频转换",@"大图片",@"otherTest",@"FaceID",@"layout",@"collection",@"YYKit",@"ReactiveCocoa",@"MVVM",@"TestMason"];
 }
 - (void)setupUI{
     
@@ -90,8 +90,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-        cell.textLabel.text = [itemsArr objectAtIndex:indexPath.row];
     }
+    cell.textLabel.text = [itemsArr objectAtIndex:indexPath.row];
     return cell;
 }
 
@@ -175,6 +175,21 @@
         case 14:
         {
             [[UIApplication sharedApplication] popOrPushToContrl:@"YYKitTestViewController"];
+        }
+            break;
+        case 15:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"TestReactCocoVC"];
+        }
+            break;
+        case 16:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"ReactiveLogin"];
+        }
+            break;
+        case 17:
+        {
+            [[UIApplication sharedApplication] popOrPushToContrl:@"TestMasoryVC"];
         }
             break;
             
